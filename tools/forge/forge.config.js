@@ -8,9 +8,9 @@ module.exports = {
     // Create asar archive for main, renderer process files
     asar: true,
     // Set executable name
-    executableName: 'ERWT Boilerplate',
+    executableName: 'ReactDL',
     // Set application copyright
-    appCopyright: 'Copyright (C) 2021 Codesbiome, Guasam'
+    appCopyright: 'Copyright (c) 2021 Marinos33'
   },
   // Forge Makers
   makers: [
@@ -19,7 +19,7 @@ module.exports = {
       // Windows applications and is therefore the most user friendly you can get.
       name: '@electron-forge/maker-squirrel',
       config: {
-        name: 'electron-react-typescript-webpack-2021'
+        name: 'ReactDL'
       }
     },
     {
