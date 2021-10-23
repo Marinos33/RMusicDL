@@ -4,7 +4,7 @@ const plugins = require('./webpack.plugins');
 module.exports = {
   target: 'electron-renderer',
   module: {
-    rules,
+    rules
   },
   plugins: plugins,
   resolve: {
@@ -23,8 +23,8 @@ module.exports = {
       // React Hot Loader Patch
       'react-dom': '@hot-loader/react-dom',
       // Custom Aliases
-      ...require('./webpack.aliases'),
-    },
+      ...require('./webpack.aliases')
+    }
   },
-  stats: 'minimal',
+  stats: 'minimal'
 };

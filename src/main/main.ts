@@ -11,7 +11,6 @@ if (require('electron-squirrel-startup')) {
 }
 
 const createWindow = (): void => {
-  
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 800,
@@ -25,8 +24,8 @@ const createWindow = (): void => {
       contextIsolation: false,
       nodeIntegrationInWorker: false,
       nodeIntegrationInSubFrames: false,
-      preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
-    },
+      preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY
+    }
   });
 
   // and load the index.html of the app.
@@ -59,12 +58,12 @@ app.on('activate', () => {
 });
 
 ipcMain.handle('request-mainprocess-action', async (event, ...arg) => {
-  console.log("start");
-  const info =  await youtubedl('https://youtu.be/HzKlGo2bMI8', {
+  console.log('start');
+  const info = await youtubedl('https://youtu.be/HzKlGo2bMI8', {
     dumpSingleJson: true
   });
-  console.log(info["channel"]);
-  return info["channel"];
+  console.log(info['channel']);
+  return info['channel'];
 });
 
 // In this file you can include the rest of your app's specific main process

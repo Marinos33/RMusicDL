@@ -10,7 +10,8 @@
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:import/errors",
-    "plugin:import/warnings"
+    "plugin:import/warnings",
+    "plugin:prettier/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "settings": {
@@ -27,11 +28,13 @@
       }
     },
     "react": {
-      "version": "latest"
+      "version": "detect"
     }
   },
+  "plugins": ["react", "prettier", "@typescript-eslint"],
   "rules": {
+    "prettier/prettier": "error",
     "react/prop-types": "off",
-    "@typescript-eslint/no-var-requires": "off"
+    "no-unused-vars": 1
   }
 }

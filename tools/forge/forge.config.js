@@ -10,7 +10,7 @@ module.exports = {
     // Set executable name
     executableName: 'ERWT Boilerplate',
     // Set application copyright
-    appCopyright: 'Copyright (C) 2021 Codesbiome, Guasam',
+    appCopyright: 'Copyright (C) 2021 Codesbiome, Guasam'
   },
   // Forge Makers
   makers: [
@@ -19,27 +19,27 @@ module.exports = {
       // Windows applications and is therefore the most user friendly you can get.
       name: '@electron-forge/maker-squirrel',
       config: {
-        name: 'electron-react-typescript-webpack-2021',
-      },
+        name: 'electron-react-typescript-webpack-2021'
+      }
     },
     {
       // The Zip target builds basic .zip files containing your packaged application.
       // There are no platform specific dependencies for using this maker and it will run on any platform.
       name: '@electron-forge/maker-zip',
-      platforms: ['darwin'],
+      platforms: ['darwin']
     },
     {
       // The deb target builds .deb packages, which are the standard package format for Debian-based
       // Linux distributions such as Ubuntu.
       name: '@electron-forge/maker-deb',
-      config: {},
+      config: {}
     },
     {
       // The RPM target builds .rpm files, which is the standard package format for
       // RedHat-based Linux distributions such as Fedora.
       name: '@electron-forge/maker-rpm',
-      config: {},
-    },
+      config: {}
+    }
   ],
   // Forge Plugins
   plugins: [
@@ -50,7 +50,7 @@ module.exports = {
       '@electron-forge/plugin-webpack',
       {
         // fix content-security-policy error when image or video src isn't same origin
-        devContentSecurityPolicy: "",
+        devContentSecurityPolicy: '',
         // Ports
         port: 3000, // Webpack Dev Server port
         loggerPort: 9000, // Logger port
@@ -73,15 +73,15 @@ module.exports = {
               name: 'main_window',
               // Preload
               preload: {
-                js: path.join(rootDir, 'src/main/preload.tsx'),
-              },
-            },
-          ],
+                js: path.join(rootDir, 'src/main/preload.tsx')
+              }
+            }
+          ]
         },
         devServer: {
-          liveReload: false,
-        },
-      },
-    ],
-  ],
+          liveReload: false
+        }
+      }
+    ]
+  ]
 };

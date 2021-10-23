@@ -2,7 +2,7 @@ module.exports = [
   {
     // Add support for native node modules
     test: /\.node$/,
-    use: 'node-loader',
+    use: 'node-loader'
   },
   {
     // Webpack asset relocator loader
@@ -11,9 +11,9 @@ module.exports = [
     use: {
       loader: '@marshallofsound/webpack-asset-relocator-loader',
       options: {
-        outputAssetBase: 'native_modules',
-      },
-    },
+        outputAssetBase: 'native_modules'
+      }
+    }
   },
   {
     // Typescript loader
@@ -22,23 +22,19 @@ module.exports = [
     use: {
       loader: 'ts-loader',
       options: {
-        transpileOnly: true,
-      },
-    },
+        transpileOnly: true
+      }
+    }
   },
   {
     // CSS Loader
     test: /\.css$/,
-    use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
+    use: [{ loader: 'style-loader' }, { loader: 'css-loader' }]
   },
   {
     // Less loader
     test: /\.less$/,
-    use: [
-      { loader: 'style-loader' },
-      { loader: 'css-loader' },
-      { loader: 'less-loader' },
-    ],
+    use: [{ loader: 'style-loader' }, { loader: 'css-loader' }, { loader: 'less-loader' }]
   },
   {
     // Images Loader
@@ -48,10 +44,10 @@ module.exports = [
         loader: 'file-loader',
         options: {
           name: 'images/[name].[ext]',
-          publicPath: '../.',
-        },
-      },
-    ],
+          publicPath: '../.'
+        }
+      }
+    ]
   },
   {
     // Font & SVG loader
@@ -61,9 +57,9 @@ module.exports = [
         loader: 'file-loader',
         options: {
           name: 'fonts/[name].[ext]',
-          publicPath: '../.',
-        },
-      },
-    ],
-  },
+          publicPath: '../.'
+        }
+      }
+    ]
+  }
 ];
