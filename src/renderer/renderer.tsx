@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Application from './components/Application';
-import { inDev } from './utils/helpers';
+import { inDev } from '../utils/helpers';
 
 // Say something
 console.log('[ERWT] : Renderer execution started');
