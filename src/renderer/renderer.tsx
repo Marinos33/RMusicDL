@@ -4,10 +4,10 @@ import Application from './components/Application';
 import { inDev } from '../utils/helpers';
 
 // Say something
-console.log('[ERWT] : Renderer execution started');
+console.log('[ReactDL] : Renderer execution started');
 
 // Application to Render
-const app = <Application title="ERWT Boilerplate" version="4.0.0" />;
+const app = <Application title="ReactDL" version="0.1.0" />;
 
 // Render application in DOM
 ReactDOM.render(app, document.getElementById('app'));

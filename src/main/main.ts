@@ -60,14 +60,15 @@ app.on('activate', () => {
   }
 });
 
-ipcMain.handle('request-mainprocess-action', async (event, ...arg) => {
+/* exemple youtubeDL
+  ipcMain.handle('request-mainprocess-action', async (event, ...arg) => {
   console.log('start');
   const info = await youtubedl('https://youtu.be/HzKlGo2bMI8', {
     dumpSingleJson: true
   });
   console.log(info['channel']);
   return info['channel'];
-});
+});*/
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.

@@ -18,10 +18,11 @@ const Application: React.FC<Props> = (props) => {
     someData: "Let's go"
   };
 
+  /*exemple call main process function
   (async () => {
     const res = await ipcRenderer.invoke('request-mainprocess-action', Data);
     setTest(res);
-  })();
+  })();*/
 
   return (
     <React.Fragment>
