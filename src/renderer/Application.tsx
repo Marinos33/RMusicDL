@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { hot } from 'react-hot-loader';
 import logo from '@assets/images/logo.png';
 import './Application.less';
-import { ipcRenderer } from 'electron';
 
 type Props = {
   title: string;
@@ -13,16 +12,11 @@ const Application: React.FC<Props> = (props) => {
   const [counter, setCounter] = useState(0);
   const [test, setTest] = useState('AAAAA');
 
-  const Data = {
-    message: 'Hi',
-    someData: "Let's go"
-  };
-
-  /*exemple call main process function
+  //exemple call main process function
   (async () => {
-    const res = await ipcRenderer.invoke('request-mainprocess-action', Data);
+    const res = await window.api.callTest();
     setTest(res);
-  })();*/
+  })();
 
   return (
     <React.Fragment>

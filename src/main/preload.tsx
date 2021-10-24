@@ -1,5 +1,7 @@
+import { contextBridge, ipcRenderer } from 'electron';
+
 // Say something
-console.log('[ERWT] : Preload execution started');
+console.log('[ReactDL] : Preload execution started');
 
 // Get versions
 window.addEventListener('DOMContentLoaded', () => {
@@ -13,5 +15,13 @@ window.addEventListener('DOMContentLoaded', () => {
     const version = type == 'erwt' ? process.env['npm_package_version'] : process.versions[type];
 
     replaceText(`${type}-version`, version);
+  }
+});
+
+contextBridge.exposeInMainWorld('api', {
+  //exemple call main process function trough isolation context
+  callTest: async (): Promise<string> => {
+    const res: string = await ipcRenderer.invoke('request-mainprocess-action');
+    return res;
   }
 });

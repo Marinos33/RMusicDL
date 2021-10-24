@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Application from './components/Application';
+import Application from './Application';
 import { inDev } from '../utils/helpers';
 
 // Say something

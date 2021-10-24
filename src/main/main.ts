@@ -1,3 +1,4 @@
+import { inDev } from '@src/utils/helpers';
 import { app, BrowserWindow, ipcMain } from 'electron';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
@@ -19,9 +20,9 @@ const createWindow = (): void => {
     show: false,
     autoHideMenuBar: false,
     webPreferences: {
-      nodeIntegration: true,
+      nodeIntegration: false,
       nativeWindowOpen: true,
-      contextIsolation: false,
+      contextIsolation: true,
       nodeIntegrationInWorker: false,
       nodeIntegrationInSubFrames: false,
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY
@@ -31,7 +32,7 @@ const createWindow = (): void => {
   // and load the index.html of the app.
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
-  if (process.env.NODE_ENV == 'development') {
+  if (inDev) {
     mainWindow.webContents.openDevTools({ mode: 'detach' });
   }
   // Show window when its ready to
@@ -60,15 +61,15 @@ app.on('activate', () => {
   }
 });
 
-/* exemple youtubeDL
-  ipcMain.handle('request-mainprocess-action', async (event, ...arg) => {
+// exemple youtubeDL
+ipcMain.handle('request-mainprocess-action', async (event, ...arg): Promise<string> => {
   console.log('start');
   const info = await youtubedl('https://youtu.be/HzKlGo2bMI8', {
     dumpSingleJson: true
   });
   console.log(info['channel']);
   return info['channel'];
-});*/
+});
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.

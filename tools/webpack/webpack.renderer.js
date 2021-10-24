@@ -2,7 +2,7 @@ const rules = require('./webpack.rules');
 const plugins = require('./webpack.plugins');
 
 module.exports = {
-  target: 'electron-renderer',
+  //target: 'electron-renderer',
   module: {
     rules
   },
