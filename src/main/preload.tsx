@@ -18,7 +18,7 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-contextBridge.exposeInMainWorld('api', {
+contextBridge.exposeInMainWorld('electronAPI', {
   //exemple call main process function trough isolation context
   callTest: async (): Promise<string> => {
     const res: string = await ipcRenderer.invoke('request-mainprocess-action');
