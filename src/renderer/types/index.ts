@@ -5,13 +5,11 @@ export interface Playlist {
   playlistName: string;
   lastUpdate: Date;
   profile: Profile;
-  lastChecked: Date;
+  lastCheck: Date;
 }
 
 export interface Profile {
   id: number;
-  profileName: string;
   outputExtension: string;
   outputPath: string;
-  creationDate: Date;
 }

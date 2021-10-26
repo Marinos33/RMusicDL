@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { hot } from 'react-hot-loader';
-import logo from '@assets/images/logo.png';
 import './index.less';
-import { useHistory } from 'react-router-dom';
+import PlaylistsGrid from '@src/renderer/components/playlists/DataTable';
 
 const PlaylistsPage: React.FC = () => {
   //exemple call main process function
@@ -13,7 +12,7 @@ const PlaylistsPage: React.FC = () => {
 
   return (
     <React.Fragment>
-      <p>in progress</p>
+      <PlaylistsGrid />
     </React.Fragment>
   );
 };
