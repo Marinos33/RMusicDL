@@ -5,7 +5,7 @@ import { playlists } from '@src/fakedata';
 import { Playlist } from '@src/renderer/types';
 
 const columns: GridColDef[] = [
-  { field: 'id', headerName: 'ID', type: 'number', headerAlign: 'center', width: 80 },
+  { field: 'id', headerName: 'ID', type: 'number', headerAlign: 'center', flex: 0.2 },
   {
     field: 'playlistName',
     headerName: 'Playlist Name',
@@ -38,15 +38,19 @@ const rows: Playlist[] = playlists;
 
 export const PlaylistsGrid: React.FC = () => {
   return (
-    <div style={{ height: '100%', width: '100%' }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        checkboxSelection
-        hideFooter
-        onRowClick={(item) => console.log(item.row)}
-        disableSelectionOnClick
-      />
+    <div style={{ height: 900, width: '100%' }}>
+      <div style={{ display: 'flex', height: '100%' }}>
+        <div style={{ flexGrow: 1 }}>
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            checkboxSelection
+            hideFooter
+            onRowClick={(item) => console.log(item.row)}
+            disableSelectionOnClick
+          />
+        </div>
+      </div>
     </div>
   );
 };
