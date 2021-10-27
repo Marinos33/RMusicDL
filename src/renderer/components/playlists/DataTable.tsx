@@ -3,6 +3,7 @@ import * as React from 'react';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { playlists } from '@src/fakedata';
 import { Playlist } from '@src/renderer/types';
+import useWindowDimensions from '@src/renderer/hooks/useWindowDimensions';
 
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'ID', type: 'number', headerAlign: 'center', flex: 0.2 },
@@ -37,8 +38,9 @@ const columns: GridColDef[] = [
 const rows: Playlist[] = playlists;
 
 export const PlaylistsGrid: React.FC = () => {
+  const { height, width } = useWindowDimensions();
   return (
-    <div style={{ height: 900, width: '100%' }}>
+    <div style={{ height: height / 1.3, width: '100%' }}>
       <div style={{ display: 'flex', height: '100%' }}>
         <div style={{ flexGrow: 1 }}>
           <DataGrid
