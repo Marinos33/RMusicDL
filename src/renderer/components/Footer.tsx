@@ -6,19 +6,19 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import { MenuItem, MenuList } from '@mui/material';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import LinearProgress from '@mui/material/LinearProgress';
 
 const Footer: React.FC = () => {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed" sx={{ top: 'auto', bottom: 0 }}>
+      <AppBar position="fixed" sx={{ top: 'auto', bottom: 0, justifyContent: 'flex-end' }}>
         <Toolbar variant="dense">
-          <IconButton size="large" edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            News
-          </Typography>
-          <Button color="inherit">Login</Button>
+          <Box sx={{ width: '100%' }}>
+            <LinearProgress />
+          </Box>
         </Toolbar>
       </AppBar>
     </Box>
