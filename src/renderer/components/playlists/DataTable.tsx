@@ -1,6 +1,6 @@
 import * as React from 'react';
 // eslint-disable-next-line import/named
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
 import { playlists } from '@src/fakedata';
 import { Playlist } from '@src/renderer/types';
 import useWindowDimensions from '@src/renderer/hooks/useWindowDimensions';
@@ -44,6 +44,9 @@ export const PlaylistsGrid: React.FC = () => {
       <div style={{ display: 'flex', height: '100%' }}>
         <div style={{ flexGrow: 1 }}>
           <DataGrid
+            components={{
+              Toolbar: GridToolbar
+            }}
             rows={rows}
             columns={columns}
             checkboxSelection
