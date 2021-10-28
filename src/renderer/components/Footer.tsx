@@ -14,10 +14,13 @@ import LinearProgress from '@mui/material/LinearProgress';
 const Footer: React.FC = () => {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed" sx={{ top: 'auto', bottom: 0, justifyContent: 'flex-end' }}>
+      <AppBar position="fixed" sx={{ top: 'auto', bottom: 0 }}>
         <Toolbar variant="dense">
-          <Box sx={{ width: '100%' }}>
-            <LinearProgress />
+          <Box display="flex" flexGrow={1}>
+            <div></div>
+          </Box>
+          <Box sx={{ width: '10%' }}>
+            <LinearProgress sx={{ height: 10, borderRadius: 5 }} />
           </Box>
         </Toolbar>
       </AppBar>

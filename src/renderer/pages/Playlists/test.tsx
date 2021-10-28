@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import { hot } from 'react-hot-loader';
 import logo from '@assets/images/logo.png';
-import './index.less';
 import { useHistory } from 'react-router-dom';
 
 const PlaylistsPageTest: React.FC = () => {

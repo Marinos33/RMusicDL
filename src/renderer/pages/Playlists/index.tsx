@@ -15,7 +15,7 @@ const PlaylistsPage: React.FC = () => {
     <>
       <Container maxWidth={false}>
         <Header />
-        <Box sx={{ pt: 8, pb: 8, mt: 10 }}>
+        <Box sx={{ pt: 8, pb: 8, mt: 0.5 }}>
           <PlaylistsGrid />
         </Box>
         <Footer />

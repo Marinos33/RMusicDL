@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { MenuItem, MenuList } from '@mui/material';
+import { Icon, MenuItem, MenuList, Tooltip } from '@mui/material';
 
 const Header: React.FC = () => {
   return (
@@ -15,20 +15,14 @@ const Header: React.FC = () => {
         <Toolbar variant="dense">
           <MenuList sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', overflow: 'hidden' }}>
             <MenuItem>
-              <IconButton size="large" edge="start" color="inherit" aria-label="menu" sx={{ flexDirection: 'column' }}>
+              <Tooltip title="Add a playlist">
                 <AddCircleIcon sx={{ fontSize: 28 }} />
-                <Typography variant="subtitle1" component="div" sx={{ flexGrow: 1, fontSize: 14 }}>
-                  Add a playlist
-                </Typography>
-              </IconButton>
+              </Tooltip>
             </MenuItem>
             <MenuItem>
-              <IconButton size="large" edge="start" color="inherit" aria-label="menu" sx={{ flexDirection: 'column' }}>
+              <Tooltip title="Remove selected playlists">
                 <DeleteForeverIcon sx={{ fontSize: 30 }} />
-                <Typography variant="subtitle1" component="div" sx={{ flexGrow: 1, fontSize: 14 }}>
-                  Delete playlists
-                </Typography>
-              </IconButton>
+              </Tooltip>
             </MenuItem>
           </MenuList>
         </Toolbar>

@@ -1,9 +1,11 @@
 import * as React from 'react';
 // eslint-disable-next-line import/named
-import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
+import { DataGrid, GridApi, GridCellValue, GridColDef, GridToolbar } from '@mui/x-data-grid';
 import { playlists } from '@src/fakedata';
 import { Playlist } from '@src/renderer/types';
 import useWindowDimensions from '@src/renderer/hooks/useWindowDimensions';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import { IconButton } from '@mui/material';
 
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'ID', type: 'number', headerAlign: 'center', flex: 0.2 },
@@ -32,6 +34,31 @@ const columns: GridColDef[] = [
     type: 'Date',
     flex: 1,
     headerAlign: 'center'
+  },
+  {
+    field: 'actions',
+    type: 'actions',
+    renderCell: (params) => {
+      const onClick = (e: any) => {
+        e.stopPropagation(); // don't select this row after clicking
+
+        const api: GridApi = params.api;
+        const thisRow: Record<string, GridCellValue> = {};
+
+        api
+          .getAllColumns()
+          .filter((c) => c.field !== '__check__' && !!c)
+          .forEach((c) => (thisRow[c.field] = params.getValue(params.id, c.field)));
+
+        return alert(JSON.stringify(thisRow, null, 4));
+      };
+
+      return (
+        <IconButton onClick={onClick}>
+          <FileDownloadIcon />
+        </IconButton>
+      );
+    }
   }
 ];
 
