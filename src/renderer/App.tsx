@@ -1,14 +1,19 @@
 import React from 'react';
 import { hot } from 'react-hot-loader';
-import { CssBaseline } from '@mui/material';
+import { CssBaseline, ThemeProvider } from '@mui/material';
 import Navigation from './Navigation';
+import { createCustomTheme } from './theme';
 
 const App: React.FC = () => {
+  const theme = createCustomTheme({
+    theme: 'LIGHT'
+  });
+
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
       <Navigation />
-    </>
+    </ThemeProvider>
   );
 };
 

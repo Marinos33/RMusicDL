@@ -74,6 +74,9 @@ export const PlaylistsGrid: React.FC = () => {
             components={{
               Toolbar: GridToolbar
             }}
+            componentsProps={{
+              toolbar: { backgroundColor: 'white' }
+            }}
             rows={rows}
             columns={columns}
             checkboxSelection

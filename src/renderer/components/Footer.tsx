@@ -6,12 +6,14 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import { MenuItem, MenuList } from '@mui/material';
+import { MenuItem, MenuList, useTheme } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import LinearProgress from '@mui/material/LinearProgress';
 
 const Footer: React.FC = () => {
+  const theme = useTheme();
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="fixed" sx={{ top: 'auto', bottom: 0 }}>
@@ -20,7 +22,7 @@ const Footer: React.FC = () => {
             <div></div>
           </Box>
           <Box sx={{ width: '10%' }}>
-            <LinearProgress sx={{ height: 10, borderRadius: 5 }} />
+            <LinearProgress color="success" sx={{ height: 10, borderRadius: 5 }} />
           </Box>
         </Toolbar>
       </AppBar>
