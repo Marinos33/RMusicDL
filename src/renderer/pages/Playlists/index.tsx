@@ -13,7 +13,7 @@ const PlaylistsPage: React.FC = () => {
   })();*/
   return (
     <>
-      <Container sx={{ overflow: 'hidden' }}>
+      <Container maxWidth={false} sx={{ overflow: 'hidden' }}>
         <Header />
         <Box sx={{ pt: 8, pb: 8, mt: 0.5 }}>
           <PlaylistsGrid />

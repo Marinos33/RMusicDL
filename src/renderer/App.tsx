@@ -6,7 +6,7 @@ import { createCustomTheme } from './theme';
 
 const App: React.FC = () => {
   const theme = createCustomTheme({
-    theme: 'LIGHT'
+    theme: 'BLUE'
   });
 
   return (

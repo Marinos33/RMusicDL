@@ -5,7 +5,7 @@ import { playlists } from '@src/fakedata';
 import { Playlist } from '@src/renderer/types';
 import useWindowDimensions from '@src/renderer/hooks/useWindowDimensions';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
-import { IconButton } from '@mui/material';
+import { IconButton, useTheme } from '@mui/material';
 
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'ID', type: 'number', headerAlign: 'center', flex: 0.2 },
@@ -66,16 +66,14 @@ const rows: Playlist[] = playlists;
 
 export const PlaylistsGrid: React.FC = () => {
   const { height, width } = useWindowDimensions();
+  const theme = useTheme();
   return (
-    <div style={{ height: height / 1.3, width: '100%' }}>
+    <div style={{ height: height < width ? height / 1.15 : height / 1.075, width: '100%' }}>
       <div style={{ display: 'flex', height: '100%' }}>
-        <div style={{ flexGrow: 1 }}>
+        <div style={{ flexGrow: 1, backgroundColor: theme.palette.background.paper }}>
           <DataGrid
             components={{
               Toolbar: GridToolbar
-            }}
-            componentsProps={{
-              toolbar: { backgroundColor: 'white' }
             }}
             rows={rows}
             columns={columns}
