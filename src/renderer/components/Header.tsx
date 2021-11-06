@@ -17,7 +17,6 @@ const Header: React.FC = () => {
 
   const showAddDialog = () => setVisibleAddDialog(true);
   const hideAddDialog = () => setVisibleAddDialog(false);
-
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="fixed">
