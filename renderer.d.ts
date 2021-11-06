@@ -1,5 +1,6 @@
 export interface IElectronAPI {
   callTest: () => Promise<string>;
+  getInfoPlaylist: (playlist: string) => Promise<YtResponse>;
 }
 
 declare global {

@@ -10,20 +10,20 @@ type PropsType = {
   open: boolean;
   title: string;
   onClose: () => void;
-  onSubmit?: () => void | (() => Promise<void>);
+  onSubmit?: () => void;
   component: React.ReactNode;
 };
 
 const CustomDialog: React.FC<PropsType> = ({ open, title, onClose, onSubmit, component }) => {
   return (
     <Portal>
-      <Dialog open={open} onClose={onClose}>
+      <Dialog open={open} fullWidth>
         <DialogTitle>{title}</DialogTitle>
         <DialogContent>{component}</DialogContent>
         <DialogActions>
           {onSubmit && <Button onClick={onClose}>Cancel</Button>}
           {onSubmit && (
-            <Button onClick={onSubmit} autoFocus>
+            <Button onClick={onSubmit} autoFocus variant="contained">
               Submit
             </Button>
           )}

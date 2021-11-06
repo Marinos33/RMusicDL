@@ -23,5 +23,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
   callTest: async (): Promise<string> => {
     const res: string = await ipcRenderer.invoke('request-mainprocess-action');
     return res;
+  },
+  getInfoPlaylist: async (playlist: string): Promise<string> => {
+    const res: string = await ipcRenderer.invoke('get-info-playlist', playlist);
+    return res;
   }
 });

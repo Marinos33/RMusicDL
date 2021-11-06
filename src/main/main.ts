@@ -3,7 +3,7 @@ import { app, BrowserWindow, ipcMain } from 'electron';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
-import youtubedl from 'youtube-dl-exec';
+import youtubedl, { YtResponse } from 'youtube-dl-exec';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -62,13 +62,16 @@ app.on('activate', () => {
 });
 
 // exemple youtubeDL
-ipcMain.handle('request-mainprocess-action', async (event, ...arg): Promise<string> => {
-  console.log('start');
-  const info = await youtubedl('https://youtu.be/HzKlGo2bMI8', {
-    dumpSingleJson: true
-  });
-  console.log(info['channel']);
-  return info['channel'];
+ipcMain.handle('get-info-playlist', async (event, playlist: string): Promise<YtResponse> => {
+  try {
+    const info = await youtubedl(playlist, {
+      dumpSingleJson: true
+    });
+    return info;
+  } catch (e: any) {
+    console.log(e.message);
+    return null;
+  }
 });
 
 // In this file you can include the rest of your app's specific main process
