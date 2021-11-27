@@ -15,7 +15,7 @@ export default class Database {
   }
 
   public async init(): Promise<void> {
-    /*this.connection = await createConnection({
+    this.connection = await createConnection({
       type: 'sqlite',
       database: path.join(defaultStorageFolder, 'reactdl.sqlite'),
       entities: [Playlist, DownloadingProfile],
@@ -25,6 +25,6 @@ export default class Database {
 
     if (this.connection.isConnected) {
       this.connection.synchronize();
-    }*/
+    }
   }
 }

@@ -9,7 +9,8 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
-    "lint": "eslint src/ --ext .ts,.js,.tsx,.jsx"
+    "lint": "eslint src/ --ext .ts,.js,.tsx,.jsx",
+    "rebuild": "electron-rebuild -f -w sqlite3"
   },
   "keywords": [
     "electron",
@@ -49,6 +50,7 @@
     "cross-env": "^7.0.3",
     "css-loader": "^6.5.1",
     "electron": "^15.0.0",
+    "electron-rebuild": "^3.2.5",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-import-resolver-alias": "^1.1.2",
