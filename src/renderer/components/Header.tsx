@@ -7,11 +7,11 @@ import { Tooltip, useTheme, Box } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import CustomDialog from './common/CustomDialog';
 import { useState } from 'react';
-import Basic from './playlists/form/AddForm';
+import AddForm from './playlists/form/AddForm';
 import { FormikProps } from 'formik';
 
 const Header: React.FC = () => {
-  const [visibleAddDialog, setVisibleAddDialog] = useState<boolean>();
+  const [visibleAddDialog, setVisibleAddDialog] = useState<boolean>(false);
   const theme = useTheme();
   const formRef = React.useRef<FormikProps<any>>(null);
 
@@ -41,7 +41,7 @@ const Header: React.FC = () => {
         title={'Add a playlist'}
         onClose={hideAddDialog}
         onSubmit={() => formRef.current?.handleSubmit()}
-        component={<Basic innerRef={formRef} />}
+        component={<AddForm innerRef={formRef} />}
       />
     </Box>
   );
