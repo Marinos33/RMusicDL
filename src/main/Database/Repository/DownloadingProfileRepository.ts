@@ -9,21 +9,15 @@ export class ProfileRepository {
     this.ormRepository = new Database().getConnection().getRepository(DownloadingProfile);
   }
 
-  public async getAll(): Promise<DownloadingProfile[]> {
-    const profiles = await this.ormRepository.find();
-
-    return profiles;
-  }
-
   public async create(outputExtension: string, outputPath: string): Promise<DownloadingProfile> {
-    const profiles = this.ormRepository.create({
+    const profile = this.ormRepository.create({
       outputExtension,
       outputPath
     });
 
-    await this.ormRepository.save(profiles);
+    await this.ormRepository.save(profile);
 
-    return profiles;
+    return profile;
   }
 
   public async delete(id: number): Promise<void> {

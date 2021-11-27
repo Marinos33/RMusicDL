@@ -11,6 +11,18 @@ const PlaylistsPage: React.FC = () => {
     const res = await window.api.callTest();
     setTest(res);
   })();*/
+
+  //exemple call main process function
+  (async () => {
+    const res = await window.electronAPI.createPlaylist(
+      'test',
+      'testowner',
+      'testplay',
+      'outputExtension: string',
+      'outputPath: string'
+    );
+  })();
+
   return (
     <>
       <Container maxWidth={false} sx={{ overflow: 'hidden' }}>

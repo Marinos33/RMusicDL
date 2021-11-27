@@ -3,6 +3,10 @@ import { app, BrowserWindow, ipcMain } from 'electron';
 import youtubedl, { YtResponse } from 'youtube-dl-exec';
 import 'reflect-metadata';
 import Database from './Database';
+import { PlaylistRepository } from './Database/Repository/PlaylistRepository';
+import { Playlist } from './Database/Models/Playlist';
+import { DownloadingProfile } from './Database/Models/DownloadingProfile';
+import { ProfileRepository } from './Database/Repository/DownloadingProfileRepository';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
@@ -78,5 +82,57 @@ ipcMain.handle('get-info-playlist', async (event, playlist: string): Promise<YtR
   }
 });
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and import them here.
+ipcMain.handle('get-playlists', async (event): Promise<Playlist[]> => {
+  try {
+    const repository = new PlaylistRepository();
+    const playlists = await repository.getAll();
+    return playlists;
+  } catch (e: any) {
+    console.log(e.message);
+    return null;
+  }
+});
+
+ipcMain.handle(
+  'create-playlist',
+  async (
+    event,
+    url: string,
+    owner: string,
+    playlistName: string,
+    outputExtension: string,
+    outputPath: string
+  ): Promise<Playlist> => {
+    try {
+      const profileRepository = new ProfileRepository();
+      const profile = await profileRepository.create(outputExtension, outputPath);
+
+      const playlistRepository = new PlaylistRepository();
+      const newPlaylist = await playlistRepository.create(url, owner, playlistName, profile.id);
+      return newPlaylist;
+    } catch (e: any) {
+      console.log(e.message);
+      return null;
+    }
+  }
+);
+
+ipcMain.handle('refresh-playlist', async (event, id: number): Promise<void> => {
+  try {
+    const playlistRepository = new PlaylistRepository();
+    await playlistRepository.refresh(id);
+  } catch (e: any) {
+    console.log(e.message);
+    return null;
+  }
+});
+
+ipcMain.handle('remove-playlist', async (event, id: number): Promise<void> => {
+  try {
+    const playlistRepository = new PlaylistRepository();
+    await playlistRepository.delete(id);
+  } catch (e: any) {
+    console.log(e.message);
+    return null;
+  }
+});

@@ -1,6 +1,16 @@
 export interface IElectronAPI {
   callTest: () => Promise<string>;
   getInfoPlaylist: (playlist: string) => Promise<YtResponse>;
+  getAllPlaylists: () => Promise<Playlist[]>;
+  createPlaylist: (
+    url: string,
+    owner: string,
+    playlistName: string,
+    outputExtension: string,
+    outputPath: string
+  ) => Promise<Playlist>;
+  refreshPlaylist: (id: number) => Promise<void>;
+  removePlaylist: (id: number) => Promise<void>;
 }
 
 declare global {
