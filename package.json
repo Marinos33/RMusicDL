@@ -10,7 +10,7 @@
     "make": "electron-forge make",
     "publish": "electron-forge publish",
     "lint": "eslint src/ --ext .ts,.js,.tsx,.jsx",
-    "rebuild": "electron-rebuild -f -w sqlite3"
+    "postinstall": "electron-rebuild -f -w sqlite3"
   },
   "keywords": [
     "electron",

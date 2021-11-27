@@ -27,4 +27,8 @@ export default class Database {
       this.connection.synchronize();
     }
   }
+
+  public getConnection(): Connection {
+    return this.connection;
+  }
 }
