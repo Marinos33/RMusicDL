@@ -1,0 +1,8 @@
+{
+    "type": "better-sqlite3",
+    "database": "reactdl.sqlite",
+    "entities": ["src/main/Database/Models/*.ts"],
+    "synchronize": true,
+    "logging": true,
+    "logger": "simple-console"
+}

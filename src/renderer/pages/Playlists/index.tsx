@@ -1,6 +1,6 @@
 import React from 'react';
 import { hot } from 'react-hot-loader';
-import PlaylistsGrid from '@src/renderer/components/playlists/DataTable';
+import { default as PlaylistsGrid } from '@src/renderer/components/playlists/DataTable';
 import { Box, Container } from '@mui/material';
 import Header from '@src/renderer/components/Header';
 import Footer from '@src/renderer/components/Footer';
@@ -18,8 +18,8 @@ const PlaylistsPage: React.FC = () => {
       'test',
       'testowner',
       'testplay',
-      'outputExtension: string',
-      'outputPath: string'
+      'testoutputext',
+      'testoutputpath'
     );
   })();
 

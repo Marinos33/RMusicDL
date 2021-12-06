@@ -1,21 +1,35 @@
-import { Repository } from 'typeorm';
-import Database from '..';
+import { createConnection, Repository } from 'typeorm';
+import { DownloadingProfile } from '../Models/DownloadingProfile';
 import { Playlist } from '../Models/Playlist';
 
 export class PlaylistRepository {
   private ormRepository: Repository<Playlist>;
 
   constructor() {
-    this.ormRepository = new Database().getConnection().getRepository(Playlist);
+    this.init();
+  }
+
+  private async init() {
+    const connection = await createConnection({
+      type: 'better-sqlite3',
+      database: 'reactdl.sqlite',
+      entities: [Playlist, DownloadingProfile],
+      synchronize: true,
+      logging: false
+    });
+    this.ormRepository = connection.getRepository(Playlist);
   }
 
   public async getAll(): Promise<Playlist[]> {
+    if (this.ormRepository === undefined) await this.init();
+
     const playlists = await this.ormRepository.find();
 
     return playlists;
   }
 
   public async create(url: string, owner: string, playlistName: string, profileId: number): Promise<Playlist> {
+    if (this.ormRepository === undefined) await this.init();
     const playlist = this.ormRepository.create({
       url,
       owner,
@@ -30,6 +44,7 @@ export class PlaylistRepository {
   }
 
   public async refresh(id: number): Promise<void> {
+    if (this.ormRepository === undefined) await this.init();
     await this.ormRepository.query(
       `
         UPDATE
@@ -44,6 +59,7 @@ export class PlaylistRepository {
   }
 
   public async delete(id: number): Promise<void> {
+    if (this.ormRepository === undefined) await this.init();
     await this.ormRepository.delete(id);
   }
 }

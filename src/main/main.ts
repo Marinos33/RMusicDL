@@ -2,10 +2,8 @@ import { inDev } from '@src/utils/helpers';
 import { app, BrowserWindow, ipcMain } from 'electron';
 import youtubedl, { YtResponse } from 'youtube-dl-exec';
 import 'reflect-metadata';
-import Database from './Database';
 import { PlaylistRepository } from './Database/Repository/PlaylistRepository';
 import { Playlist } from './Database/Models/Playlist';
-import { DownloadingProfile } from './Database/Models/DownloadingProfile';
 import { ProfileRepository } from './Database/Repository/DownloadingProfileRepository';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;

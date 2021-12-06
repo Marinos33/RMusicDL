@@ -16,7 +16,7 @@ export default class Database {
 
   public async init(): Promise<void> {
     this.connection = await createConnection({
-      type: 'sqlite',
+      type: 'better-sqlite3',
       database: path.join(defaultStorageFolder, 'reactdl.sqlite'),
       entities: [Playlist, DownloadingProfile],
       synchronize: true,
