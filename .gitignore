@@ -89,5 +89,5 @@ typings/
 out/
 
 # sqlite db
-.sqlite
-.sqlite*
+*.sqlite
+*.sqlite*
