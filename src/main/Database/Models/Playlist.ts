@@ -7,8 +7,7 @@ export class Playlist {
   id: number;
 
   @Column({
-    nullable: false,
-    unique: true
+    nullable: false
   })
   url: string;
 
@@ -31,7 +30,6 @@ export class Playlist {
   profileId: number;
 
   @OneToOne(() => DownloadingProfile, { nullable: false, eager: true })
-  //@JoinColumn({ name: 'profile_id' })
-  @JoinColumn()
+  @JoinColumn({ name: 'profile_id' })
   downloadingProfile: DownloadingProfile;
 }

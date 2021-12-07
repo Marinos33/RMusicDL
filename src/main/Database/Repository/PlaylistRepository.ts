@@ -1,6 +1,5 @@
-import { createConnection, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import getDBConnection from '..';
-import { DownloadingProfile } from '../Models/DownloadingProfile';
 import { Playlist } from '../Models/Playlist';
 
 export class PlaylistRepository {

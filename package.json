@@ -78,6 +78,7 @@
     "@mui/material": "^5.2.0",
     "@mui/x-data-grid": "^5.0.1",
     "better-sqlite3": "^7.4.5",
+    "date-fns": "^2.27.0",
     "electron-squirrel-startup": "^1.0.0",
     "formik": "^2.2.9",
     "formik-mui": "^4.0.0-alpha.3",

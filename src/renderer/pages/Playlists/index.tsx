@@ -14,13 +14,7 @@ const PlaylistsPage: React.FC = () => {
 
   //exemple call main process function
   (async () => {
-    const res = await window.electronAPI.createPlaylist(
-      'test',
-      'testowner',
-      'testplay',
-      'testoutputext',
-      'testoutputpath'
-    );
+    await window.electronAPI.createPlaylist('test', 'testowner', 'testplay', 'testoutputext', 'testoutputpath');
   })();
 
   return (
