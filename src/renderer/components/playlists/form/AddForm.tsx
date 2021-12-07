@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { Formik, Form, Field } from 'formik';
 import { TextField } from 'formik-mui';
 import * as Yup from 'yup';
-import { Box, CircularProgress, IconButton } from '@mui/material';
+import { Box, CircularProgress, IconButton, useTheme } from '@mui/material';
 import PlaylistCard from '../PlaylistCard';
 import _ from 'lodash';
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
@@ -23,6 +23,7 @@ type PropsType = {
 
 const AddForm: React.FC<PropsType> = ({ innerRef }) => {
   const [infoPlaylist, setInfoPlaylist] = useState<any>();
+  const theme = useTheme();
 
   return (
     <Formik
@@ -55,7 +56,7 @@ const AddForm: React.FC<PropsType> = ({ innerRef }) => {
     >
       {({ handleChange, setFieldValue, submitForm, values }) => (
         <Form>
-          <Box sx={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', m: 1 }}>
             <Field
               type="text"
               name="url"
@@ -83,15 +84,21 @@ const AddForm: React.FC<PropsType> = ({ innerRef }) => {
                 contentTitles={_.flatMap(infoPlaylist['entries'], 'title')}
                 authorURL={infoPlaylist['uploader_url']}
               />
-              <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+              <Box sx={{ display: 'flex', flexDirection: 'row', m: 1, p: 1, alignItems: 'flex-start' }}>
                 <Field type="text" name="path" autoFocus mode="outlined" disabled fullWidth component={TextField} />
                 <IconButton
+                  sx={{
+                    alignSelf: 'center',
+                    backgroundColor: theme.palette.primary.main,
+                    borderRadius: 1,
+                    ml: 1
+                  }}
                   onClick={async () => {
                     const path = await window.electronAPI.selectFolder();
                     setFieldValue('path', path);
                   }}
                 >
-                  <FolderOpenIcon />
+                  <FolderOpenIcon sx={{ fontSize: 40 }} />
                 </IconButton>
               </Box>
             </>
