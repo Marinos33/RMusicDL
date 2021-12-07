@@ -1,4 +1,5 @@
 import { createConnection, Repository } from 'typeorm';
+import getDBConnection from '..';
 import { DownloadingProfile } from '../Models/DownloadingProfile';
 import { Playlist } from '../Models/Playlist';
 
@@ -10,13 +11,7 @@ export class PlaylistRepository {
   }
 
   private async init() {
-    const connection = await createConnection({
-      type: 'better-sqlite3',
-      database: 'reactdl.sqlite',
-      entities: [Playlist, DownloadingProfile],
-      synchronize: true,
-      logging: false
-    });
+    const connection = await getDBConnection();
     this.ormRepository = connection.getRepository(Playlist);
   }
 
