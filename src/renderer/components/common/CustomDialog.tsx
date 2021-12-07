@@ -24,7 +24,15 @@ const CustomDialog: React.FC<PropsType> = ({ open, title, onClose, onSubmit, com
         <DialogActions>
           {onSubmit && <Button onClick={onClose}>Cancel</Button>}
           {onSubmit && (
-            <Button onClick={onSubmit} autoFocus variant="contained" disabled={loading}>
+            <Button
+              onClick={() => {
+                onSubmit();
+                onClose();
+              }}
+              autoFocus
+              variant="contained"
+              disabled={loading}
+            >
               Submit
             </Button>
           )}

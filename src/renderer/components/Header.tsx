@@ -40,7 +40,9 @@ const Header: React.FC = () => {
         open={visibleAddDialog}
         title={'Add a playlist'}
         onClose={hideAddDialog}
-        onSubmit={() => formRef.current?.handleSubmit()}
+        onSubmit={() => {
+          formRef.current?.handleSubmit();
+        }}
         component={<AddForm innerRef={formRef} />}
       />
     </Box>

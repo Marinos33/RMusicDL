@@ -3,9 +3,9 @@
 import React, { useState } from 'react';
 
 import { Formik, Form, Field } from 'formik';
-import { TextField } from 'formik-mui';
+import { Select, TextField } from 'formik-mui';
 import * as Yup from 'yup';
-import { Box, CircularProgress, IconButton, useTheme } from '@mui/material';
+import { Box, CircularProgress, IconButton, MenuItem, useTheme } from '@mui/material';
 import PlaylistCard from '../PlaylistCard';
 import _ from 'lodash';
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
@@ -14,7 +14,8 @@ const validationSchema = Yup.object().shape({
   url: Yup.string().url('Must be a valid URL').required(),
   playlistFound: Yup.boolean().required(),
   playlistLoading: Yup.boolean().required(),
-  folderpath: Yup.string().required()
+  folderpath: Yup.string().required(),
+  extension: Yup.string().required()
 });
 
 type PropsType = {
@@ -28,7 +29,7 @@ const AddForm: React.FC<PropsType> = ({ innerRef }) => {
   return (
     <Formik
       innerRef={innerRef}
-      initialValues={{ url: '', playlistFound: false, playlistLoading: false, folderpath: './' }}
+      initialValues={{ url: '', playlistFound: false, playlistLoading: false, folderpath: './', extension: 'mp3' }}
       validationSchema={validationSchema}
       onSubmit={async (values, { setSubmitting, setFieldValue, setFieldError }) => {
         if (!values.playlistLoading) {
@@ -46,10 +47,14 @@ const AddForm: React.FC<PropsType> = ({ innerRef }) => {
               setFieldValue('playlistLoading', false);
             }, 500);
           } else {
-            setTimeout(() => {
-              alert(JSON.stringify(values, null, 2));
-              setSubmitting(false);
-            }, 400);
+            await window.electronAPI.createPlaylist(
+              values.url,
+              infoPlaylist['uploader'],
+              infoPlaylist['title'],
+              values.extension,
+              values.folderpath
+            );
+            setSubmitting(false);
           }
         }
       }}
@@ -85,7 +90,7 @@ const AddForm: React.FC<PropsType> = ({ innerRef }) => {
                 authorURL={infoPlaylist['uploader_url']}
               />
               <Box sx={{ display: 'flex', flexDirection: 'row', m: 1, p: 1, alignItems: 'flex-start' }}>
-                <Field type="text" name="path" autoFocus mode="outlined" disabled fullWidth component={TextField} />
+                <Field type="text" name="folderpath" mode="outlined" disabled fullWidth component={TextField} />
                 <IconButton
                   sx={{
                     alignSelf: 'center',
@@ -95,12 +100,20 @@ const AddForm: React.FC<PropsType> = ({ innerRef }) => {
                   }}
                   onClick={async () => {
                     const path = await window.electronAPI.selectFolder();
-                    setFieldValue('path', path);
+                    setFieldValue('folderpath', path);
                   }}
                 >
                   <FolderOpenIcon sx={{ fontSize: 40 }} />
                 </IconButton>
               </Box>
+              <Field type="text" name="extension" autoFocus mode="outlined" fullWidth component={Select}>
+                <MenuItem value={'mp3'}>MP3</MenuItem>
+                <MenuItem value={'wav'}>WAV</MenuItem>
+                <MenuItem value={'flac'}>FLAC</MenuItem>
+                <MenuItem value={'m4a'}>M4A</MenuItem>
+                <MenuItem value={'opus'}>OPUS</MenuItem>
+                <MenuItem value={'vorbis'}>VORBIS</MenuItem>
+              </Field>
             </>
           )}
         </Form>

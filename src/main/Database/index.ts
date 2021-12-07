@@ -3,8 +3,9 @@ import { Connection, createConnection } from 'typeorm';
 import { DownloadingProfile } from './Models/DownloadingProfile';
 import { Playlist } from './Models/Playlist';
 
-const getDBConnection = async (): Promise<Connection> => {
+const getDBConnection = async (connectionName: string): Promise<Connection> => {
   return await createConnection({
+    name: connectionName,
     type: 'better-sqlite3',
     database: 'reactdl.sqlite',
     entities: [Playlist, DownloadingProfile],

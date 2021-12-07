@@ -10,7 +10,7 @@ export class ProfileRepository {
   }
 
   private async init() {
-    const connection = await getDBConnection();
+    const connection = await getDBConnection('profileConnection');
     this.ormRepository = connection.getRepository(DownloadingProfile);
   }
 

@@ -10,7 +10,7 @@ export class PlaylistRepository {
   }
 
   private async init() {
-    const connection = await getDBConnection();
+    const connection = await getDBConnection('playlistConnection');
     this.ormRepository = connection.getRepository(Playlist);
   }
 
