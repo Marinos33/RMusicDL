@@ -90,3 +90,4 @@ out/
 
 # sqlite db
 .sqlite
+.sqlite*
