@@ -6,17 +6,6 @@ import Header from '@src/renderer/components/Header';
 import Footer from '@src/renderer/components/Footer';
 
 const PlaylistsPage: React.FC = () => {
-  //exemple call main process function
-  /* (async () => {
-    const res = await window.api.callTest();
-    setTest(res);
-  })();*/
-
-  //exemple call main process function
-  (async () => {
-    await window.electronAPI.createPlaylist('test', 'testowner', 'testplay', 'testoutputext', 'testoutputpath');
-  })();
-
   return (
     <>
       <Container maxWidth={false} sx={{ overflow: 'hidden' }}>

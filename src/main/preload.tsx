@@ -56,5 +56,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   },
   removePlaylist: async (id: number): Promise<void> => {
     await ipcRenderer.invoke('remove-playlist', id);
+  },
+  selectFolder: async (): Promise<string> => {
+    return await ipcRenderer.invoke('select_folder');
   }
 });

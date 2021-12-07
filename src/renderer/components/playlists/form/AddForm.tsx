@@ -5,14 +5,16 @@ import React, { useState } from 'react';
 import { Formik, Form, Field } from 'formik';
 import { TextField } from 'formik-mui';
 import * as Yup from 'yup';
-import { Box, CircularProgress } from '@mui/material';
+import { Box, CircularProgress, IconButton } from '@mui/material';
 import PlaylistCard from '../PlaylistCard';
 import _ from 'lodash';
+import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 
 const validationSchema = Yup.object().shape({
   url: Yup.string().url('Must be a valid URL').required(),
   playlistFound: Yup.boolean().required(),
-  playlistLoading: Yup.boolean().required()
+  playlistLoading: Yup.boolean().required(),
+  folderpath: Yup.string().required()
 });
 
 type PropsType = {
@@ -25,10 +27,9 @@ const AddForm: React.FC<PropsType> = ({ innerRef }) => {
   return (
     <Formik
       innerRef={innerRef}
-      initialValues={{ url: '', playlistFound: false, playlistLoading: false }}
+      initialValues={{ url: '', playlistFound: false, playlistLoading: false, folderpath: './' }}
       validationSchema={validationSchema}
       onSubmit={async (values, { setSubmitting, setFieldValue, setFieldError }) => {
-        console.log('submit');
         if (!values.playlistLoading) {
           if (!values.playlistFound) {
             setTimeout(async () => {
@@ -36,7 +37,6 @@ const AddForm: React.FC<PropsType> = ({ innerRef }) => {
               const info = await window.electronAPI.getInfoPlaylist(values.url);
               if (info) {
                 setFieldValue('playlistFound', true);
-                console.log(JSON.stringify(info, null, 2));
                 setInfoPlaylist(info);
               } else {
                 setFieldError('url', 'playlist not found');
@@ -75,13 +75,26 @@ const AddForm: React.FC<PropsType> = ({ innerRef }) => {
             {values.playlistLoading && <CircularProgress sx={{ ml: 3 }} />}
           </Box>
           {infoPlaylist && (
-            <PlaylistCard
-              title={infoPlaylist['title']}
-              thumbnail={_.flatMap(infoPlaylist['entries'], 'thumbnail')[0]}
-              author={infoPlaylist['uploader']}
-              contentTitles={_.flatMap(infoPlaylist['entries'], 'title')}
-              authorURL={infoPlaylist['uploader_url']}
-            />
+            <>
+              <PlaylistCard
+                title={infoPlaylist['title']}
+                thumbnail={_.flatMap(infoPlaylist['entries'], 'thumbnail')[0]}
+                author={infoPlaylist['uploader']}
+                contentTitles={_.flatMap(infoPlaylist['entries'], 'title')}
+                authorURL={infoPlaylist['uploader_url']}
+              />
+              <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+                <Field type="text" name="path" autoFocus mode="outlined" disabled fullWidth component={TextField} />
+                <IconButton
+                  onClick={async () => {
+                    const path = await window.electronAPI.selectFolder();
+                    setFieldValue('path', path);
+                  }}
+                >
+                  <FolderOpenIcon />
+                </IconButton>
+              </Box>
+            </>
           )}
         </Form>
       )}

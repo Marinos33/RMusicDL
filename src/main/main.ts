@@ -1,5 +1,5 @@
 import { inDev } from '@src/utils/helpers';
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, BrowserWindow, dialog, ipcMain } from 'electron';
 import youtubedl, { YtResponse } from 'youtube-dl-exec';
 import 'reflect-metadata';
 import { PlaylistRepository } from './Database/Repository/PlaylistRepository';
@@ -133,4 +133,13 @@ ipcMain.handle('remove-playlist', async (event, id: number): Promise<void> => {
     console.log(e.message);
     return null;
   }
+});
+
+ipcMain.handle('select_folder', async (event): Promise<string> => {
+  const path = await dialog.showOpenDialog({
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-ignore
+    properties: ['openDirectory']
+  });
+  return path.filePaths[0];
 });

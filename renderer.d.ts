@@ -11,6 +11,7 @@ export interface IElectronAPI {
   ) => Promise<Playlist>;
   refreshPlaylist: (id: number) => Promise<void>;
   removePlaylist: (id: number) => Promise<void>;
+  selectFolder: () => Promise<string>;
 }
 
 declare global {
