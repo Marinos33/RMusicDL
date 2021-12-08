@@ -5,7 +5,6 @@ export interface Playlist {
   playlistName: string;
   lastUpdate: Date;
   profile: Profile;
-  lastCheck: Date;
 }
 
 export interface Profile {

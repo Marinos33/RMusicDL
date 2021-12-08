@@ -9,6 +9,8 @@ import { Box, CircularProgress, IconButton, MenuItem, useTheme } from '@mui/mate
 import PlaylistCard from '../PlaylistCard';
 import _ from 'lodash';
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
+import { useDispatch } from 'react-redux';
+import { addPlaylist } from '@src/renderer/redux/playlist/actionCreators';
 
 const validationSchema = Yup.object().shape({
   url: Yup.string().url('Must be a valid URL').required(),
@@ -25,6 +27,7 @@ type PropsType = {
 const AddForm: React.FC<PropsType> = ({ innerRef }) => {
   const [infoPlaylist, setInfoPlaylist] = useState<any>();
   const theme = useTheme();
+  const dispatch = useDispatch();
 
   return (
     <Formik
@@ -47,12 +50,14 @@ const AddForm: React.FC<PropsType> = ({ innerRef }) => {
               setFieldValue('playlistLoading', false);
             }, 500);
           } else {
-            await window.electronAPI.createPlaylist(
-              values.url,
-              infoPlaylist['uploader'],
-              infoPlaylist['title'],
-              values.extension,
-              values.folderpath
+            dispatch(
+              addPlaylist(
+                values.url,
+                infoPlaylist['uploader'],
+                infoPlaylist['title'],
+                values.extension,
+                values.folderpath
+              )
             );
             setSubmitting(false);
           }
