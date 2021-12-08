@@ -37,7 +37,6 @@ export const playlists: Playlist[] = [
     owner: 'myself',
     url: 'an url',
     lastUpdate: new Date('2020-01-01'),
-    lastCheck: new Date('2020-01-01'),
     profile: profile1
   },
   {
@@ -46,7 +45,6 @@ export const playlists: Playlist[] = [
     owner: 'yourself',
     url: 'not an url',
     lastUpdate: new Date('2019-01-01'),
-    lastCheck: new Date('2019-01-01'),
     profile: profile2
   },
   {
@@ -55,7 +53,6 @@ export const playlists: Playlist[] = [
     owner: 'theyself',
     url: 'rick roll',
     lastUpdate: new Date('2018-01-01'),
-    lastCheck: new Date('2018-01-01'),
     profile: profile3
   },
   {
@@ -64,7 +61,6 @@ export const playlists: Playlist[] = [
     owner: 'ourselves',
     url: 'yes',
     lastUpdate: new Date('2017-01-01'),
-    lastCheck: new Date('2017-01-01'),
     profile: profile4
   },
   {
@@ -73,7 +69,6 @@ export const playlists: Playlist[] = [
     owner: 'himself',
     url: 'giorno',
     lastUpdate: new Date('2016-01-01'),
-    lastCheck: new Date('2016-01-01'),
     profile: profile5
   },
   {
@@ -82,7 +77,6 @@ export const playlists: Playlist[] = [
     owner: 'ourselves',
     url: 'yes',
     lastUpdate: new Date('2017-01-01'),
-    lastCheck: new Date('2017-01-01'),
     profile: profile4
   },
   {
@@ -91,7 +85,6 @@ export const playlists: Playlist[] = [
     owner: 'ourselves',
     url: 'yes',
     lastUpdate: new Date('2017-01-01'),
-    lastCheck: new Date('2017-01-01'),
     profile: profile4
   },
   {
@@ -100,7 +93,6 @@ export const playlists: Playlist[] = [
     owner: 'ourselves',
     url: 'yes',
     lastUpdate: new Date('2017-01-01'),
-    lastCheck: new Date('2017-01-01'),
     profile: profile4
   },
   {
@@ -109,7 +101,6 @@ export const playlists: Playlist[] = [
     owner: 'ourselves',
     url: 'yes',
     lastUpdate: new Date('2017-01-01'),
-    lastCheck: new Date('2017-01-01'),
     profile: profile4
   },
   {
@@ -118,7 +109,6 @@ export const playlists: Playlist[] = [
     owner: 'ourselves',
     url: 'yes',
     lastUpdate: new Date('2017-01-01'),
-    lastCheck: new Date('2017-01-01'),
     profile: profile4
   },
   {
@@ -127,7 +117,6 @@ export const playlists: Playlist[] = [
     owner: 'ourselves',
     url: 'yes',
     lastUpdate: new Date('2017-01-01'),
-    lastCheck: new Date('2017-01-01'),
     profile: profile4
   },
   {
@@ -136,7 +125,6 @@ export const playlists: Playlist[] = [
     owner: 'ourselves',
     url: 'yes',
     lastUpdate: new Date('2017-01-01'),
-    lastCheck: new Date('2017-01-01'),
     profile: profile4
   },
   {
@@ -145,7 +133,6 @@ export const playlists: Playlist[] = [
     owner: 'ourselves',
     url: 'yes',
     lastUpdate: new Date('2017-01-01'),
-    lastCheck: new Date('2017-01-01'),
     profile: profile4
   },
   {
@@ -154,7 +141,6 @@ export const playlists: Playlist[] = [
     owner: 'ourselves',
     url: 'yes',
     lastUpdate: new Date('2017-01-01'),
-    lastCheck: new Date('2017-01-01'),
     profile: profile4
   },
   {
@@ -163,7 +149,6 @@ export const playlists: Playlist[] = [
     owner: 'ourselves',
     url: 'yes',
     lastUpdate: new Date('2017-01-01'),
-    lastCheck: new Date('2017-01-01'),
     profile: profile4
   },
   {
@@ -172,7 +157,6 @@ export const playlists: Playlist[] = [
     owner: 'ourselves',
     url: 'yes',
     lastUpdate: new Date('2017-01-01'),
-    lastCheck: new Date('2017-01-01'),
     profile: profile4
   },
   {
@@ -181,7 +165,6 @@ export const playlists: Playlist[] = [
     owner: 'ourselves',
     url: 'yes',
     lastUpdate: new Date('2017-01-01'),
-    lastCheck: new Date('2017-01-01'),
     profile: profile4
   },
   {
@@ -190,7 +173,6 @@ export const playlists: Playlist[] = [
     owner: 'ourselves',
     url: 'yes',
     lastUpdate: new Date('2017-01-01'),
-    lastCheck: new Date('2017-01-01'),
     profile: profile4
   }
 ];

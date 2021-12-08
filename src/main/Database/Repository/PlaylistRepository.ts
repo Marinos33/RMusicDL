@@ -1,24 +1,25 @@
-import { Repository } from 'typeorm';
+import { Connection, Repository } from 'typeorm';
 import getDBConnection from '..';
 import { Playlist } from '../Models/Playlist';
 
 export class PlaylistRepository {
   private ormRepository: Repository<Playlist>;
+  private connection: Connection;
 
   constructor() {
     this.init();
   }
 
   private async init() {
-    const connection = await getDBConnection('playlistConnection');
-    this.ormRepository = connection.getRepository(Playlist);
+    this.connection = await getDBConnection('playlistConnection');
+    this.ormRepository = this.connection.getRepository(Playlist);
   }
 
   public async getAll(): Promise<Playlist[]> {
     if (this.ormRepository === undefined) await this.init();
 
     const playlists = await this.ormRepository.find();
-
+    this.connection.close();
     return playlists;
   }
 
@@ -33,7 +34,7 @@ export class PlaylistRepository {
     });
 
     await this.ormRepository.save(playlist);
-
+    this.connection.close();
     return playlist;
   }
 
@@ -50,10 +51,12 @@ export class PlaylistRepository {
         `,
       [id]
     );
+    this.connection.close();
   }
 
   public async delete(id: number): Promise<void> {
     if (this.ormRepository === undefined) await this.init();
     await this.ormRepository.delete(id);
+    this.connection.close();
   }
 }

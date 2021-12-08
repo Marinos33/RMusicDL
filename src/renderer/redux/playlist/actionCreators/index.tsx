@@ -17,7 +17,7 @@ export const addPlaylist =
   (url: string, owner: string, playlistName: string, outputExtension: string, outputPath: string) =>
   async (dispatch: any, getState: any) => {
     const newPlaylist = await window.electronAPI.createPlaylist(url, owner, playlistName, outputExtension, outputPath);
-    console.log(getState());
+    console.log(newPlaylist);
     dispatch(setPlaylists([...getState().playlist.playlists, newPlaylist]));
   };
 

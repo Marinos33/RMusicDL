@@ -6,6 +6,9 @@ import { Playlist } from '@src/renderer/types';
 import useWindowDimensions from '@src/renderer/hooks/useWindowDimensions';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import { IconButton, useTheme } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchPlaylists } from '@src/renderer/redux/playlist/actionCreators';
+import { RootState } from '@src/renderer/redux/reducers/rootReducer';
 
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'ID', type: 'number', headerAlign: 'center', flex: 0.2 },
@@ -24,13 +27,6 @@ const columns: GridColDef[] = [
   {
     field: 'lastUpdate',
     headerName: 'Last Updated',
-    type: 'Date',
-    flex: 1,
-    headerAlign: 'center'
-  },
-  {
-    field: 'lastCheck',
-    headerName: 'Last Check',
     type: 'Date',
     flex: 1,
     headerAlign: 'center'
@@ -67,6 +63,13 @@ const rows: Playlist[] = playlists;
 export const PlaylistsGrid: React.FC = () => {
   const { height, width } = useWindowDimensions();
   const theme = useTheme();
+  const dispatch = useDispatch();
+  const playlists = useSelector<RootState, Playlist[]>((state) => state.playlist.playlists);
+
+  React.useEffect(() => {
+    dispatch(fetchPlaylists());
+  }, []);
+
   return (
     <div style={{ height: height < width ? height / 1.15 : height / 1.075, width: '100%' }}>
       <div style={{ display: 'flex', height: '100%' }}>
@@ -75,7 +78,7 @@ export const PlaylistsGrid: React.FC = () => {
             components={{
               Toolbar: GridToolbar
             }}
-            rows={rows}
+            rows={playlists}
             columns={columns}
             checkboxSelection
             hideFooter
