@@ -80,6 +80,27 @@ ipcMain.handle('get-info-playlist', async (event, playlist: string): Promise<YtR
   }
 });
 
+// exemple youtubeDL
+ipcMain.handle('download-playlist', async (event, id: number): Promise<any> => {
+  try {
+    const repository = new PlaylistRepository();
+    const playlist = await repository.getById(id);
+    await youtubedl(playlist.url, {
+      verbose: true,
+      yesPlaylist: true,
+      output: '%(playlist)s/%(title)s - %(uploader)s.%(ext)s',
+      format: 'bestaudio[ext=mp3]/bestaudio'
+      //dowloadArchive: 'history' typo error in library, need a PR
+      /*dowloadArchive: 'history',
+      output: '%(title)s-%(id)s.%(ext)s',
+      format: 'bestaudio'*/
+    });
+  } catch (e: any) {
+    console.log(e.message);
+    return null;
+  }
+});
+
 ipcMain.handle('get-playlists', async (event): Promise<Playlist[]> => {
   try {
     const repository = new PlaylistRepository();

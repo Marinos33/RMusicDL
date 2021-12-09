@@ -35,7 +35,7 @@ const columns: GridColDef[] = [
     field: 'actions',
     type: 'actions',
     renderCell: (params) => {
-      const onClick = (e: any) => {
+      const onClick = async (e: any) => {
         e.stopPropagation(); // don't select this row after clicking
 
         const api: GridApi = params.api;
@@ -46,7 +46,7 @@ const columns: GridColDef[] = [
           .filter((c) => c.field !== '__check__' && !!c)
           .forEach((c) => (thisRow[c.field] = params.getValue(params.id, c.field)));
 
-        return alert(JSON.stringify(thisRow, null, 4));
+        await window.electronAPI.downloadPlaylist(+thisRow.id);
       };
 
       return (
@@ -82,7 +82,7 @@ export const PlaylistsGrid: React.FC = () => {
             columns={columns}
             checkboxSelection
             hideFooter
-            onRowClick={(item) => console.log(item.row)}
+            onRowClick={async (item) => console.log(item.row)}
             disableSelectionOnClick
           />
         </div>

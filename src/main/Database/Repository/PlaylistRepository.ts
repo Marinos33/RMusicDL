@@ -23,6 +23,14 @@ export class PlaylistRepository {
     return playlists;
   }
 
+  public async getById(id: number): Promise<Playlist> {
+    if (this.ormRepository === undefined) await this.init();
+
+    const playlists = await this.ormRepository.findOne(id);
+    this.connection.close();
+    return playlists;
+  }
+
   public async create(url: string, owner: string, playlistName: string, profileId: number): Promise<Playlist> {
     if (this.ormRepository === undefined) await this.init();
     const playlist = this.ormRepository.create({
