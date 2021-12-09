@@ -89,8 +89,8 @@ ipcMain.handle('download-playlist', async (event, id: number): Promise<any> => {
       verbose: true,
       yesPlaylist: true,
       output: '%(playlist)s/%(title)s - %(uploader)s.%(ext)s',
-      format: 'bestaudio[ext=mp3]/bestaudio'
-      //dowloadArchive: 'history' typo error in library, need a PR
+      format: 'bestaudio[ext=mp3]/bestaudio',
+      downloadArchive: 'history'
       /*dowloadArchive: 'history',
       output: '%(title)s-%(id)s.%(ext)s',
       format: 'bestaudio'*/
