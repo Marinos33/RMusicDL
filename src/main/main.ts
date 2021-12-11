@@ -90,10 +90,8 @@ ipcMain.handle('download-playlist', async (event, id: number): Promise<any> => {
       yesPlaylist: true,
       output: '%(playlist)s/%(title)s - %(uploader)s.%(ext)s',
       format: 'bestaudio[ext=mp3]/bestaudio',
-      downloadArchive: 'history'
-      /*dowloadArchive: 'history',
-      output: '%(title)s-%(id)s.%(ext)s',
-      format: 'bestaudio'*/
+      downloadArchive: playlist.playlistName + '/history.txt'
+      //embedThumbnail: true
     });
   } catch (e: any) {
     console.log(e.message);
