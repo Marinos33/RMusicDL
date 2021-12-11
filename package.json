@@ -80,6 +80,7 @@
     "better-sqlite3": "^7.4.5",
     "date-fns": "^2.27.0",
     "electron-squirrel-startup": "^1.0.0",
+    "ffmpeg-static-electron": "^2.0.3",
     "formik": "^2.2.9",
     "formik-mui": "^4.0.0-alpha.3",
     "lodash": "^4.17.21",

@@ -85,13 +85,21 @@ ipcMain.handle('download-playlist', async (event, id: number): Promise<any> => {
   try {
     const repository = new PlaylistRepository();
     const playlist = await repository.getById(id);
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const ffmpeg = require('ffmpeg-static-electron');
+
     await youtubedl(playlist.url, {
       verbose: true,
       yesPlaylist: true,
-      output: '%(playlist)s/%(title)s - %(uploader)s.%(ext)s',
+      output: playlist.downloadingProfile.outputPath + '/' + '%(playlist)s/%(title)s - %(uploader)s.%(ext)s',
       format: 'bestaudio[ext=mp3]/bestaudio',
-      downloadArchive: playlist.playlistName + '/history.txt'
-      //embedThumbnail: true
+      downloadArchive: playlist.playlistName + '/history.txt',
+      ffmpegLocation: ffmpeg.path,
+      extractAudio: true,
+      audioFormat: playlist.downloadingProfile.outputExtension,
+      embedThumbnail: true,
+      addMetadata: true,
+      postprocessorArgs: '-metadata album=' + playlist.playlistName
     });
   } catch (e: any) {
     console.log(e.message);
