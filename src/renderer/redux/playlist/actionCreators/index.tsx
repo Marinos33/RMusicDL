@@ -1,11 +1,9 @@
 import actions from '../actions';
-
-// Externals
 import _ from 'lodash';
 import { Playlist } from '@src/renderer/types';
 
 export const setPlaylists = (playlists: Playlist[]) => {
-  return { type: actions.SET_PLAYLISTS, payload: playlists };
+  return { type: actions.SET_PLAYLISTS, payload: _.sortBy(playlists, ['playlistName']) };
 };
 
 export const fetchPlaylists = () => async (dispatch: any, getState: any) => {
@@ -20,12 +18,6 @@ export const addPlaylist =
     console.log(newPlaylist);
     dispatch(setPlaylists([...getState().playlist.playlists, newPlaylist]));
   };
-
-/*export const updatePlaylist =
-  (playlistRepository: PlaylistRepository, id: number) => async (dispatch: any, getState: any) => {
-    await playlistRepository.refresh(id);
-    fetchPlaylists(playlistRepository);
-  };*/
 
 export const removePlaylist = (id: number) => async (dispatch: any, getState: any) => {
   await window.electronAPI.removePlaylist(id);

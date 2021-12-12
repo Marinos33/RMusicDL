@@ -12,6 +12,7 @@ export class PlaylistRepository {
 
   private async init() {
     this.connection = await getDBConnection('playlistConnection');
+    if (!this.connection.isConnected) this.connection.connect();
     this.ormRepository = this.connection.getRepository(Playlist);
   }
 

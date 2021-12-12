@@ -12,6 +12,7 @@ export class ProfileRepository {
 
   private async init() {
     this.connection = await getDBConnection('profileConnection');
+    if (!this.connection.isConnected) this.connection.connect();
     this.ormRepository = this.connection.getRepository(DownloadingProfile);
   }
 
