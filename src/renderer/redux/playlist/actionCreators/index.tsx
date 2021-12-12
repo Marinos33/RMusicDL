@@ -23,3 +23,15 @@ export const removePlaylist = (id: number) => async (dispatch: any, getState: an
   await window.electronAPI.removePlaylist(id);
   dispatch(setPlaylists(_.filter(getState().playlist.playlists, (v) => v !== id)));
 };
+
+export const setDownlodingPlaylist = (downloadingPlaylists: number[]) => {
+  return { type: actions.SET_DOWNLOADING_PLAYLIST, payload: downloadingPlaylists };
+};
+
+export const addToDownloadingList = (id: number) => async (dispatch: any, getState: any) => {
+  dispatch(setDownlodingPlaylist([...getState().playlist.downloadingPlaylists, id]));
+};
+
+export const removeFromDownloadingList = (id: number) => async (dispatch: any, getState: any) => {
+  dispatch(setDownlodingPlaylist(_.filter(getState().playlist.downloadingPlaylists, (v) => v !== id)));
+};

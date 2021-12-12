@@ -81,7 +81,7 @@ ipcMain.handle('get-info-playlist', async (event, playlist: string): Promise<YtR
 });
 
 // exemple youtubeDL
-ipcMain.handle('download-playlist', async (event, id: number): Promise<any> => {
+ipcMain.handle('download-playlist', async (event, id: number): Promise<void> => {
   try {
     const repository = new PlaylistRepository();
     const playlist = await repository.getById(id);

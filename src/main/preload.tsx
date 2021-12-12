@@ -60,7 +60,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   selectFolder: async (): Promise<string> => {
     return await ipcRenderer.invoke('select_folder');
   },
-  downloadPlaylist: async (id: number): Promise<any> => {
+  downloadPlaylist: async (id: number): Promise<void> => {
     await ipcRenderer.invoke('download-playlist', id);
   }
 });

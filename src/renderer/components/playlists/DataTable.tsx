@@ -5,9 +5,13 @@ import { playlists } from '@src/fakedata';
 import { Playlist } from '@src/renderer/types';
 import useWindowDimensions from '@src/renderer/hooks/useWindowDimensions';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
-import { IconButton, useTheme } from '@mui/material';
+import { CircularProgress, IconButton, useTheme } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPlaylists } from '@src/renderer/redux/playlist/actionCreators';
+import {
+  addToDownloadingList,
+  fetchPlaylists,
+  removeFromDownloadingList
+} from '@src/renderer/redux/playlist/actionCreators';
 import { RootState } from '@src/renderer/redux/reducers/rootReducer';
 
 export const PlaylistsGrid: React.FC = () => {
@@ -15,9 +19,10 @@ export const PlaylistsGrid: React.FC = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const playlists = useSelector<RootState, Playlist[]>((state) => state.playlist.playlists);
+  const downloadingList = useSelector<RootState, number[]>((state) => state.playlist.downloadingPlaylists);
 
   const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', type: 'number', headerAlign: 'center', flex: 0.2 },
+    { field: 'id', headerName: 'ID', type: 'number', headerAlign: 'center', flex: 0.2, hide: true },
     {
       field: 'playlistName',
       headerName: 'Playlist Name',
@@ -52,10 +57,16 @@ export const PlaylistsGrid: React.FC = () => {
             .filter((c) => c.field !== '__check__' && !!c)
             .forEach((c) => (thisRow[c.field] = params.getValue(params.id, c.field)));
 
+          dispatch(addToDownloadingList(+thisRow.id));
           await window.electronAPI.downloadPlaylist(+thisRow.id);
           await window.electronAPI.refreshPlaylist(+thisRow.id);
+          dispatch(removeFromDownloadingList(+thisRow.id));
           dispatch(fetchPlaylists());
         };
+
+        if (downloadingList.includes(+params.id)) {
+          return <CircularProgress size={30} />;
+        }
 
         return (
           <IconButton onClick={onClick}>
