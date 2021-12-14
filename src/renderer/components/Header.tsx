@@ -9,14 +9,27 @@ import CustomDialog from './common/CustomDialog';
 import { useState } from 'react';
 import AddForm from './playlists/form/AddForm';
 import { FormikProps } from 'formik';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../redux/reducers/rootReducer';
+import { fetchPlaylists, removePlaylist } from '../redux/playlist/actionCreators';
 
 const Header: React.FC = () => {
   const [visibleAddDialog, setVisibleAddDialog] = useState<boolean>(false);
   const theme = useTheme();
   const formRef = React.useRef<FormikProps<any>>(null);
+  const selectedPlaylistsId = useSelector<RootState, number[]>((state) => state.playlist.selectedPlaylistsId);
+  const dispatch = useDispatch();
 
   const showAddDialog = () => setVisibleAddDialog(true);
   const hideAddDialog = () => setVisibleAddDialog(false);
+  const removePlaylists = async () => {
+    await Promise.all(
+      selectedPlaylistsId.map(async (id) => {
+        dispatch(removePlaylist(id));
+      })
+    );
+    dispatch(fetchPlaylists());
+  };
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="fixed">
@@ -26,7 +39,10 @@ const Header: React.FC = () => {
               <AddCircleIcon sx={{ fontSize: 28, color: theme.palette.icon.primary }} onClick={showAddDialog} />
             </Tooltip>
             <Tooltip title="Remove selected playlists">
-              <DeleteForeverIcon sx={{ fontSize: 30, color: theme.palette.icon.primary, ml: 2 }} />
+              <DeleteForeverIcon
+                sx={{ fontSize: 30, color: theme.palette.icon.primary, ml: 2 }}
+                onClick={removePlaylists}
+              />
             </Tooltip>
           </Box>
           <Box>
