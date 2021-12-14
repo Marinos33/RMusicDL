@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { fetchPlaylists } from '../redux/playlist/actionCreators';
 
-export default function useLoadedResources() {
+export default function useLoadedResources(): boolean {
   const dispatch = useDispatch();
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
 

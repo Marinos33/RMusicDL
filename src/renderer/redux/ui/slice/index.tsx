@@ -4,7 +4,7 @@ class UiState {
   isResourcesLoaded = false;
 }
 
-export default function reducer(state = new UiState(), action: any) {
+export default function reducer(state = new UiState(), action: any): UiState {
   switch (action.type) {
     case actions.SET_GENERAL_LOADING:
       return { ...state, isResourcesLoaded: action.payload as boolean };

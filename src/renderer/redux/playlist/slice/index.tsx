@@ -6,7 +6,7 @@ class PlaylistState {
   downloadingPlaylists: Array<number> = [];
 }
 
-export default function reducer(state = new PlaylistState(), action: any) {
+export default function reducer(state = new PlaylistState(), action: any): PlaylistState {
   switch (action.type) {
     case actions.SET_PLAYLISTS:
       return { ...state, playlists: action.payload as Array<Playlist> };

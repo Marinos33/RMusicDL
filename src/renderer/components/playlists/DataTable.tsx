@@ -76,10 +76,6 @@ export const PlaylistsGrid: React.FC = () => {
     }
   ];
 
-  React.useEffect(() => {
-    dispatch(fetchPlaylists());
-  }, []);
-
   return (
     <div style={{ height: height < width ? height / 1.15 : height / 1.075, width: '100%' }}>
       <div style={{ display: 'flex', height: '100%' }}>

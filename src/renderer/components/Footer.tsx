@@ -2,13 +2,12 @@ import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import { Typography, useTheme } from '@mui/material';
+import { Typography } from '@mui/material';
 import LinearProgress from '@mui/material/LinearProgress';
 import { RootState } from '@src/renderer/redux/reducers/rootReducer';
 import { useSelector } from 'react-redux';
 
 const Footer: React.FC = () => {
-  const theme = useTheme();
   const isResourcesLoaded = useSelector<RootState, boolean>((state) => state.ui.isResourcesLoaded);
 
   const ProgressBar = React.useCallback(() => {
