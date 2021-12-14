@@ -1,7 +1,6 @@
 import * as React from 'react';
 // eslint-disable-next-line import/named
 import { DataGrid, GridApi, GridCellValue, GridColDef, GridToolbar } from '@mui/x-data-grid';
-import { playlists } from '@src/fakedata';
 import { Playlist } from '@src/renderer/types';
 import useWindowDimensions from '@src/renderer/hooks/useWindowDimensions';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';

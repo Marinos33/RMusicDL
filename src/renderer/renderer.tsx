@@ -2,6 +2,8 @@ import React, { StrictMode } from 'react';
 import ReactDOM from 'react-dom';
 import Application from './App';
 import { inDev } from '../utils/helpers';
+import store from './redux/store';
+import { Provider as StoreProvider } from 'react-redux';
 
 // Say something
 console.log('[ReactDL] : Renderer execution started');
@@ -9,7 +11,9 @@ console.log('[ReactDL] : Renderer execution started');
 // Application to Render
 const app = (
   <StrictMode>
-    <Application />
+    <StoreProvider store={store}>
+      <Application />
+    </StoreProvider>
   </StrictMode>
 );
 

@@ -92,7 +92,7 @@
     "redux-thunk": "^2.4.1",
     "reflect-metadata": "^0.1.13",
     "typeorm": "^0.2.41",
-    "youtube-dl-exec": "^2.0.1",
+    "youtube-dl-exec": "^2.0.2",
     "yup": "^0.32.11"
   }
 }

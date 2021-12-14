@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
 import playlistReducer from '../playlist/slice';
+import uiReducer from '../ui/slice';
 
 const rootReducer = combineReducers({
-  playlist: playlistReducer
+  playlist: playlistReducer,
+  ui: uiReducer
 });
 
 export default rootReducer;
