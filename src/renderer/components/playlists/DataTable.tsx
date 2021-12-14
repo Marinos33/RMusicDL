@@ -6,8 +6,10 @@ import useWindowDimensions from '@src/renderer/hooks/useWindowDimensions';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import { CircularProgress, IconButton, useTheme } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
+import _ from 'lodash';
 import {
   addToDownloadingList,
+  addToSelectedPlaylist,
   fetchPlaylists,
   removeFromDownloadingList
 } from '@src/renderer/redux/playlist/actionCreators';
@@ -90,6 +92,13 @@ export const PlaylistsGrid: React.FC = () => {
             hideFooter
             onRowClick={async (item) => console.log(item.row)}
             disableSelectionOnClick
+            onSelectionModelChange={(ids) => {
+              const selectedIds = _.intersection(
+                _.flatMap(playlists, (playlist) => playlist.id),
+                ids
+              );
+              dispatch(addToSelectedPlaylist(selectedIds as Array<number>));
+            }}
           />
         </div>
       </div>

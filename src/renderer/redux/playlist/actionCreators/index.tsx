@@ -43,3 +43,19 @@ export const removeFromDownloadingList =
   async (dispatch: any, getState: any): Promise<void> => {
     dispatch(setDownlodingPlaylist(_.filter(getState().playlist.downloadingPlaylists, (v) => v !== id)));
   };
+
+export const setSelectedPlaylist = (playlistsId: number[]): any => {
+  return { type: actions.SET_SELECTED_PLAYLIST, payload: _.uniq(playlistsId) };
+};
+
+export const addToSelectedPlaylist =
+  (id: number[]) =>
+  async (dispatch: any, getState: any): Promise<void> => {
+    dispatch(setSelectedPlaylist(id));
+  };
+
+export const removeFromSelectedPlaylist =
+  (id: number) =>
+  async (dispatch: any, getState: any): Promise<void> => {
+    dispatch(setSelectedPlaylist(_.filter(getState().playlist.selectedPlaylistsId, (v) => v !== id)));
+  };
