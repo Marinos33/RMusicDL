@@ -34,6 +34,9 @@ export default function useLoadedResources(): boolean {
     }
 
     loadResourcesAndDataAsync();
+    /*setTimeout(() => {
+      loadResourcesAndDataAsync();
+    }, 5000);*/
   }, []);
 
   return isLoadingComplete;

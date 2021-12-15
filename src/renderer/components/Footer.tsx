@@ -8,14 +8,14 @@ import { RootState } from '@src/renderer/redux/reducers/rootReducer';
 import { useSelector } from 'react-redux';
 
 const Footer: React.FC = () => {
-  const isResourcesLoaded = useSelector<RootState, boolean>((state) => state.ui.isResourcesLoaded);
+  const isResourcesLoaded = useSelector<RootState, any>((state) => state.ui.isResourcesLoaded);
 
   const ProgressBar = React.useCallback(() => {
-    if (!isResourcesLoaded) {
+    if (!isResourcesLoaded.value) {
       return (
         <Box sx={{ width: '10%' }}>
           <Typography variant="subtitle2" color="text.secondary" noWrap align="left">
-            Loading data
+            {isResourcesLoaded.message}
           </Typography>
           <LinearProgress color="success" sx={{ height: 10, borderRadius: 5 }} />
         </Box>

@@ -15,7 +15,7 @@ const App: React.FC = () => {
   });
 
   useEffect(() => {
-    dispatch(setGeneralLoading(isLoadingComplete));
+    dispatch(setGeneralLoading(isLoadingComplete, 'Loading Data'));
   }, [isLoadingComplete]);
 
   return (
