@@ -1,6 +1,6 @@
 import { inDev } from '@src/utils/helpers';
 import { app, BrowserWindow, dialog, ipcMain } from 'electron';
-import youtubedl, { YtResponse } from 'youtube-dl-exec';
+import youtubedl, { YtResponse } from 'yt-dlp-exec';
 import 'reflect-metadata';
 import { PlaylistRepository } from './Database/Repository/PlaylistRepository';
 import { Playlist } from './Database/Models/Playlist';

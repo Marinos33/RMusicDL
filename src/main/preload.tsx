@@ -1,5 +1,5 @@
 import { contextBridge, ipcRenderer } from 'electron';
-import { YtResponse } from 'youtube-dl-exec';
+import { YtResponse } from 'yt-dlp-exec';
 import { Playlist } from './Database/Models/Playlist';
 
 // Say something

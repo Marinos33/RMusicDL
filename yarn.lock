@@ -771,9 +771,9 @@
   integrity sha512-SZs7ekbP8CN0txVG2xVRH6EgKmEm31BOxA07vkFaETzZz1xh+cbt8BcI0slpymvwhx5dlFnQG2rTlPVQn+iRPQ==
 
 "@types/http-proxy@^1.17.5":
-  version "1.17.7"
-  resolved "https://registry.yarnpkg.com/@types/http-proxy/-/http-proxy-1.17.7.tgz#30ea85cc2c868368352a37f0d0d3581e24834c6f"
-  integrity sha512-9hdj6iXH64tHSLTY+Vt2eYOGzSogC+JQ2H7bdPWkuh7KXP5qLllWx++t+K9Wk556c3dkDdPws/SpMRi0sdCT1w==
+  version "1.17.8"
+  resolved "https://registry.yarnpkg.com/@types/http-proxy/-/http-proxy-1.17.8.tgz#968c66903e7e42b483608030ee85800f22d03f55"
+  integrity sha512-5kPLG5BKpWYkw/LVOGWpiq3nEVqxiN32rTgI53Sk12/xHFQ2rG3ehI9IO+O3W2QoKeyB92dJkoka8SUm6BX1pA==
   dependencies:
     "@types/node" "*"
 
@@ -805,9 +805,9 @@
   integrity sha512-Klz949h02Gz2uZCMGwDUSDS1YBlTdDDgbWHi+81l29tQALUtvz4rAYi5uoVhE5Lagoq6DeqAUlbrHvW/mXDgdQ==
 
 "@types/node@*", "@types/node@^16.11.10":
-  version "16.11.12"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.12.tgz#ac7fb693ac587ee182c3780c26eb65546a1a3c10"
-  integrity sha512-+2Iggwg7PxoO5Kyhvsq9VarmPbIelXP070HMImEpbtGCoyWNINQj4wzjbQCXzdHTRXnqufutJb5KAURZANNBAw==
+  version "16.11.13"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.13.tgz#6b71641b81a98c6a538d89892440c06f147edddc"
+  integrity sha512-eUXZzHLHoZqj1frtUetNkUetYoJ6X55UmrVnFD4DMhVeAmwLjniZhtBmsRiemQh4uq4G3vUra/Ws/hs9vEvL3Q==
 
 "@types/node@^14.6.2":
   version "14.18.0"
@@ -2126,17 +2126,17 @@ css-loader@^6.5.1:
     semver "^7.3.5"
 
 css-select@^4.1.3:
-  version "4.1.3"
-  resolved "https://registry.yarnpkg.com/css-select/-/css-select-4.1.3.tgz#a70440f70317f2669118ad74ff105e65849c7067"
-  integrity sha512-gT3wBNd9Nj49rAbmtFHj1cljIAOLYSX1nZ8CB7TBO3INYckygm5B7LISU/szY//YmdiSLbJvDLOx9VnMVpMBxA==
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/css-select/-/css-select-4.2.0.tgz#ab28276d3afb00cc05e818bd33eb030f14f57895"
+  integrity sha512-6YVG6hsH9yIb/si3Th/is8Pex7qnVHO6t7q7U6TIUnkQASGbS8tnUDBftnPynLNnuUl/r2+PTd0ekiiq7R0zJw==
   dependencies:
     boolbase "^1.0.0"
-    css-what "^5.0.0"
-    domhandler "^4.2.0"
-    domutils "^2.6.0"
-    nth-check "^2.0.0"
+    css-what "^5.1.0"
+    domhandler "^4.3.0"
+    domutils "^2.8.0"
+    nth-check "^2.0.1"
 
-css-what@^5.0.0:
+css-what@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/css-what/-/css-what-5.1.0.tgz#3f7b707aadf633baf62c2ceb8579b545bb40f7fe"
   integrity sha512-arSMRWIIFY0hV8pIxZMEfmMI47Wj3R/aWpZDDxWYCPEiOMv6tfOrnpDtgxBYPEQD4V0Y/958+1TdC3iWTFcUPw==
@@ -2407,14 +2407,14 @@ domelementtype@^2.0.1, domelementtype@^2.2.0:
   resolved "https://registry.yarnpkg.com/domelementtype/-/domelementtype-2.2.0.tgz#9a0b6c2782ed6a1c7323d42267183df9bd8b1d57"
   integrity sha512-DtBMo82pv1dFtUmHyr48beiuq792Sxohr+8Hm9zoxklYPfa6n0Z3Byjj2IV7bmr2IyqClnqEQhfgHJJ5QF0R5A==
 
-domhandler@^4.0.0, domhandler@^4.2.0:
+domhandler@^4.0.0, domhandler@^4.2.0, domhandler@^4.3.0:
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/domhandler/-/domhandler-4.3.0.tgz#16c658c626cf966967e306f966b431f77d4a5626"
   integrity sha512-fC0aXNQXqKSFTr2wDNZDhsEYjCiYsDWl3D01kwt25hm1YIPyDGHvvi3rw+PLqHAl/m71MaiF7d5zvBr0p5UB2g==
   dependencies:
     domelementtype "^2.2.0"
 
-domutils@^2.5.2, domutils@^2.6.0:
+domutils@^2.5.2, domutils@^2.8.0:
   version "2.8.0"
   resolved "https://registry.yarnpkg.com/domutils/-/domutils-2.8.0.tgz#4437def5db6e2d1f5d6ee859bd95ca7d02048135"
   integrity sha512-w96Cjofp72M5IIhpjgobBimYEfoPjx1Vx0BSX9P30WBdZW2WIKU0T1Bd0kz2eNZ9ikjKgHbEyKx8BB6H1L3h3A==
@@ -2570,9 +2570,9 @@ electron-squirrel-startup@^1.0.0:
     debug "^2.2.0"
 
 electron-to-chromium@^1.4.17:
-  version "1.4.17"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.17.tgz#16ec40f61005582d5d41fac08400a254dccfb85f"
-  integrity sha512-zhk1MravPtq/KBhmGB7TLBILmXTgRG9TFSI3qS3DbgyfHzIl72iiTE37r/BHIbPCJJlWIo5rySyxiH4vWhu2ZA==
+  version "1.4.18"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.18.tgz#2fb282213937986a20a653315963070e8321b3f3"
+  integrity sha512-i7nKjGGBE1+YUIbfLObA1EZPmN7J1ITEllbhusDk+KIk6V6gUxN9PFe36v+Sd+8Cg0k3cgUv9lQhQZalr8rggw==
 
 electron-winstaller@^5.0.0:
   version "5.0.0"
@@ -5155,7 +5155,7 @@ nprogress@^0.2.0:
   resolved "https://registry.yarnpkg.com/nprogress/-/nprogress-0.2.0.tgz#cb8f34c53213d895723fcbab907e9422adbcafb1"
   integrity sha1-y480xTIT2JVyP8urkH6UIq28r7E=
 
-nth-check@^2.0.0:
+nth-check@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/nth-check/-/nth-check-2.0.1.tgz#2efe162f5c3da06a28959fbd3db75dbeea9f0fc2"
   integrity sha512-it1vE95zF6dTT9lBsYbxvqh0Soy4SPowchj0UBGj/V6cTPnXXtQOPUbhZ6CmGzAD/rW22LQK6E96pcdJXk4A4w==
@@ -7766,10 +7766,10 @@ yocto-queue@^0.1.0:
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
 
-youtube-dl-exec@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/youtube-dl-exec/-/youtube-dl-exec-2.0.2.tgz#2bed316343122d3304aaa76e2117a19fd5c3c74a"
-  integrity sha512-sRRjq+eifuqloLMb3OWdpIMZzeYf19iv+4ZFICZYPOeZR2AkawOOve9uCUtmRa1gc6pFBkh4+MMgPiIJUwk+Sg==
+yt-dlp-exec@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/yt-dlp-exec/-/yt-dlp-exec-1.0.2.tgz#f0197ad3fd0b9e9f20db80e7135cb0b725eb491b"
+  integrity sha512-swKtruQmGBs+Xrxy0wCZ2FxCT167EpBYIWdj/klTzNB2HrHng/qFlKo/C0WVlopbww8/uMIGQR6grXQ2ObcrAw==
   dependencies:
     dargs "~7.0.0"
     execa "~5.1.0"
