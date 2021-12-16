@@ -27,7 +27,6 @@ const CustomDialog: React.FC<PropsType> = ({ open, title, onClose, onSubmit, com
             <Button
               onClick={() => {
                 onSubmit();
-                onClose();
               }}
               autoFocus
               variant="contained"

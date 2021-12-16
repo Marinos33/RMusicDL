@@ -3,7 +3,7 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { Tooltip, useTheme, Box } from '@mui/material';
+import { Tooltip, useTheme, Box, IconButton } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import CustomDialog from './common/CustomDialog';
 import { useState } from 'react';
@@ -40,18 +40,21 @@ const Header: React.FC = () => {
         <Toolbar variant="dense">
           <Box flexGrow={1}>
             <Tooltip title="Add a playlist">
-              <AddCircleIcon sx={{ fontSize: 28, color: theme.palette.icon.primary }} onClick={showAddDialog} />
+              <IconButton onClick={showAddDialog}>
+                <AddCircleIcon sx={{ fontSize: 28, color: theme.palette.icon.primary }} />
+              </IconButton>
             </Tooltip>
             <Tooltip title="Remove selected playlists">
-              <DeleteForeverIcon
-                sx={{ fontSize: 30, color: theme.palette.icon.primary, ml: 2 }}
-                onClick={removePlaylists}
-              />
+              <IconButton onClick={removePlaylists} sx={{ ml: 2 }}>
+                <DeleteForeverIcon sx={{ fontSize: 30, color: theme.palette.icon.primary }} />
+              </IconButton>
             </Tooltip>
           </Box>
           <Box>
             <Tooltip title="Settings">
-              <SettingsIcon sx={{ fontSize: 30, color: theme.palette.icon.primary }} />
+              <IconButton>
+                <SettingsIcon sx={{ fontSize: 30, color: theme.palette.icon.primary }} />
+              </IconButton>
             </Tooltip>
           </Box>
         </Toolbar>

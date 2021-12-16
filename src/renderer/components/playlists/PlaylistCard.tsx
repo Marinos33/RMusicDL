@@ -34,7 +34,7 @@ type PropsType = {
 };
 
 const PlaylistCard: React.FC<PropsType> = ({ title, thumbnail, author, authorURL, contentTitles }) => {
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = React.useState<boolean>(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
