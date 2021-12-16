@@ -29,7 +29,7 @@ export class Playlist {
   @Column({ name: 'profile_id', nullable: false })
   profileId: number;
 
-  @OneToOne(() => DownloadingProfile, { nullable: false, eager: true })
+  @OneToOne(() => DownloadingProfile, { nullable: false, eager: true, onDelete: 'CASCADE', cascade: true })
   @JoinColumn({ name: 'profile_id' })
   downloadingProfile: DownloadingProfile;
 }

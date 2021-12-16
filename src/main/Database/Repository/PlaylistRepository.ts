@@ -1,5 +1,6 @@
 import { Connection, Repository } from 'typeorm';
 import getDBConnection from '..';
+import { DownloadingProfile } from '../Models/DownloadingProfile';
 import { Playlist } from '../Models/Playlist';
 
 export class PlaylistRepository {
@@ -65,7 +66,9 @@ export class PlaylistRepository {
 
   public async delete(id: number): Promise<void> {
     if (this.ormRepository === undefined) await this.init();
+    const { profileId } = await this.ormRepository.findOne(id);
     await this.ormRepository.delete(id);
+    await this.connection.getRepository(DownloadingProfile).delete(profileId);
     this.connection.close();
   }
 }

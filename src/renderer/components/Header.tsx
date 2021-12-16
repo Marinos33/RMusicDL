@@ -12,6 +12,7 @@ import { FormikProps } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../redux/reducers/rootReducer';
 import { fetchPlaylists, removePlaylist } from '../redux/playlist/actionCreators';
+import { setGeneralLoading } from '../redux/ui/actionCreators';
 
 const Header: React.FC = () => {
   const [visibleAddDialog, setVisibleAddDialog] = useState<boolean>(false);
@@ -23,13 +24,16 @@ const Header: React.FC = () => {
   const showAddDialog = () => setVisibleAddDialog(true);
   const hideAddDialog = () => setVisibleAddDialog(false);
   const removePlaylists = async () => {
+    dispatch(setGeneralLoading(false, 'Removing playlists'));
     await Promise.all(
       selectedPlaylistsId.map(async (id) => {
         dispatch(removePlaylist(id));
       })
     );
+    dispatch(setGeneralLoading(true));
     dispatch(fetchPlaylists());
   };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="fixed">
