@@ -7,12 +7,13 @@ import { Tooltip, useTheme, Box, IconButton } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import CustomDialog from './common/CustomDialog';
 import { useState } from 'react';
-import AddForm from './playlists/form/AddForm';
+import AddForm from './playlists/form/DialogFormAdd';
 import { FormikProps } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../redux/reducers/rootReducer';
 import { fetchPlaylists, removePlaylist } from '../redux/playlist/actionCreators';
 import { setGeneralLoading } from '../redux/ui/actionCreators';
+import DialogFormAdd from './playlists/form/DialogFormAdd';
 
 const Header: React.FC = () => {
   const [visibleAddDialog, setVisibleAddDialog] = useState<boolean>(false);
@@ -59,15 +60,7 @@ const Header: React.FC = () => {
           </Box>
         </Toolbar>
       </AppBar>
-      <CustomDialog
-        open={visibleAddDialog}
-        title={'Add a playlist'}
-        onClose={hideAddDialog}
-        onSubmit={() => {
-          formRef.current?.handleSubmit();
-        }}
-        component={<AddForm innerRef={formRef} />}
-      />
+      <DialogFormAdd open={visibleAddDialog} onClose={hideAddDialog} />
     </Box>
   );
 };
