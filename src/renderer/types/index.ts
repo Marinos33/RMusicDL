@@ -4,7 +4,7 @@ export interface Playlist {
   owner: string;
   playlistName: string;
   lastUpdate: Date;
-  profile: Profile;
+  downloadingProfile: Profile;
 }
 
 export interface Profile {
