@@ -29,6 +29,21 @@ export class ProfileRepository {
     return profile;
   }
 
+  public async udpate(id: number, outputExtension: string, outputPath: string): Promise<DownloadingProfile> {
+    if (this.ormRepository === undefined) await this.init();
+
+    /* await this.ormRepository.update(id, { outputExtension, outputPath });
+    const updatedProfile = this.ormRepository.findOne(id);*/
+    const updatedProfile = await this.ormRepository.save({
+      id,
+      outputExtension,
+      outputPath
+    });
+
+    this.connection.close();
+    return updatedProfile;
+  }
+
   public async delete(id: number): Promise<void> {
     if (this.ormRepository === undefined) await this.init();
     await this.ormRepository.delete(id);

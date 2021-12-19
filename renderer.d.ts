@@ -1,5 +1,4 @@
 export interface IElectronAPI {
-  callTest: () => Promise<string>;
   getInfoPlaylist: (playlist: string) => Promise<YtResponse>;
   getAllPlaylists: () => Promise<Playlist[]>;
   getPlaylist: (id: number) => Promise<Playlist>;
@@ -14,6 +13,7 @@ export interface IElectronAPI {
   removePlaylist: (id: number) => Promise<void>;
   selectFolder: () => Promise<string>;
   downloadPlaylist: (id: number) => Promise<void>;
+  updateProfile: (id: number, outputExtension: string, outputPath: string) => Promise<void>;
 }
 
 declare global {

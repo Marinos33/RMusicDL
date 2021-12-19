@@ -50,6 +50,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
     );
     return res;
   },
+  updateProfile: async (id: number, outputExtension: string, outputPath: string): Promise<void> => {
+    await ipcRenderer.invoke('update-profile', id, outputExtension, outputPath);
+  },
   refreshPlaylist: async (id: number): Promise<void> => {
     await ipcRenderer.invoke('refresh-playlist', id);
   },

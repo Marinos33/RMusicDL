@@ -25,7 +25,6 @@ const SideBar: React.FC = () => {
   const { height, width } = useWindowDimensions();
   const playlist = useSelector<RootState, Playlist>((state) => state.playlist.selectedPlaylist);
   const dispatch = useDispatch();
-  console.log(playlist);
 
   const styles = {
     bmBurgerButton: {
@@ -96,7 +95,13 @@ const SideBar: React.FC = () => {
         }}
         validationSchema={validationSchema}
         onSubmit={async (values, { setSubmitting, setFieldError, resetForm }) => {
-          console.log(values);
+          if (
+            values.folderpath !== playlist.downloadingProfile.outputPath ||
+            values.extension !== playlist.downloadingProfile.outputExtension
+          ) {
+            await window.electronAPI.updateProfile(playlist.id, values.extension, values.folderpath);
+            setSubmitting(false);
+          }
         }}
       >
         {({ handleChange, setFieldValue, submitForm, values, resetForm }) => (

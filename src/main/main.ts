@@ -181,3 +181,21 @@ ipcMain.handle('select_folder', async (event): Promise<string> => {
   });
   return path.filePaths[0];
 });
+
+ipcMain.handle(
+  'update-profile',
+  async (event, playlistId: number, outputExtension: string, outputPath: string): Promise<void> => {
+    try {
+      const profileRepository = new ProfileRepository();
+      const playlistRepository = new PlaylistRepository();
+
+      const playlist = await playlistRepository.getById(playlistId);
+
+      // const profile = await profileRepository.udpate(playlist.profileId, outputExtension, outputPath);
+      await profileRepository.udpate(playlist.profileId, outputExtension, outputPath);
+    } catch (e: any) {
+      console.log(e.message);
+      return null;
+    }
+  }
+);
