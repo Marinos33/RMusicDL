@@ -9,9 +9,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
 import {
   addToDownloadingList,
-  addToSelectedPlaylist,
+  addToSelectedPlaylists,
   fetchPlaylists,
-  removeFromDownloadingList
+  removeFromDownloadingList,
+  setPlaylist,
+  setSelectedPlaylist
 } from '@src/renderer/redux/playlist/actionCreators';
 import { RootState } from '@src/renderer/redux/reducers/rootReducer';
 
@@ -90,14 +92,14 @@ export const PlaylistsGrid: React.FC = () => {
             columns={columns}
             checkboxSelection
             hideFooter
-            onRowClick={async (item) => console.log(item.row)}
+            onRowClick={async (item) => dispatch(setPlaylist(item.row.id))}
             disableSelectionOnClick
             onSelectionModelChange={(ids) => {
               const selectedIds = _.intersection(
                 _.flatMap(playlists, (playlist) => playlist.id),
                 ids
               );
-              dispatch(addToSelectedPlaylist(selectedIds as Array<number>));
+              dispatch(addToSelectedPlaylists(selectedIds as Array<number>));
             }}
           />
         </div>

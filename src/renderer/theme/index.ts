@@ -130,6 +130,10 @@ const themesOptions: Record<string, ThemeOptions> = {
         contrastText: '#fffef5',
         main: '#a1a1a1'
       },
+      secondary: {
+        main: '#253047',
+        contrastText: '#ffffff'
+      },
       success: {
         contrastText: '#ffffff',
         main: '#4caf50'
@@ -176,6 +180,10 @@ const themesOptions: Record<string, ThemeOptions> = {
         contrastText: '#ffffff',
         main: '#688eff'
       },
+      secondary: {
+        main: '#253047',
+        contrastText: '#ffffff'
+      },
       success: {
         contrastText: '#ffffff',
         main: '#4caf50'
@@ -221,6 +229,10 @@ const themesOptions: Record<string, ThemeOptions> = {
       primary: {
         contrastText: '#000000',
         main: '#f1f1f1'
+      },
+      secondary: {
+        main: '#253047',
+        contrastText: '#ffffff'
       },
       success: {
         contrastText: '#ffffff',

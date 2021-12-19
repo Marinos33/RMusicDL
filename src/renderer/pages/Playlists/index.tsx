@@ -4,6 +4,7 @@ import { default as PlaylistsGrid } from '@src/renderer/components/playlists/Dat
 import { Box, Container } from '@mui/material';
 import Header from '@src/renderer/components/Header';
 import Footer from '@src/renderer/components/Footer';
+import SideBar from '@src/renderer/components/playlists/SideBar';
 
 const PlaylistsPage: React.FC = () => {
   return (
@@ -11,7 +12,8 @@ const PlaylistsPage: React.FC = () => {
       <Container maxWidth={false} sx={{ overflow: 'hidden' }}>
         <Header />
         <Box sx={{ pt: 8, pb: 8, mt: 0.5 }}>
-          <PlaylistsGrid />
+          <SideBar />
+          {<PlaylistsGrid />}
         </Box>
         <Footer />
       </Container>

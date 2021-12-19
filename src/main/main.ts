@@ -118,6 +118,17 @@ ipcMain.handle('get-playlists', async (event): Promise<Playlist[]> => {
   }
 });
 
+ipcMain.handle('get-playlist', async (event, id: number): Promise<Playlist> => {
+  try {
+    const repository = new PlaylistRepository();
+    const playlist = await repository.getById(id);
+    return playlist;
+  } catch (e: any) {
+    console.log(e.message);
+    return null;
+  }
+});
+
 ipcMain.handle(
   'create-playlist',
   async (

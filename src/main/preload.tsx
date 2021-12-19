@@ -21,17 +21,16 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 contextBridge.exposeInMainWorld('electronAPI', {
-  //exemple call main process function trough isolation context
-  callTest: async (): Promise<string> => {
-    const res: string = await ipcRenderer.invoke('request-mainprocess-action');
-    return res;
-  },
   getInfoPlaylist: async (playlist: string): Promise<YtResponse> => {
     const res: YtResponse = await ipcRenderer.invoke('get-info-playlist', playlist);
     return res;
   },
   getAllPlaylists: async (): Promise<Playlist[]> => {
     const res: Playlist[] = await ipcRenderer.invoke('get-playlists');
+    return res;
+  },
+  getPlaylist: async (id: number): Promise<Playlist> => {
+    const res: Playlist = await ipcRenderer.invoke('get-playlist', id);
     return res;
   },
   createPlaylist: async (

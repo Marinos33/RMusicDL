@@ -2,6 +2,7 @@ export interface IElectronAPI {
   callTest: () => Promise<string>;
   getInfoPlaylist: (playlist: string) => Promise<YtResponse>;
   getAllPlaylists: () => Promise<Playlist[]>;
+  getPlaylist: (id: number) => Promise<Playlist>;
   createPlaylist: (
     url: string,
     owner: string,

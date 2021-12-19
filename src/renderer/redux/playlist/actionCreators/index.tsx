@@ -43,18 +43,32 @@ export const removeFromDownloadingList =
     dispatch(setDownlodingPlaylist(_.filter(getState().playlist.downloadingPlaylists, (v) => v !== id)));
   };
 
-export const setSelectedPlaylist = (playlistsId: number[]): any => {
-  return { type: actions.SET_SELECTED_PLAYLIST, payload: _.uniq(playlistsId) };
+export const setSelectedPlaylists = (playlistsId: number[]): any => {
+  return { type: actions.SET_SELECTED_PLAYLISTS, payload: _.uniq(playlistsId) };
 };
 
-export const addToSelectedPlaylist =
+export const addToSelectedPlaylists =
   (id: number[]) =>
   async (dispatch: any, getState: any): Promise<void> => {
-    dispatch(setSelectedPlaylist(id));
+    dispatch(setSelectedPlaylists(id));
   };
 
-export const removeFromSelectedPlaylist =
+export const removeFromSelectedPlaylists =
   (id: number) =>
   async (dispatch: any, getState: any): Promise<void> => {
-    dispatch(setSelectedPlaylist(_.filter(getState().playlist.selectedPlaylistsId, (v) => v !== id)));
+    dispatch(setSelectedPlaylists(_.filter(getState().playlist.selectedPlaylistsId, (v) => v !== id)));
+  };
+
+export const setSelectedPlaylist = (playlist: Playlist | null): any => {
+  return { type: actions.SET_SELECTED_PLAYLIST, payload: playlist };
+};
+
+export const setPlaylist =
+  (playlistId?: number) =>
+  async (dispatch: any, getState: any): Promise<void> => {
+    let playlist = null;
+    if (playlistId !== undefined) {
+      playlist = await window.electronAPI.getPlaylist(playlistId);
+    }
+    dispatch(setSelectedPlaylist(playlist));
   };
