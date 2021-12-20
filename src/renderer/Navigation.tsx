@@ -1,5 +1,6 @@
 import React from 'react';
 import Playlists from './pages/Playlists';
+import SettingsPage from './pages/Settings';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 
 const Navigation: React.FC = () => {
@@ -7,7 +8,7 @@ const Navigation: React.FC = () => {
     <Router>
       <Switch>
         <Route path="/" component={Playlists} exact />
-        {/*<Route path="/playlist" component={PlaylistsPageTest} exact />*/}
+        <Route path="/settings" component={SettingsPage} exact />
       </Switch>
     </Router>
   );

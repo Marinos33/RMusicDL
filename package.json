@@ -37,6 +37,7 @@
     "@electron-forge/maker-zip": "6.0.0-beta.61",
     "@electron-forge/plugin-webpack": "6.0.0-beta.61",
     "@marshallofsound/webpack-asset-relocator-loader": "^0.5.0",
+    "@trendmicro/react-sidenav": "^0.5.0",
     "@types/better-sqlite3": "^7.4.1",
     "@types/lodash": "^4.14.177",
     "@types/node": "^16.11.10",

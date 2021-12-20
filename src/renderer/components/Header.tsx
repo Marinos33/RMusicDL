@@ -5,20 +5,18 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Tooltip, useTheme, Box, IconButton } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
-import CustomDialog from './common/CustomDialog';
 import { useState } from 'react';
-import AddForm from './playlists/form/DialogFormAdd';
-import { FormikProps } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../redux/reducers/rootReducer';
 import { fetchPlaylists, removePlaylist } from '../redux/playlist/actionCreators';
 import { setGeneralLoading } from '../redux/ui/actionCreators';
 import DialogFormAdd from './playlists/form/DialogFormAdd';
+import { useHistory } from 'react-router-dom';
 
 const Header: React.FC = () => {
   const [visibleAddDialog, setVisibleAddDialog] = useState<boolean>(false);
   const theme = useTheme();
-  const formRef = React.useRef<FormikProps<any>>(null);
+  const history = useHistory();
   const selectedPlaylistsId = useSelector<RootState, number[]>((state) => state.playlist.selectedPlaylistsId);
   const dispatch = useDispatch();
 
@@ -53,7 +51,7 @@ const Header: React.FC = () => {
           </Box>
           <Box>
             <Tooltip title="Settings">
-              <IconButton>
+              <IconButton onClick={() => history.push('settings')}>
                 <SettingsIcon sx={{ fontSize: 30, color: theme.palette.icon.primary }} />
               </IconButton>
             </Tooltip>

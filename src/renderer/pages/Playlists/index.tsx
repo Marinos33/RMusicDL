@@ -8,16 +8,14 @@ import SideBar from '@src/renderer/components/playlists/SideBar';
 
 const PlaylistsPage: React.FC = () => {
   return (
-    <>
-      <Container maxWidth={false} sx={{ overflow: 'hidden' }}>
-        <Header />
-        <Box sx={{ pt: 8, pb: 8, mt: 0.5 }}>
-          <SideBar />
-          {<PlaylistsGrid />}
-        </Box>
-        <Footer />
-      </Container>
-    </>
+    <Container maxWidth={false} sx={{ overflow: 'hidden' }}>
+      <Header />
+      <Box sx={{ pt: 8, pb: 8, mt: 0.5 }}>
+        <SideBar />
+        <PlaylistsGrid />
+      </Box>
+      <Footer />
+    </Container>
   );
 };
 
