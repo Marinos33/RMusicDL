@@ -7,13 +7,20 @@ import { Tooltip, useTheme, Box, IconButton, Divider } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../redux/reducers/rootReducer';
-import { fetchPlaylists, removePlaylist } from '../redux/playlist/actionCreators';
-import { setGeneralLoading } from '../redux/ui/actionCreators';
-import DialogFormAdd from './playlists/form/DialogFormAdd';
+import { RootState } from '../../redux/reducers/rootReducer';
+import { fetchPlaylists, removePlaylist } from '../../redux/playlist/actionCreators';
+import { setGeneralLoading } from '../../redux/ui/actionCreators';
+import DialogFormAdd from './form/DialogFormAdd';
 import { useHistory } from 'react-router-dom';
+import {
+  GridToolbarContainer,
+  GridToolbarColumnsButton,
+  GridToolbarFilterButton,
+  GridToolbarDensitySelector,
+  GridToolbarExport
+} from '@mui/x-data-grid';
 
-const Header: React.FC = () => {
+const CustomToolbar = () => {
   const [visibleAddDialog, setVisibleAddDialog] = useState<boolean>(false);
   const theme = useTheme();
   const selectedPlaylistsId = useSelector<RootState, number[]>((state) => state.playlist.selectedPlaylistsId);
@@ -33,6 +40,31 @@ const Header: React.FC = () => {
   };
 
   return (
+    <Box>
+      <Toolbar variant="dense">
+        <Tooltip title="Add a playlist">
+          <IconButton onClick={showAddDialog}>
+            <AddCircleIcon sx={{ fontSize: 28, color: theme.palette.icon.primary }} />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Remove selected playlists">
+          <IconButton onClick={removePlaylists} sx={{ ml: 2 }}>
+            <DeleteForeverIcon sx={{ fontSize: 30, color: theme.palette.icon.primary }} />
+          </IconButton>
+        </Tooltip>
+      </Toolbar>
+      <GridToolbarContainer>
+        <Box>
+          <GridToolbarColumnsButton />
+          <GridToolbarFilterButton />
+        </Box>
+      </GridToolbarContainer>
+      <Divider sx={{ border: 1, borderColor: theme.palette.divider }} />
+      <DialogFormAdd open={visibleAddDialog} onClose={hideAddDialog} />
+    </Box>
+  );
+
+  /*return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="sticky">
         <Toolbar variant="dense">
@@ -50,10 +82,8 @@ const Header: React.FC = () => {
           </Box>
         </Toolbar>
       </AppBar>
-      <Divider sx={{ border: 1, borderColor: theme.palette.divider }} />
-      <DialogFormAdd open={visibleAddDialog} onClose={hideAddDialog} />
     </Box>
-  );
+  );*/
 };
 
-export default Header;
+export default CustomToolbar;

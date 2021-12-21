@@ -7,7 +7,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 import { RootState } from '@src/renderer/redux/reducers/rootReducer';
 import { useSelector } from 'react-redux';
 
-const Footer: React.FC = () => {
+const GridFooter = () => {
   const isResourcesLoaded = useSelector<RootState, any>((state) => state.ui.isResourcesLoaded);
   const theme = useTheme();
 
@@ -27,7 +27,7 @@ const Footer: React.FC = () => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed" sx={{ top: 'auto', bottom: 0 }}>
+      <AppBar position="sticky" sx={{ top: 'auto', bottom: 0 }}>
         <Divider sx={{ border: 1, borderColor: theme.palette.divider }} />
         <Toolbar variant="dense">
           <Box display="flex" flexGrow={1}>
@@ -42,4 +42,4 @@ const Footer: React.FC = () => {
   );
 };
 
-export default Footer;
+export default GridFooter;

@@ -15,6 +15,8 @@ import {
   setPlaylist
 } from '@src/renderer/redux/playlist/actionCreators';
 import { RootState } from '@src/renderer/redux/reducers/rootReducer';
+import GridFooter from './GridFooter';
+import CustomToolbar from './CustomToolbar';
 
 export const PlaylistsGrid: React.FC = () => {
   const { height, width } = useWindowDimensions();
@@ -80,15 +82,15 @@ export const PlaylistsGrid: React.FC = () => {
   ];
 
   return (
-    <Box sx={{ height: height - 48, width: width, mt: 6, backgroundColor: theme.palette.background.paper }}>
+    <Box sx={{ height: height, width: width - 65, backgroundColor: theme.palette.background.paper }}>
       <DataGrid
         components={{
-          Toolbar: GridToolbar
+          Toolbar: CustomToolbar,
+          Footer: GridFooter
         }}
         rows={playlists}
         columns={columns}
         checkboxSelection
-        hideFooter
         onRowClick={async (item) => dispatch(setPlaylist(item.row.id))}
         disableSelectionOnClick
         onSelectionModelChange={(ids) => {
