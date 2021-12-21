@@ -8,7 +8,7 @@ const Navigation: React.FC = () => {
   return (
     <Router>
       <div className="App" id="outer-container">
-        {/*<RouteSideBar />*/}
+        <RouteSideBar />
         <Switch>
           <div id="page-wrap">
             <Route path="/" component={Playlists} exact />

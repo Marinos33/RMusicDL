@@ -16,7 +16,6 @@ import { useHistory } from 'react-router-dom';
 const Header: React.FC = () => {
   const [visibleAddDialog, setVisibleAddDialog] = useState<boolean>(false);
   const theme = useTheme();
-  const history = useHistory();
   const selectedPlaylistsId = useSelector<RootState, number[]>((state) => state.playlist.selectedPlaylistsId);
   const dispatch = useDispatch();
 
@@ -35,7 +34,7 @@ const Header: React.FC = () => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed">
+      <AppBar position="sticky">
         <Toolbar variant="dense">
           <Box flexGrow={1}>
             <Tooltip title="Add a playlist">

@@ -12,8 +12,7 @@ import {
   addToSelectedPlaylists,
   fetchPlaylists,
   removeFromDownloadingList,
-  setPlaylist,
-  setSelectedPlaylist
+  setPlaylist
 } from '@src/renderer/redux/playlist/actionCreators';
 import { RootState } from '@src/renderer/redux/reducers/rootReducer';
 
