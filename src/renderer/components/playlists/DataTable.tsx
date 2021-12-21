@@ -1,6 +1,6 @@
 import * as React from 'react';
 // eslint-disable-next-line import/named
-import { DataGrid, GridApi, GridCellValue, GridColDef, GridToolbar } from '@mui/x-data-grid';
+import { DataGrid, GridApi, GridCellValue, GridColDef } from '@mui/x-data-grid';
 import { Playlist } from '@src/renderer/types';
 import useWindowDimensions from '@src/renderer/hooks/useWindowDimensions';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
@@ -24,6 +24,7 @@ export const PlaylistsGrid: React.FC = () => {
   const dispatch = useDispatch();
   const playlists = useSelector<RootState, Playlist[]>((state) => state.playlist.playlists);
   const downloadingList = useSelector<RootState, number[]>((state) => state.playlist.downloadingPlaylists);
+  const collapsed = useSelector<RootState, boolean>((state) => state.ui.IsSideBarCollapsed);
 
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', type: 'number', headerAlign: 'center', flex: 0.2, hide: true },
@@ -82,7 +83,13 @@ export const PlaylistsGrid: React.FC = () => {
   ];
 
   return (
-    <Box sx={{ height: height, width: width - 65, backgroundColor: theme.palette.background.paper }}>
+    <Box
+      sx={{
+        height: height,
+        width: collapsed ? width : width - 190,
+        backgroundColor: theme.palette.background.paper
+      }}
+    >
       <DataGrid
         components={{
           Toolbar: CustomToolbar,

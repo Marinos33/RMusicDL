@@ -6,3 +6,7 @@ export const setGeneralLoading = (isResourcesLoaded: boolean, message?: string):
   }
   return { type: actions.SET_GENERAL_LOADING, payload: { value: isResourcesLoaded, message: message } };
 };
+
+export const setSideBarCollapsed = (isSideBarCollapsed: boolean): any => {
+  return { type: actions.SET_SIDEBAR_COLLAPSED, payload: isSideBarCollapsed };
+};

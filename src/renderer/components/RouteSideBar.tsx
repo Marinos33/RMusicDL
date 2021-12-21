@@ -1,14 +1,20 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { push as Menu } from 'react-burger-menu';
-import { useTheme } from '@mui/material';
+import { IconButton, useTheme } from '@mui/material';
 import useWindowDimensions from '../hooks/useWindowDimensions';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
+import MenuIcon from '@mui/icons-material/Menu';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../redux/reducers/rootReducer';
+import { setSideBarCollapsed } from '../redux/ui/actionCreators';
 
 const RouteSideBar: FC = () => {
   const theme = useTheme();
   const { height, width } = useWindowDimensions();
+  const collapsed = useSelector<RootState, boolean>((state) => state.ui.IsSideBarCollapsed);
+  const dispatch = useDispatch();
 
   const styles = {
     bmBurgerButton: {
@@ -29,7 +35,7 @@ const RouteSideBar: FC = () => {
       width: '24px'
     },
     bmCross: {
-      background: theme.palette.primary.main
+      background: 'transparent'
     },
     bmMenuWrap: {
       position: 'fixed',
@@ -58,19 +64,28 @@ const RouteSideBar: FC = () => {
 
   return (
     <Menu
+      isOpen
+      onClose={() => null}
       pageWrapId={'page-wrap'}
       outerContainerId={'outer-container'}
       styles={styles}
-      width={height > width ? '30%' : '10%'}
+      width={height > width ? (collapsed ? '10%' : '20%') : collapsed ? '5%' : '10%'}
       noOverlay
+      disableCloseOnEsc
+      disableOverlayClick
+      disableAutoFocus
+      customBurgerIcon={false}
     >
+      <IconButton onClick={() => dispatch(setSideBarCollapsed(!collapsed))}>
+        <MenuIcon />
+      </IconButton>
       <Link className="menu-item" to="/">
         <LibraryMusicIcon />
-        Playlists
+        {collapsed === false && 'Playlists'}
       </Link>
       <Link className="menu-item" to="/Settings">
         <SettingsIcon />
-        Settings
+        {collapsed === false && 'Settings'}
       </Link>
     </Menu>
   );
