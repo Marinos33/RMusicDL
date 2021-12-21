@@ -49,13 +49,6 @@ const Header: React.FC = () => {
               </IconButton>
             </Tooltip>
           </Box>
-          <Box>
-            <Tooltip title="Settings">
-              <IconButton onClick={() => history.push('settings')}>
-                <SettingsIcon sx={{ fontSize: 30, color: theme.palette.icon.primary }} />
-              </IconButton>
-            </Tooltip>
-          </Box>
         </Toolbar>
       </AppBar>
       <DialogFormAdd open={visibleAddDialog} onClose={hideAddDialog} />

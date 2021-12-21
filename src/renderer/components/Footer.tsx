@@ -2,13 +2,14 @@ import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import { Typography } from '@mui/material';
+import { Divider, Typography, useTheme } from '@mui/material';
 import LinearProgress from '@mui/material/LinearProgress';
 import { RootState } from '@src/renderer/redux/reducers/rootReducer';
 import { useSelector } from 'react-redux';
 
 const Footer: React.FC = () => {
   const isResourcesLoaded = useSelector<RootState, any>((state) => state.ui.isResourcesLoaded);
+  const theme = useTheme();
 
   const ProgressBar = React.useCallback(() => {
     if (!isResourcesLoaded.value) {
@@ -27,9 +28,12 @@ const Footer: React.FC = () => {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="fixed" sx={{ top: 'auto', bottom: 0 }}>
+        <Divider sx={{ border: 1, borderColor: theme.palette.text.primary }} />
         <Toolbar variant="dense">
           <Box display="flex" flexGrow={1}>
-            <div></div>
+            <div>
+              <p>ReactDL</p>
+            </div>
           </Box>
           <ProgressBar />
         </Toolbar>

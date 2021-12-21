@@ -4,7 +4,7 @@ import { DataGrid, GridApi, GridCellValue, GridColDef, GridToolbar } from '@mui/
 import { Playlist } from '@src/renderer/types';
 import useWindowDimensions from '@src/renderer/hooks/useWindowDimensions';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
-import { CircularProgress, IconButton, useTheme } from '@mui/material';
+import { Box, CircularProgress, IconButton, useTheme } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
 import {
@@ -81,30 +81,26 @@ export const PlaylistsGrid: React.FC = () => {
   ];
 
   return (
-    <div style={{ height: height < width ? height / 1.15 : height / 1.075, width: '100%' }}>
-      <div style={{ display: 'flex', height: '100%' }}>
-        <div style={{ flexGrow: 1, backgroundColor: theme.palette.background.paper }}>
-          <DataGrid
-            components={{
-              Toolbar: GridToolbar
-            }}
-            rows={playlists}
-            columns={columns}
-            checkboxSelection
-            hideFooter
-            onRowClick={async (item) => dispatch(setPlaylist(item.row.id))}
-            disableSelectionOnClick
-            onSelectionModelChange={(ids) => {
-              const selectedIds = _.intersection(
-                _.flatMap(playlists, (playlist) => playlist.id),
-                ids
-              );
-              dispatch(addToSelectedPlaylists(selectedIds as Array<number>));
-            }}
-          />
-        </div>
-      </div>
-    </div>
+    <Box sx={{ height: height - 48, width: width, backgroundColor: theme.palette.background.paper }}>
+      <DataGrid
+        components={{
+          Toolbar: GridToolbar
+        }}
+        rows={playlists}
+        columns={columns}
+        checkboxSelection
+        hideFooter
+        onRowClick={async (item) => dispatch(setPlaylist(item.row.id))}
+        disableSelectionOnClick
+        onSelectionModelChange={(ids) => {
+          const selectedIds = _.intersection(
+            _.flatMap(playlists, (playlist) => playlist.id),
+            ids
+          );
+          dispatch(addToSelectedPlaylists(selectedIds as Array<number>));
+        }}
+      />
+    </Box>
   );
 };
 
