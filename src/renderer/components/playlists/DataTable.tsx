@@ -81,7 +81,7 @@ export const PlaylistsGrid: React.FC = () => {
   ];
 
   return (
-    <Box sx={{ height: height - 48, width: width, backgroundColor: theme.palette.background.paper }}>
+    <Box sx={{ height: height - 48, width: width, mt: 6, backgroundColor: theme.palette.background.paper }}>
       <DataGrid
         components={{
           Toolbar: GridToolbar

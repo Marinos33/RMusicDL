@@ -28,7 +28,7 @@ const Footer: React.FC = () => {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="fixed" sx={{ top: 'auto', bottom: 0 }}>
-        <Divider sx={{ border: 1, borderColor: theme.palette.text.primary }} />
+        <Divider sx={{ border: 1, borderColor: theme.palette.divider }} />
         <Toolbar variant="dense">
           <Box display="flex" flexGrow={1}>
             <div>

@@ -9,9 +9,8 @@ import SideBar from '@src/renderer/components/playlists/SideBar';
 const PlaylistsPage: React.FC = () => {
   return (
     <Box>
-      {/*<Header />*/}
-
-      {/*<SideBar />*/}
+      <Header />
+      <SideBar />
       <PlaylistsGrid />
       <Footer />
     </Box>

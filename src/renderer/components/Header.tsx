@@ -3,7 +3,7 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { Tooltip, useTheme, Box, IconButton } from '@mui/material';
+import { Tooltip, useTheme, Box, IconButton, Divider } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -51,6 +51,7 @@ const Header: React.FC = () => {
           </Box>
         </Toolbar>
       </AppBar>
+      <Divider sx={{ border: 1, borderColor: theme.palette.divider }} />
       <DialogFormAdd open={visibleAddDialog} onClose={hideAddDialog} />
     </Box>
   );
