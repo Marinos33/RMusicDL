@@ -27,7 +27,7 @@ const GridFooter: React.FC = () => {
 
   return (
     <Box>
-      <AppBar position="sticky" sx={{ top: 'auto', bottom: 0 }}>
+      <AppBar position="sticky">
         <Divider sx={{ border: 1, borderColor: theme.palette.divider }} />
         <Toolbar variant="dense">
           <Box display="flex" flexGrow={1}>

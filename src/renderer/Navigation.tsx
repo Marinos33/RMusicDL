@@ -7,7 +7,7 @@ import RouteSideBar from './components/RouteSideBar';
 const Navigation: React.FC = () => {
   return (
     <Router>
-      <div className="App" id="outer-container">
+      <div id="outer-container">
         <RouteSideBar />
         <Switch>
           <div id="page-wrap">
