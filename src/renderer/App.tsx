@@ -6,12 +6,15 @@ import { createCustomTheme } from './theme';
 import useLoadedResources from './hooks/useLoadedResources';
 import { useDispatch } from 'react-redux';
 import { setGeneralLoading } from './redux/ui/actionCreators';
+import useSettings from './hooks/useSettings';
 
 const App: React.FC = () => {
   const isLoadingComplete = useLoadedResources();
   const dispatch = useDispatch();
+  const { settings, saveSettings } = useSettings();
+
   const theme = createCustomTheme({
-    theme: 'BLUE'
+    theme: settings.theme
   });
 
   useEffect(() => {
