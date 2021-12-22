@@ -1,22 +1,65 @@
 import React, { FC, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect, useHistory } from 'react-router-dom';
 import { push as Menu } from 'react-burger-menu';
-import { IconButton, useTheme } from '@mui/material';
-import useWindowDimensions from '../hooks/useWindowDimensions';
+import { IconButton, Typography, useTheme } from '@mui/material';
+import useWindowDimensions from '../../../hooks/useWindowDimensions';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../redux/reducers/rootReducer';
-import { setSideBarCollapsed } from '../redux/ui/actionCreators';
+import { RootState } from '../../../redux/reducers/rootReducer';
+import { setSideBarCollapsed } from '../../../redux/ui/actionCreators';
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from './Styled/StyledSideNav';
+
+import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 
 const RouteSideBar: FC = () => {
   const theme = useTheme();
   const { height, width } = useWindowDimensions();
   const collapsed = useSelector<RootState, boolean>((state) => state.ui.IsSideBarCollapsed);
   const dispatch = useDispatch();
+  const history = useHistory();
 
-  const styles = {
+  return (
+    <SideNav
+      style={{ backgroundColor: theme.palette.background.paper, borderColor: theme.palette.divider }}
+      onSelect={(selected: string) => {
+        const to = '/' + selected;
+        if (location.pathname !== to) {
+          history.push(to);
+        }
+      }}
+    >
+      <SideNav.Toggle />
+      <SideNav.Nav defaultSelected="playlists">
+        <NavItem eventKey="playlists">
+          <NavIcon>
+            <LibraryMusicIcon sx={{ mb: 0.3 }} />
+          </NavIcon>
+          <NavText>
+            <Typography variant="h6" color="text.primary">
+              Playlists
+            </Typography>
+          </NavText>
+        </NavItem>
+        <NavItem eventKey="settings">
+          <NavIcon>
+            <SettingsIcon sx={{ mb: 0.4 }} />
+          </NavIcon>
+          <NavText>
+            <Typography variant="h6" color="text.primary">
+              Settings
+            </Typography>
+          </NavText>
+        </NavItem>
+      </SideNav.Nav>
+    </SideNav>
+  );
+
+  /*const styles = {
     bmBurgerButton: {
       position: 'fixed',
       width: '25px',
@@ -88,7 +131,7 @@ const RouteSideBar: FC = () => {
         {collapsed === false && 'Settings'}
       </Link>
     </Menu>
-  );
+  );*/
 };
 
 export default RouteSideBar;

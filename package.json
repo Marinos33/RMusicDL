@@ -46,6 +46,7 @@
     "@types/react-burger-menu": "^2.8.2",
     "@types/react-dom": "^17.0.11",
     "@types/react-router-dom": "^5.3.2",
+    "@types/styled-components": "^5.1.18",
     "@types/webpack-env": "^1.16.2",
     "@typescript-eslint/eslint-plugin": "^4.31.2",
     "@typescript-eslint/parser": "^4.31.2",
@@ -83,6 +84,7 @@
     "better-sqlite3": "^7.4.5",
     "date-fns": "^2.27.0",
     "electron-squirrel-startup": "^1.0.0",
+    "ensure-array": "^1.0.0",
     "ffmpeg-static-electron": "^2.0.3",
     "formik": "^2.2.9",
     "formik-mui": "^4.0.0-alpha.3",
@@ -94,6 +96,7 @@
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.1",
     "reflect-metadata": "^0.1.13",
+    "styled-components": "^5.3.3",
     "typeorm": "^0.2.41",
     "yt-dlp-exec": "^1.0.2",
     "yup": "^0.32.11"

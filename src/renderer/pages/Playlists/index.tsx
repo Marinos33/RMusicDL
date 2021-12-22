@@ -6,7 +6,7 @@ import SideBar from '@src/renderer/components/playlists/SideBar';
 
 const PlaylistsPage: React.FC = () => {
   return (
-    <Box>
+    <Box sx={{ ml: 8.1 }}>
       <SideBar />
       <PlaylistsGrid />
     </Box>

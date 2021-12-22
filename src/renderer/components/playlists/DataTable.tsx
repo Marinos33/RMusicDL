@@ -86,7 +86,7 @@ export const PlaylistsGrid: React.FC = () => {
     <Box
       sx={{
         height: height,
-        width: collapsed ? width - 190 : width - 190,
+        width: width - 65,
         backgroundColor: theme.palette.background.paper
       }}
     >
