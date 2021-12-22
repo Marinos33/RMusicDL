@@ -32,6 +32,9 @@ const RouteSideBar: FC = () => {
           history.push(to);
         }
       }}
+      onToggle={(toggled: boolean) => {
+        dispatch(setSideBarCollapsed(!toggled));
+      }}
     >
       <SideNav.Toggle />
       <SideNav.Nav defaultSelected="playlists">

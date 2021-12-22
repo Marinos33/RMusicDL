@@ -81,12 +81,12 @@ export const PlaylistsGrid: React.FC = () => {
       }
     }
   ];
-
+  console.log(collapsed);
   return (
     <Box
       sx={{
         height: height,
-        width: width - 65,
+        width: collapsed ? width - 65 : width - 241,
         backgroundColor: theme.palette.background.paper
       }}
     >

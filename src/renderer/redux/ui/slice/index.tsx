@@ -2,7 +2,7 @@ import actions from '../actions';
 
 class UiState {
   isResourcesLoaded = { value: false, message: '' };
-  IsSideBarCollapsed = false;
+  IsSideBarCollapsed = true;
 }
 
 export default function reducer(state = new UiState(), action: any): UiState {
