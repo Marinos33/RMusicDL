@@ -14,6 +14,8 @@ export interface IElectronAPI {
   selectFolder: () => Promise<string>;
   downloadPlaylist: (id: number) => Promise<void>;
   updateProfile: (id: number, outputExtension: string, outputPath: string) => Promise<void>;
+  updateSettings: (setting: string, value: any) => Promise<any>;
+  getStoredSettings: (setting: string) => Promise<any>;
 }
 
 declare global {

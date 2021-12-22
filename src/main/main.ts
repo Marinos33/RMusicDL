@@ -5,6 +5,7 @@ import 'reflect-metadata';
 import { PlaylistRepository } from './Database/Repository/PlaylistRepository';
 import { Playlist } from './Database/Models/Playlist';
 import { ProfileRepository } from './Database/Repository/DownloadingProfileRepository';
+import Store from 'electron-store';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
@@ -67,7 +68,6 @@ app.on('activate', () => {
   }
 });
 
-// exemple youtubeDL
 ipcMain.handle('get-info-playlist', async (event, playlist: string): Promise<YtResponse> => {
   try {
     const info = await youtubedl(playlist, {
@@ -80,7 +80,6 @@ ipcMain.handle('get-info-playlist', async (event, playlist: string): Promise<YtR
   }
 });
 
-// exemple youtubeDL
 ipcMain.handle('download-playlist', async (event, id: number): Promise<void> => {
   try {
     const repository = new PlaylistRepository();
@@ -199,3 +198,20 @@ ipcMain.handle(
     }
   }
 );
+
+ipcMain.handle('update-settings', async (event, setting: string, value: any): Promise<any> => {
+  const store = new Store();
+
+  store.set('settings.' + setting, value);
+  return Promise.resolve<any>(setting);
+});
+
+ipcMain.handle('get-stored-settings', (event, setting: string): Promise<any> => {
+  const store = new Store();
+
+  if (setting !== 'settings') {
+    return Promise.resolve<string>(store.get('settings.' + setting) as any);
+  }
+
+  return Promise.resolve<string>(store.get(setting) as any);
+});

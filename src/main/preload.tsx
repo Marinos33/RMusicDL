@@ -64,5 +64,11 @@ contextBridge.exposeInMainWorld('electronAPI', {
   },
   downloadPlaylist: async (id: number): Promise<void> => {
     await ipcRenderer.invoke('download-playlist', id);
+  },
+  updateSettings: async (setting: string, value: any): Promise<any> => {
+    return await ipcRenderer.invoke('update-settings', setting, value);
+  },
+  getStoredSettings: async (setting: string): Promise<any> => {
+    return await ipcRenderer.invoke('get-stored-settings', setting);
   }
 });

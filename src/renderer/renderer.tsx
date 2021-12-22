@@ -4,6 +4,7 @@ import Application from './App';
 import { inDev } from '../utils/helpers';
 import store from './redux/store';
 import { Provider as StoreProvider } from 'react-redux';
+import { SettingsProvider } from './contexts/SettingsContext';
 
 // Say something
 console.log('[ReactDL] : Renderer execution started');
@@ -12,7 +13,9 @@ console.log('[ReactDL] : Renderer execution started');
 const app = (
   <StrictMode>
     <StoreProvider store={store}>
-      <Application />
+      <SettingsProvider>
+        <Application />
+      </SettingsProvider>
     </StoreProvider>
   </StrictMode>
 );
