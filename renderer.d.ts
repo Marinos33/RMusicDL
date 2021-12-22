@@ -31,12 +31,22 @@ declare module '@mui/material/styles' {
       primary: string;
       secondary: string;
     };
+    sideBar: {
+      backgroundColor: {
+        primary: string;
+      };
+    };
   }
 
   interface PaletteOptions {
     icon?: {
       primary?: string;
       secondary?: string;
+    };
+    sideBar?: {
+      backgroundColor?: {
+        primary?: string;
+      };
     };
   }
 }

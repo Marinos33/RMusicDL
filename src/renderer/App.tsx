@@ -11,7 +11,7 @@ import useSettings from './hooks/useSettings';
 const App: React.FC = () => {
   const isLoadingComplete = useLoadedResources();
   const dispatch = useDispatch();
-  const { settings, saveSettings } = useSettings();
+  const { settings } = useSettings();
 
   const theme = createCustomTheme({
     theme: settings.theme

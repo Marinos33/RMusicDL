@@ -9,10 +9,9 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../redux/reducers/rootReducer';
 import { setSideBarCollapsed } from '../../../redux/ui/actionCreators';
-
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from './Styled/StyledSideNav';
+import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
 
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 
@@ -25,7 +24,7 @@ const RouteSideBar: FC = () => {
 
   return (
     <SideNav
-      style={{ backgroundColor: theme.palette.background.paper, borderColor: theme.palette.divider }}
+      style={{ backgroundColor: theme.palette.sideBar.backgroundColor.primary, borderColor: theme.palette.divider }}
       onSelect={(selected: string) => {
         const to = '/' + selected;
         if (location.pathname !== to) {
@@ -39,8 +38,8 @@ const RouteSideBar: FC = () => {
       <SideNav.Toggle />
       <SideNav.Nav defaultSelected="playlists">
         <NavItem eventKey="playlists">
-          <NavIcon>
-            <LibraryMusicIcon sx={{ mb: 0.3 }} />
+          <NavIcon style={{ color: 'red' }}>
+            <LibraryMusicIcon sx={{ mb: 0.3, color: theme.palette.icon.primary }} />
           </NavIcon>
           <NavText>
             <Typography variant="h6" color="text.primary">
@@ -50,7 +49,7 @@ const RouteSideBar: FC = () => {
         </NavItem>
         <NavItem eventKey="settings">
           <NavIcon>
-            <SettingsIcon sx={{ mb: 0.4 }} />
+            <SettingsIcon sx={{ mb: 0.4, color: theme.palette.icon.primary }} />
           </NavIcon>
           <NavText>
             <Typography variant="h6" color="text.primary">

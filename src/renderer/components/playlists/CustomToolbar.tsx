@@ -31,7 +31,7 @@ const CustomToolbar = () => {
   };
 
   return (
-    <Box>
+    <Box style={{ backgroundColor: theme.palette.secondary.main }}>
       <Toolbar variant="dense">
         <Tooltip title="Add a playlist">
           <IconButton onClick={showAddDialog}>
@@ -46,8 +46,8 @@ const CustomToolbar = () => {
       </Toolbar>
       <GridToolbarContainer>
         <Box>
-          <GridToolbarColumnsButton />
-          <GridToolbarFilterButton />
+          <GridToolbarColumnsButton style={{ color: theme.palette.icon.primary }} />
+          <GridToolbarFilterButton style={{ color: theme.palette.icon.primary }} />
         </Box>
       </GridToolbarContainer>
       <Divider sx={{ border: 1, borderColor: theme.palette.divider }} />

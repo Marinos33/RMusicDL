@@ -119,7 +119,7 @@ const themesOptions: Record<string, ThemeOptions> = {
     palette: {
       background: {
         default: '#fffef5',
-        paper: '#ffffff'
+        paper: '#f5f0e4'
       },
       error: {
         contrastText: '#ffffff',
@@ -127,12 +127,12 @@ const themesOptions: Record<string, ThemeOptions> = {
       },
       mode: 'light',
       primary: {
-        contrastText: '#fffef5',
+        contrastText: '#0a0a0a',
         main: '#a1a1a1'
       },
       secondary: {
-        main: '#253047',
-        contrastText: '#ffffff'
+        main: '#dbd5c3',
+        contrastText: '#0a0a0a'
       },
       success: {
         contrastText: '#ffffff',
@@ -143,11 +143,16 @@ const themesOptions: Record<string, ThemeOptions> = {
         secondary: '#676767'
       },
       icon: {
-        primary: '#fffef5'
+        primary: '#0a0a0a'
       },
       warning: {
         contrastText: '#ffffff',
         main: '#ff9800'
+      },
+      sideBar: {
+        backgroundColor: {
+          primary: '#b8a163'
+        }
       }
     },
     shadows: lightShadows,
@@ -198,6 +203,11 @@ const themesOptions: Record<string, ThemeOptions> = {
       warning: {
         contrastText: '#ffffff',
         main: '#ff9800'
+      },
+      sideBar: {
+        backgroundColor: {
+          primary: '#263566'
+        }
       }
     },
     shadows: darkShadows,
@@ -231,7 +241,7 @@ const themesOptions: Record<string, ThemeOptions> = {
         main: '#f1f1f1'
       },
       secondary: {
-        main: '#253047',
+        main: '#0f0f0f',
         contrastText: '#ffffff'
       },
       success: {
@@ -248,6 +258,11 @@ const themesOptions: Record<string, ThemeOptions> = {
       warning: {
         contrastText: '#ffffff',
         main: '#ff9800'
+      },
+      sideBar: {
+        backgroundColor: {
+          primary: '#121212'
+        }
       }
     },
     shadows: darkShadows,

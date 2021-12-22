@@ -1,5 +1,4 @@
 import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import { Divider, Typography, useTheme } from '@mui/material';
@@ -26,18 +25,16 @@ const GridFooter: React.FC = () => {
   }, [isResourcesLoaded]);
 
   return (
-    <Box>
-      <AppBar position="sticky">
-        <Divider sx={{ border: 1, borderColor: theme.palette.divider }} />
-        <Toolbar variant="dense">
-          <Box display="flex" flexGrow={1}>
-            <div>
-              <p>ReactDL</p>
-            </div>
-          </Box>
-          <ProgressBar />
-        </Toolbar>
-      </AppBar>
+    <Box style={{ backgroundColor: theme.palette.secondary.main }}>
+      <Divider sx={{ border: 1, borderColor: theme.palette.divider }} />
+      <Toolbar variant="dense">
+        <Box display="flex" flexGrow={1}>
+          <div>
+            <p>ReactDL</p>
+          </div>
+        </Box>
+        <ProgressBar />
+      </Toolbar>
     </Box>
   );
 };
