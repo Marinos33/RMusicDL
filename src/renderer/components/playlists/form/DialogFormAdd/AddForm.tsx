@@ -8,6 +8,7 @@ import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 import { useDispatch } from 'react-redux';
 import { addPlaylist } from '@src/renderer/redux/playlist/actionCreators';
 import PlaylistCard from '../../PlaylistCard';
+import { AVALAIBLE_AUDIO_FORMATS } from '@src/renderer/constants';
 
 const validationSchema = Yup.object().shape({
   url: Yup.string().url('Must be a valid URL').required(),
@@ -127,14 +128,11 @@ const AddForm: React.FC<PropsType> = ({ onClose }) => {
                 fullWidth
                 component={Select}
               >
-                <MenuItem value={'aac'}>AAC</MenuItem>
-                <MenuItem value={'alac'}>ALAC</MenuItem>
-                <MenuItem value={'flac'}>FLAC</MenuItem>
-                <MenuItem value={'m4a'}>M4A</MenuItem>
-                <MenuItem value={'mp3'}>MP3</MenuItem>
-                <MenuItem value={'opus'}>OPUS</MenuItem>
-                <MenuItem value={'vorbis'}>VORBIS</MenuItem>
-                <MenuItem value={'wav'}>WAV</MenuItem>
+                {_.sortBy(AVALAIBLE_AUDIO_FORMATS).map((format, index) => (
+                  <MenuItem value={format} key={index}>
+                    {format.toUpperCase()}
+                  </MenuItem>
+                ))}
               </Field>
             </>
           )}

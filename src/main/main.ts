@@ -106,7 +106,7 @@ ipcMain.handle('download-playlist', async (event, id: number): Promise<void> => 
   }
 });
 
-ipcMain.handle('get-playlists', async (event): Promise<Playlist[]> => {
+ipcMain.handle('get-playlists', async (): Promise<Playlist[]> => {
   try {
     const repository = new PlaylistRepository();
     const playlists = await repository.getAll();
@@ -172,7 +172,7 @@ ipcMain.handle('remove-playlist', async (event, id: number): Promise<void> => {
   }
 });
 
-ipcMain.handle('select_folder', async (event): Promise<string> => {
+ipcMain.handle('select_folder', async (): Promise<string> => {
   const path = await dialog.showOpenDialog({
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     //@ts-ignore
@@ -199,14 +199,17 @@ ipcMain.handle(
   }
 );
 
-ipcMain.handle('update-settings', async (event, setting: string, value: any): Promise<any> => {
-  const store = new Store();
+ipcMain.handle(
+  'update-settings',
+  async (event, setting: string, value: number | string | boolean): Promise<number | string | boolean> => {
+    const store = new Store();
 
-  store.set('settings.' + setting, value);
-  return Promise.resolve<any>(setting);
-});
+    store.set('settings.' + setting, value);
+    return Promise.resolve<number | string | boolean>(setting);
+  }
+);
 
-ipcMain.handle('get-stored-settings', (event, setting: string): Promise<any> => {
+ipcMain.handle('get-stored-settings', (event, setting: string): Promise<unknown | string> => {
   const store = new Store();
 
   if (setting !== 'settings') {

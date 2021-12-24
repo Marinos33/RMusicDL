@@ -9,15 +9,15 @@ const Navigation: React.FC = () => {
     <Router>
       <div>
         <RouteSideBar />
-        <Switch>
-          <div>
+        <div>
+          <Switch>
             <Route exact path="/">
               <Redirect to="/playlists" />
             </Route>
             <Route path="/playlists" component={Playlists} exact />
             <Route path="/settings" component={SettingsPage} exact />
-          </div>
-        </Switch>
+          </Switch>
+        </div>
       </div>
     </Router>
   );
