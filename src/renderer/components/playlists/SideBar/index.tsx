@@ -24,7 +24,7 @@ const SideBar: React.FC = () => {
         top: '36px'
       },
       bmBurgerBars: {
-        background: theme.palette.background.paper
+        background: theme.palette.sideBar.backgroundColor.primary
       },
       bmBurgerBarsHover: {
         background: '#a90000'
@@ -41,7 +41,7 @@ const SideBar: React.FC = () => {
         height: '100%'
       },
       bmMenu: {
-        background: theme.palette.secondary.main,
+        background: theme.palette.sideBar.backgroundColor.primary,
         padding: '2.5em 1.5em 0',
         fontSize: '1.15em'
       },
