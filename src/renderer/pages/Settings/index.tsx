@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 
 const SettingsPage = () => {
   const collapsed = useSelector<RootState, boolean>((state) => state.ui.IsSideBarCollapsed);
+
   return (
     <Container maxWidth={false} sx={{ overflow: 'hidden', ml: collapsed ? 5 : 27 }}>
       <SectionContainer />

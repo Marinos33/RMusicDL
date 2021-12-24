@@ -10,23 +10,8 @@ export default function useLoadedResources(): boolean {
   React.useEffect(() => {
     async function loadResourcesAndDataAsync() {
       try {
-        /*// Load images
-        await Asset.loadAsync([
-          images.curve,
-          images.history,
-          images.parking,
-          images.markeriOS,
-          images.markerAndroid
-        ] as string[]);
-
-        // Load fonts
-        await Font.loadAsync({
-          ...Ionicons.font,
-          'space-mono': require('../../assets/fonts/SpaceMono-Regular.ttf')
-        });*/
         dispatch(fetchPlaylists());
       } catch (e) {
-        // We might want to provide this error information to an error reporting services
         console.warn(e);
       } finally {
         setLoadingComplete(true);

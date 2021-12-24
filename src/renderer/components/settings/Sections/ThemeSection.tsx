@@ -50,33 +50,36 @@ const ThemeSection: React.FC = () => {
     saveSettings('theme', event.target.value);
   };
 
-  return (
-    <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
-      <AccordionSummary aria-controls="panel2d-content" id="panel2d-header">
-        <Typography variant="h6" color="text.primary">
-          Theme
-        </Typography>
-      </AccordionSummary>
-      <AccordionDetails>
-        <FormControl sx={{ minWidth: 60 }}>
-          <Typography variant="subtitle2" color="text.primary">
-            Select your prefered theme
+  return React.useMemo(
+    () => (
+      <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
+        <AccordionSummary aria-controls="panel2d-content" id="panel2d-header">
+          <Typography variant="h6" color="text.primary">
+            Theme
           </Typography>
-          <Select
-            id="theme-selector"
-            autoWidth
-            value={settings.theme}
-            onChange={handleThemeSelected}
-            displayEmpty
-            inputProps={{ 'aria-label': 'Without label' }}
-          >
-            <MenuItem value={'LIGHT'}>LIGHT</MenuItem>
-            <MenuItem value={'BLUE'}>BLUE</MenuItem>
-            <MenuItem value={'DARK'}>DARK</MenuItem>
-          </Select>
-        </FormControl>
-      </AccordionDetails>
-    </Accordion>
+        </AccordionSummary>
+        <AccordionDetails>
+          <FormControl sx={{ minWidth: 60 }}>
+            <Typography variant="subtitle2" color="text.primary">
+              Select your prefered theme
+            </Typography>
+            <Select
+              id="theme-selector"
+              autoWidth
+              value={settings.theme}
+              onChange={handleThemeSelected}
+              displayEmpty
+              inputProps={{ 'aria-label': 'Without label' }}
+            >
+              <MenuItem value={'LIGHT'}>LIGHT</MenuItem>
+              <MenuItem value={'BLUE'}>BLUE</MenuItem>
+              <MenuItem value={'DARK'}>DARK</MenuItem>
+            </Select>
+          </FormControl>
+        </AccordionDetails>
+      </Accordion>
+    ),
+    [expanded, settings]
   );
 };
 

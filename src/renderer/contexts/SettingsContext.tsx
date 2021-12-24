@@ -11,7 +11,9 @@ interface Settings {
 
 export interface SettingsContextValue {
   settings: Settings;
-  saveSettings: (setting: string, value: any) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line no-unused-vars
+  saveSettings: (setting: string, value: unknown | string) => void;
 }
 
 interface SettingsProviderProps {
@@ -65,7 +67,8 @@ export const SettingsProvider: FC<SettingsProviderProps> = ({ children }) => {
     restore();
   }, []);
 
-  const saveSettings = async (setting: string, value: any): Promise<void> => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const saveSettings = async (setting: string, value: unknown | string): Promise<void> => {
     await window.electronAPI.updateSettings(setting, value);
     const storedData: Settings = await window.electronAPI.getStoredSettings('settings');
     const settings = storedData;
