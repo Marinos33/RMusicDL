@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../redux/reducers/rootReducer';
 import { fetchPlaylists, removePlaylist } from '../../redux/playlist/actionCreators';
 import { setGeneralLoading } from '../../redux/ui/actionCreators';
-import DialogFormAdd from './form/DialogFormAdd';
+import DialogFormAdd from './form';
 import { GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton } from '@mui/x-data-grid';
 
 const CustomToolbar = () => {
