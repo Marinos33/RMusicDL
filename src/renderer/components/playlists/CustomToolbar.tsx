@@ -11,7 +11,7 @@ import { setGeneralLoading } from '../../redux/ui/actionCreators';
 import DialogFormAdd from './form';
 import { GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton } from '@mui/x-data-grid';
 
-const CustomToolbar = () => {
+const CustomToolbar: React.FC = () => {
   const [visibleAddDialog, setVisibleAddDialog] = useState<boolean>(false);
   const theme = useTheme();
   const selectedPlaylistsId = useSelector<RootState, number[]>((state) => state.playlist.selectedPlaylistsId);
@@ -30,29 +30,32 @@ const CustomToolbar = () => {
     dispatch(fetchPlaylists());
   };
 
-  return (
-    <Box style={{ backgroundColor: theme.palette.secondary.main }}>
-      <Toolbar variant="dense">
-        <Tooltip title="Add a playlist">
-          <IconButton onClick={showAddDialog}>
-            <AddCircleIcon sx={{ fontSize: 28, color: theme.palette.icon.primary }} />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Remove selected playlists">
-          <IconButton onClick={removePlaylists} sx={{ ml: 2 }}>
-            <DeleteForeverIcon sx={{ fontSize: 30, color: theme.palette.icon.primary }} />
-          </IconButton>
-        </Tooltip>
-      </Toolbar>
-      <GridToolbarContainer>
-        <Box>
-          <GridToolbarColumnsButton style={{ color: theme.palette.icon.primary }} />
-          <GridToolbarFilterButton style={{ color: theme.palette.icon.primary }} />
-        </Box>
-      </GridToolbarContainer>
-      <Divider sx={{ border: 1, borderColor: theme.palette.divider }} />
-      <DialogFormAdd open={visibleAddDialog} onClose={hideAddDialog} />
-    </Box>
+  return React.useMemo(
+    () => (
+      <Box style={{ backgroundColor: theme.palette.secondary.main }}>
+        <Toolbar variant="dense">
+          <Tooltip title="Add a playlist">
+            <IconButton onClick={showAddDialog}>
+              <AddCircleIcon sx={{ fontSize: 28, color: theme.palette.icon.primary }} />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Remove selected playlists">
+            <IconButton onClick={removePlaylists} sx={{ ml: 2 }}>
+              <DeleteForeverIcon sx={{ fontSize: 30, color: theme.palette.icon.primary }} />
+            </IconButton>
+          </Tooltip>
+        </Toolbar>
+        <GridToolbarContainer>
+          <Box>
+            <GridToolbarColumnsButton style={{ color: theme.palette.icon.primary }} />
+            <GridToolbarFilterButton style={{ color: theme.palette.icon.primary }} />
+          </Box>
+        </GridToolbarContainer>
+        <Divider sx={{ border: 1, borderColor: theme.palette.divider }} />
+        <DialogFormAdd open={visibleAddDialog} onClose={hideAddDialog} />
+      </Box>
+    ),
+    [theme, visibleAddDialog, selectedPlaylistsId]
   );
 };
 

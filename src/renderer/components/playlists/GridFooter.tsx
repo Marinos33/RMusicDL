@@ -7,7 +7,9 @@ import { RootState } from '@src/renderer/redux/reducers/rootReducer';
 import { useSelector } from 'react-redux';
 
 const GridFooter: React.FC = () => {
-  const isResourcesLoaded = useSelector<RootState, any>((state) => state.ui.isResourcesLoaded);
+  const isResourcesLoaded = useSelector<RootState, { value: boolean; message: string }>(
+    (state) => state.ui.isResourcesLoaded
+  );
   const theme = useTheme();
 
   const ProgressBar = React.useCallback(() => {
@@ -24,18 +26,21 @@ const GridFooter: React.FC = () => {
     return null;
   }, [isResourcesLoaded]);
 
-  return (
-    <Box style={{ backgroundColor: theme.palette.secondary.main }}>
-      <Divider sx={{ border: 1, borderColor: theme.palette.divider }} />
-      <Toolbar variant="dense">
-        <Box display="flex" flexGrow={1}>
-          <div>
-            <p>ReactDL</p>
-          </div>
-        </Box>
-        <ProgressBar />
-      </Toolbar>
-    </Box>
+  return React.useMemo(
+    () => (
+      <Box style={{ backgroundColor: theme.palette.secondary.main }}>
+        <Divider sx={{ border: 1, borderColor: theme.palette.divider }} />
+        <Toolbar variant="dense">
+          <Box display="flex" flexGrow={1}>
+            <div>
+              <p>ReactDL</p>
+            </div>
+          </Box>
+          <ProgressBar />
+        </Toolbar>
+      </Box>
+    ),
+    [theme, isResourcesLoaded]
   );
 };
 

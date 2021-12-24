@@ -55,7 +55,7 @@ const RouteSideBar: FC = () => {
         </SideNav.Nav>
       </SideNav>
     ),
-    []
+    [theme]
   );
 };
 
