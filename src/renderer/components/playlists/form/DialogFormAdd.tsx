@@ -1,5 +1,3 @@
-// Render Prop
-
 import React, { useState } from 'react';
 import { Formik, Form, Field } from 'formik';
 import { Select, TextField } from 'formik-mui';
@@ -35,7 +33,7 @@ type PropsType = {
 };
 
 const DialogFormAdd: React.FC<PropsType> = ({ open, onClose }) => {
-  const [infoPlaylist, setInfoPlaylist] = useState<any>();
+  const [infoPlaylist, setInfoPlaylist] = useState<never>();
   const [playlistFound, setPlaylistFound] = useState<boolean>(false);
   const [playlistLoading, setPlaylistLoading] = useState<boolean>(false);
   const theme = useTheme();
@@ -63,7 +61,7 @@ const DialogFormAdd: React.FC<PropsType> = ({ open, onClose }) => {
               extension: 'mp3'
             }}
             validationSchema={validationSchema}
-            onSubmit={async (values, { setSubmitting, setFieldError, resetForm }) => {
+            onSubmit={async (values, { setSubmitting, resetForm }) => {
               if (playlistFound && infoPlaylist) {
                 dispatch(
                   addPlaylist(
@@ -82,7 +80,7 @@ const DialogFormAdd: React.FC<PropsType> = ({ open, onClose }) => {
               }
             }}
           >
-            {({ handleChange, setFieldValue, submitForm, values, resetForm }) => (
+            {({ handleChange, setFieldValue, values, resetForm }) => (
               <Form>
                 <Box sx={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', m: 1 }}>
                   <Field
@@ -94,7 +92,7 @@ const DialogFormAdd: React.FC<PropsType> = ({ open, onClose }) => {
                     disabled={playlistLoading}
                     fullWidth
                     component={TextField}
-                    onChange={(e: Event | any) => {
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                       handleChange(e);
                       setTimeout(async () => {
                         findPlaylist(e.target.value);

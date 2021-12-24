@@ -81,7 +81,6 @@ export const PlaylistsGrid: React.FC = () => {
       }
     }
   ];
-  console.log(collapsed);
   return (
     <Box
       sx={{

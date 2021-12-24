@@ -8,6 +8,5 @@ export const setGeneralLoading = (isResourcesLoaded: boolean, message?: string):
 };
 
 export const setSideBarCollapsed = (isSideBarCollapsed: boolean): any => {
-  console.log(isSideBarCollapsed);
   return { type: actions.SET_SIDEBAR_COLLAPSED, payload: isSideBarCollapsed };
 };

@@ -68,7 +68,6 @@ export const SettingsProvider: FC<SettingsProviderProps> = ({ children }) => {
   const saveSettings = async (setting: string, value: any): Promise<void> => {
     await window.electronAPI.updateSettings(setting, value);
     const storedData: Settings = await window.electronAPI.getStoredSettings('settings');
-    console.log(storedData);
     const settings = storedData;
     setSettings(settings);
   };
