@@ -59,7 +59,7 @@ const SideBar: React.FC = () => {
         background: 'rgba(0, 0, 0, 0.3)'
       }
     };
-  }, []);
+  }, [theme]);
 
   if (playlist === null) {
     return null;

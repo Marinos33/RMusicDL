@@ -197,7 +197,7 @@ const themesOptions: Record<string, ThemeOptions> = {
       text: {
         primary: '#ffffff',
         secondary: '#bdcbd9',
-        disabled: '#525252'
+        disabled: '#a6a6a6'
       },
       icon: {
         primary: '#688eff'
@@ -253,7 +253,7 @@ const themesOptions: Record<string, ThemeOptions> = {
       text: {
         primary: '#ffffff',
         secondary: '#f1f1f1',
-        disabled: '#525252'
+        disabled: '#a6a6a6'
       },
       icon: {
         primary: '#fffef5'
