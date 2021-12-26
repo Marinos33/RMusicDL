@@ -5,6 +5,8 @@ import * as Yup from 'yup';
 import { Box, Button, IconButton, MenuItem, useTheme } from '@mui/material';
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 import { Playlist } from '@src/renderer/types';
+import { AVALAIBLE_AUDIO_FORMATS } from '@src/renderer/constants';
+import _ from 'lodash';
 
 const validationSchema = Yup.object().shape({
   url: Yup.string().url(),
@@ -91,14 +93,11 @@ const EditForm: React.FC<PropsType> = ({ playlist }) => {
               fullWidth
               component={Select}
             >
-              <MenuItem value={'aac'}>AAC</MenuItem>
-              <MenuItem value={'alac'}>ALAC</MenuItem>
-              <MenuItem value={'flac'}>FLAC</MenuItem>
-              <MenuItem value={'m4a'}>M4A</MenuItem>
-              <MenuItem value={'mp3'}>MP3</MenuItem>
-              <MenuItem value={'opus'}>OPUS</MenuItem>
-              <MenuItem value={'vorbis'}>VORBIS</MenuItem>
-              <MenuItem value={'wav'}>WAV</MenuItem>
+              {_.sortBy(AVALAIBLE_AUDIO_FORMATS).map((format, index) => (
+                <MenuItem value={format} key={index}>
+                  {format.toUpperCase()}
+                </MenuItem>
+              ))}
             </Field>
           </Box>
           <Box

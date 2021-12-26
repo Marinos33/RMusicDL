@@ -27,14 +27,17 @@ const AddForm: React.FC<PropsType> = ({ onClose }) => {
   const theme = useTheme();
   const dispatch = useDispatch();
 
-  const findPlaylist = async (url: string) => {
+  const findPlaylist = async (url: string): Promise<boolean> => {
     setPlaylistLoading(true);
     const info = await window.electronAPI.getInfoPlaylist(url);
     if (info) {
       setPlaylistFound(true);
       setInfoPlaylist(info);
+      setPlaylistLoading(false);
+      return true;
     }
     setPlaylistLoading(false);
+    return false;
   };
 
   return (
@@ -64,7 +67,7 @@ const AddForm: React.FC<PropsType> = ({ onClose }) => {
         }
       }}
     >
-      {({ handleChange, setFieldValue, values, resetForm }) => (
+      {({ handleChange, setFieldValue, values, resetForm, setFieldError }) => (
         <Form>
           <Box sx={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', m: 1 }}>
             <Field
@@ -79,7 +82,10 @@ const AddForm: React.FC<PropsType> = ({ onClose }) => {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 handleChange(e);
                 setTimeout(async () => {
-                  findPlaylist(e.target.value);
+                  const found = await findPlaylist(e.target.value);
+                  if (!found) {
+                    setFieldError('url', 'this playlist either not exists or is private');
+                  }
                 }, 1000);
               }}
             />

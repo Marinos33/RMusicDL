@@ -86,6 +86,16 @@ ipcMain.handle('download-playlist', async (event, id: number): Promise<void> => 
     const playlist = await repository.getById(id);
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const ffmpeg = require('ffmpeg-static-electron');
+    const isThumbnailEmbedded =
+      playlist.downloadingProfile.outputExtension == 'mp3' ||
+      playlist.downloadingProfile.outputExtension == 'mkv' ||
+      playlist.downloadingProfile.outputExtension == 'mka' ||
+      playlist.downloadingProfile.outputExtension == 'ogg' ||
+      playlist.downloadingProfile.outputExtension == 'opus' ||
+      playlist.downloadingProfile.outputExtension == 'flac' ||
+      playlist.downloadingProfile.outputExtension == 'mp4' ||
+      playlist.downloadingProfile.outputExtension == 'm4a' ||
+      playlist.downloadingProfile.outputExtension == 'mov';
 
     await youtubedl(playlist.url, {
       verbose: true,
@@ -96,7 +106,7 @@ ipcMain.handle('download-playlist', async (event, id: number): Promise<void> => 
       ffmpegLocation: ffmpeg.path,
       extractAudio: true,
       audioFormat: playlist.downloadingProfile.outputExtension,
-      embedThumbnail: true,
+      embedThumbnail: isThumbnailEmbedded,
       addMetadata: true,
       postprocessorArgs: '-metadata album=' + playlist.playlistName
     });

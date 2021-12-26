@@ -4,4 +4,4 @@ export const THEMES = {
   DARK: 'DARK'
 };
 
-export const AVALAIBLE_AUDIO_FORMATS = ['aac', 'alac', 'flac', 'm4a', 'mp3', 'opus', 'vorbis', 'wav'];
+export const AVALAIBLE_AUDIO_FORMATS = ['aac', 'flac', 'm4a', 'mp3', 'opus', 'ogg', 'wav'];
