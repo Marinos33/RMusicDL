@@ -69,9 +69,9 @@ const EditForm: React.FC<PropsType> = ({ playlist }) => {
             <IconButton
               sx={{
                 alignSelf: 'center',
-                backgroundColor: theme.palette.primary.main,
-                borderRadius: 1,
-                ml: 1
+                border: 1,
+                ml: 1,
+                borderRadius: 1
               }}
               onClick={async () => {
                 const path = await window.electronAPI.selectFolder();
@@ -114,7 +114,9 @@ const EditForm: React.FC<PropsType> = ({ playlist }) => {
               borderColor: '#000000'
             }}
           >
-            <Button type="reset">Cancel</Button>
+            <Button type="reset" sx={{ color: theme.palette.text.secondary }}>
+              Cancel
+            </Button>
             <Button type="submit" autoFocus variant="contained">
               Save
             </Button>

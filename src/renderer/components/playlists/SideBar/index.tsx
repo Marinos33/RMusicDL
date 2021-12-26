@@ -24,7 +24,7 @@ const SideBar: React.FC = () => {
         top: '36px'
       },
       bmBurgerBars: {
-        background: theme.palette.sideBar.backgroundColor.primary
+        background: theme.palette.primary.contrastText
       },
       bmBurgerBarsHover: {
         background: '#a90000'
@@ -34,7 +34,7 @@ const SideBar: React.FC = () => {
         width: '24px'
       },
       bmCross: {
-        background: theme.palette.primary.main
+        background: theme.palette.primary.contrastText
       },
       bmMenuWrap: {
         position: 'fixed',

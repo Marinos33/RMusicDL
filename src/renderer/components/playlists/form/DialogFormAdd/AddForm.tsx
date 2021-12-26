@@ -145,6 +145,7 @@ const AddForm: React.FC<PropsType> = ({ onClose }) => {
                 setPlaylistFound(false);
               }}
               type="reset"
+              sx={{ color: theme.palette.text.secondary }}
             >
               Cancel
             </Button>

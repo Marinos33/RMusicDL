@@ -140,7 +140,8 @@ const themesOptions: Record<string, ThemeOptions> = {
       },
       text: {
         primary: '#262626',
-        secondary: '#676767'
+        secondary: '#000000',
+        disabled: '#525252'
       },
       icon: {
         primary: '#0a0a0a'
@@ -195,7 +196,8 @@ const themesOptions: Record<string, ThemeOptions> = {
       },
       text: {
         primary: '#ffffff',
-        secondary: '#919eab'
+        secondary: '#bdcbd9',
+        disabled: '#525252'
       },
       icon: {
         primary: '#688eff'
@@ -237,8 +239,8 @@ const themesOptions: Record<string, ThemeOptions> = {
       },
       mode: 'dark',
       primary: {
-        contrastText: '#000000',
-        main: '#f1f1f1'
+        contrastText: '#ffffff',
+        main: '#0f0f0f'
       },
       secondary: {
         main: '#0f0f0f',
@@ -250,7 +252,8 @@ const themesOptions: Record<string, ThemeOptions> = {
       },
       text: {
         primary: '#ffffff',
-        secondary: '#f1f1f1'
+        secondary: '#f1f1f1',
+        disabled: '#525252'
       },
       icon: {
         primary: '#fffef5'
