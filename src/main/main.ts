@@ -1,4 +1,3 @@
-import { inDev } from '@src/utils/helpers';
 import { app, BrowserWindow, ipcMain } from 'electron';
 import { YtResponse } from 'yt-dlp-exec';
 import 'reflect-metadata';
@@ -18,6 +17,7 @@ import {
 } from './api';
 import { PlaylistRepository } from './Database/Repository/PlaylistRepository';
 import { ProfileRepository } from './Database/Repository/DownloadingProfileRepository';
+import isDev from 'electron-is-dev';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
@@ -28,17 +28,20 @@ if (require('electron-squirrel-startup')) {
   app.quit();
 }
 
-const createWindow = (): void => {
-  //const database = new Database();
+process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
 
+const createWindow = (): void => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    center: true,
     backgroundColor: '#171b21',
-    show: false,
-    autoHideMenuBar: false,
+    show: true,
+    title: 'ReactDL',
+    autoHideMenuBar: !isDev,
+    minWidth: 800,
+    minHeight: 600,
     webPreferences: {
+      devTools: isDev,
       nodeIntegration: false,
       nativeWindowOpen: true,
       contextIsolation: true,
@@ -51,9 +54,11 @@ const createWindow = (): void => {
   // and load the index.html of the app.
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
-  if (inDev) {
+  if (isDev) {
     mainWindow.webContents.openDevTools({ mode: 'detach' });
   }
+  mainWindow.maximize();
+  mainWindow.removeMenu();
   // Show window when its ready to
   mainWindow.on('ready-to-show', () => mainWindow.show());
 };

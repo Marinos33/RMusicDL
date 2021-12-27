@@ -5,7 +5,8 @@
   "description": "A desktop application to download music from different sources and manage playlists",
   "main": ".webpack/main",
   "scripts": {
-    "start": "cross-env NODE_ENV=development electron-forge start",
+    "start:dev": "cross-env ELECTRON_IS_DEV=1 electron-forge start",
+    "start:release": "cross-env ELECTRON_IS_DEV=0 electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
@@ -89,6 +90,7 @@
     "@mui/x-data-grid": "^5.0.1",
     "better-sqlite3": "^7.4.5",
     "date-fns": "^2.27.0",
+    "electron-is-dev": "^2.0.0",
     "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^8.0.1",
     "ensure-array": "^1.0.0",
