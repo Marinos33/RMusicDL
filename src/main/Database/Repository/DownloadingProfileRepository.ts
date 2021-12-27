@@ -29,7 +29,7 @@ export class ProfileRepository {
     return profile;
   }
 
-  public async udpate(id: number, outputExtension: string, outputPath: string): Promise<DownloadingProfile> {
+  public async update(id: number, outputExtension: string, outputPath: string): Promise<DownloadingProfile> {
     if (this.ormRepository === undefined) await this.init();
 
     /* await this.ormRepository.update(id, { outputExtension, outputPath });

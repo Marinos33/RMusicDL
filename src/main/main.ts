@@ -1,11 +1,23 @@
 import { inDev } from '@src/utils/helpers';
-import { app, BrowserWindow, dialog, ipcMain } from 'electron';
-import youtubedl, { YtResponse } from 'yt-dlp-exec';
+import { app, BrowserWindow, ipcMain } from 'electron';
+import { YtResponse } from 'yt-dlp-exec';
 import 'reflect-metadata';
-import { PlaylistRepository } from './Database/Repository/PlaylistRepository';
 import { Playlist } from './Database/Models/Playlist';
+import {
+  CreatePlaylist,
+  DownloadPlaylist,
+  GetAllPlaylists,
+  GetInfoPlaylist,
+  GetPlaylist,
+  GetStoredSettings,
+  RefreshPlaylist,
+  RemovePlaylist,
+  SelectFolder,
+  UpdateProfile,
+  UpdateSettings
+} from './api';
+import { PlaylistRepository } from './Database/Repository/PlaylistRepository';
 import { ProfileRepository } from './Database/Repository/DownloadingProfileRepository';
-import Store from 'electron-store';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
@@ -68,74 +80,25 @@ app.on('activate', () => {
   }
 });
 
-ipcMain.handle('get-info-playlist', async (event, playlist: string): Promise<YtResponse> => {
-  try {
-    const info = await youtubedl(playlist, {
-      dumpSingleJson: true
-    });
-    return info;
-  } catch (e: any) {
-    console.log(e.message);
-    return null;
-  }
+ipcMain.handle('get-info-playlist', async (event, playlistUrl: string): Promise<YtResponse> => {
+  return await GetInfoPlaylist(playlistUrl);
 });
 
 ipcMain.handle('download-playlist', async (event, id: number): Promise<void> => {
-  try {
-    const repository = new PlaylistRepository();
-    const playlist = await repository.getById(id);
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const ffmpeg = require('ffmpeg-static-electron');
-    const isThumbnailEmbedded =
-      playlist.downloadingProfile.outputExtension == 'mp3' ||
-      playlist.downloadingProfile.outputExtension == 'mkv' ||
-      playlist.downloadingProfile.outputExtension == 'mka' ||
-      playlist.downloadingProfile.outputExtension == 'ogg' ||
-      playlist.downloadingProfile.outputExtension == 'opus' ||
-      playlist.downloadingProfile.outputExtension == 'flac' ||
-      playlist.downloadingProfile.outputExtension == 'mp4' ||
-      playlist.downloadingProfile.outputExtension == 'm4a' ||
-      playlist.downloadingProfile.outputExtension == 'mov';
+  const repository = new PlaylistRepository();
 
-    await youtubedl(playlist.url, {
-      verbose: true,
-      yesPlaylist: true,
-      output: playlist.downloadingProfile.outputPath + '/' + '%(playlist)s/%(title)s - %(uploader)s.%(ext)s',
-      format: 'bestaudio[ext=mp3]/bestaudio',
-      downloadArchive: playlist.playlistName + '/history.txt',
-      ffmpegLocation: ffmpeg.path,
-      extractAudio: true,
-      audioFormat: playlist.downloadingProfile.outputExtension,
-      embedThumbnail: isThumbnailEmbedded,
-      addMetadata: true,
-      postprocessorArgs: '-metadata album=' + playlist.playlistName
-    });
-  } catch (e: any) {
-    console.log(e.message);
-    return null;
-  }
+  await DownloadPlaylist(repository, id);
 });
 
 ipcMain.handle('get-playlists', async (): Promise<Playlist[]> => {
-  try {
-    const repository = new PlaylistRepository();
-    const playlists = await repository.getAll();
-    return playlists;
-  } catch (e: any) {
-    console.log(e.message);
-    return null;
-  }
+  const repository = new PlaylistRepository();
+  return await GetAllPlaylists(repository);
 });
 
 ipcMain.handle('get-playlist', async (event, id: number): Promise<Playlist> => {
-  try {
-    const repository = new PlaylistRepository();
-    const playlist = await repository.getById(id);
-    return playlist;
-  } catch (e: any) {
-    console.log(e.message);
-    return null;
-  }
+  const repository = new PlaylistRepository();
+
+  return await GetPlaylist(repository, id);
 });
 
 ipcMain.handle(
@@ -148,83 +111,40 @@ ipcMain.handle(
     outputExtension: string,
     outputPath: string
   ): Promise<Playlist> => {
-    try {
-      const profileRepository = new ProfileRepository();
-      const profile = await profileRepository.create(outputExtension, outputPath);
-
-      const playlistRepository = new PlaylistRepository();
-      const newPlaylist = await playlistRepository.create(url, owner, playlistName, profile.id);
-      return newPlaylist;
-    } catch (e: any) {
-      console.log(e.message);
-      return null;
-    }
+    return await CreatePlaylist(url, owner, playlistName, outputExtension, outputPath);
   }
 );
 
 ipcMain.handle('refresh-playlist', async (event, id: number): Promise<void> => {
-  try {
-    const playlistRepository = new PlaylistRepository();
-    await playlistRepository.refresh(id);
-  } catch (e: any) {
-    console.log(e.message);
-    return null;
-  }
+  const playlistRepository = new PlaylistRepository();
+  await RefreshPlaylist(playlistRepository, id);
 });
 
 ipcMain.handle('remove-playlist', async (event, id: number): Promise<void> => {
-  try {
-    const playlistRepository = new PlaylistRepository();
-    await playlistRepository.delete(id);
-  } catch (e: any) {
-    console.log(e.message);
-    return null;
-  }
+  const playlistRepository = new PlaylistRepository();
+  await RemovePlaylist(playlistRepository, id);
 });
 
 ipcMain.handle('select_folder', async (): Promise<string> => {
-  const path = await dialog.showOpenDialog({
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    //@ts-ignore
-    properties: ['openDirectory']
-  });
-  return path.filePaths[0];
+  return await SelectFolder();
 });
 
 ipcMain.handle(
   'update-profile',
   async (event, playlistId: number, outputExtension: string, outputPath: string): Promise<void> => {
-    try {
-      const profileRepository = new ProfileRepository();
-      const playlistRepository = new PlaylistRepository();
-
-      const playlist = await playlistRepository.getById(playlistId);
-
-      // const profile = await profileRepository.udpate(playlist.profileId, outputExtension, outputPath);
-      await profileRepository.udpate(playlist.profileId, outputExtension, outputPath);
-    } catch (e: any) {
-      console.log(e.message);
-      return null;
-    }
+    const profileRepository = new ProfileRepository();
+    const playlistRepository = new PlaylistRepository();
+    await UpdateProfile(profileRepository, playlistRepository, playlistId, outputExtension, outputPath);
   }
 );
 
 ipcMain.handle(
   'update-settings',
   async (event, setting: string, value: number | string | boolean): Promise<number | string | boolean> => {
-    const store = new Store();
-
-    store.set('settings.' + setting, value);
-    return Promise.resolve<number | string | boolean>(setting);
+    return await UpdateSettings(setting, value);
   }
 );
 
-ipcMain.handle('get-stored-settings', (event, setting: string): Promise<unknown | string> => {
-  const store = new Store();
-
-  if (setting !== 'settings') {
-    return Promise.resolve<string>(store.get('settings.' + setting) as any);
-  }
-
-  return Promise.resolve<string>(store.get(setting) as any);
+ipcMain.handle('get-stored-settings', async (event, setting: string): Promise<unknown | string> => {
+  return await GetStoredSettings(setting);
 });
