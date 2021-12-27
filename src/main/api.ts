@@ -48,7 +48,6 @@ export async function DownloadPlaylist(repository: PlaylistRepository, id: numbe
     });
   } catch (e: any) {
     console.log(e.message);
-    return null;
   }
 }
 
@@ -135,22 +134,19 @@ export async function UpdateProfile(
     return null;
   }
 }
-export async function UpdateSettings(
-  setting: string,
-  value: number | string | boolean
-): Promise<number | string | boolean> {
+export async function UpdateSettings(setting: string, value: any): Promise<any> {
   const store = new Store();
 
   store.set('settings.' + setting, value);
-  return Promise.resolve<number | string | boolean>(setting);
+  return Promise.resolve<any>(setting);
 }
 
-export async function GetStoredSettings(setting: string): Promise<unknown | string> {
+export async function GetStoredSettings(setting: string): Promise<any> {
   const store = new Store();
 
   if (setting !== 'settings') {
-    return Promise.resolve<string>(store.get('settings.' + setting) as any);
+    return Promise.resolve<any>(store.get('settings.' + setting) as any);
   }
 
-  return Promise.resolve<string>(store.get(setting) as any);
+  return Promise.resolve<any>(store.get(setting) as any);
 }

@@ -32,9 +32,7 @@ const GridFooter: React.FC = () => {
         <Divider sx={{ border: 1, borderColor: theme.palette.divider }} />
         <Toolbar variant="dense">
           <Box display="flex" flexGrow={1}>
-            <div>
-              <p>ReactDL</p>
-            </div>
+            <div></div>
           </Box>
           <ProgressBar />
         </Toolbar>

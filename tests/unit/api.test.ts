@@ -3,12 +3,9 @@ import {
   GetAllPlaylists,
   GetInfoPlaylist,
   GetPlaylist,
-  GetStoredSettings,
   RefreshPlaylist,
   RemovePlaylist,
-  SelectFolder,
-  UpdateProfile,
-  UpdateSettings
+  UpdateProfile
 } from '../../src/main/api';
 import { Mock, It, Times } from 'moq.ts';
 import { Playlist } from '../../src/main/Database/Models/Playlist';
@@ -135,5 +132,40 @@ describe('UpdateProfile()', () => {
       (instance) => instance.update(It.IsAny<number>(), It.IsAny<string>(), It.IsAny<string>()),
       Times.Exactly(1)
     );
+  });
+});
+
+describe('GetInfoPlaylist()', () => {
+  jest.setTimeout(120000);
+  it('get info of a playlist', async () => {
+    const info = await GetInfoPlaylist('https://www.youtube.com/playlist?list=PLFsfqcOmAwBm7zSAmfgu__UnwKex9eJaM');
+    expect(info).not.toBeNull();
+  });
+});
+
+describe('DownloadPlaylist()', () => {
+  const testPlaylist1: Playlist = {
+    id: 1,
+    playlistName: 'test1',
+    owner: 'test',
+    url: 'https://www.youtube.com/playlist?list=PLFsfqcOmAwBm7zSAmfgu__UnwKex9eJaM',
+    profileId: 1,
+    lastUpdate: new Date(),
+    downloadingProfile: {
+      id: 1,
+      outputExtension: 'mp3',
+      outputPath: './'
+    }
+  };
+
+  const data = testPlaylist1;
+
+  const mockRepository = new Mock<PlaylistRepository>()
+    .setup((instance) => instance.getById(It.IsAny<number>()))
+    .returns(Promise.resolve(data));
+  jest.setTimeout(120000);
+
+  it('download a playlist', async () => {
+    await expect(DownloadPlaylist(mockRepository.object(), It.IsAny<number>())).resolves.not.toThrow();
   });
 });
