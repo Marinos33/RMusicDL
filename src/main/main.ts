@@ -18,6 +18,7 @@ import {
 import { PlaylistRepository } from './Database/Repository/PlaylistRepository';
 import { ProfileRepository } from './Database/Repository/DownloadingProfileRepository';
 import isDev from 'electron-is-dev';
+import log from 'electron-log';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
@@ -63,6 +64,10 @@ const createWindow = (): void => {
   // Show window when its ready to
   mainWindow.on('ready-to-show', () => mainWindow.show());
 };
+
+process.on('uncaughtException', (e) => {
+  log.error('a fatal error happened', e.message);
+});
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
