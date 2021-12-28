@@ -1,4 +1,5 @@
 export interface IElectronAPI {
+  isDev: boolean;
   getInfoPlaylist: (playlist: string) => Promise<YtResponse>;
   getAllPlaylists: () => Promise<Playlist[]>;
   getPlaylist: (id: number) => Promise<Playlist>;

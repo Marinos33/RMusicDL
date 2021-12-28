@@ -1,9 +1,10 @@
 import { contextBridge, ipcRenderer } from 'electron';
 import { YtResponse } from 'yt-dlp-exec';
 import { Playlist } from './Database/Models/Playlist';
+import isDev from 'electron-is-dev';
 
 // Say something
-console.log('[ReactDL] : Preload execution started');
+isDev ?? console.log('[ReactDL] : Preload execution started');
 
 // Get versions
 window.addEventListener('DOMContentLoaded', () => {
@@ -21,6 +22,7 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 contextBridge.exposeInMainWorld('electronAPI', {
+  isDev: isDev,
   getInfoPlaylist: async (playlist: string): Promise<YtResponse> => {
     const res: YtResponse = await ipcRenderer.invoke('get-info-playlist', playlist);
     return res;

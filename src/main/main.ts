@@ -56,9 +56,10 @@ const createWindow = (): void => {
 
   if (isDev) {
     mainWindow.webContents.openDevTools({ mode: 'detach' });
+  } else {
+    mainWindow.removeMenu();
   }
   mainWindow.maximize();
-  mainWindow.removeMenu();
   // Show window when its ready to
   mainWindow.on('ready-to-show', () => mainWindow.show());
 };

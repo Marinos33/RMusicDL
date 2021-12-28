@@ -1,13 +1,13 @@
 import React, { StrictMode } from 'react';
 import ReactDOM from 'react-dom';
 import Application from './App';
-import { inDev } from '../utils/helpers';
 import store from './redux/store';
 import { Provider as StoreProvider } from 'react-redux';
 import { SettingsProvider } from './contexts/SettingsContext';
 
-// Say something
-console.log('[ReactDL] : Renderer execution started');
+// Say somethings
+console.log(window.electronAPI.isDev);
+window.electronAPI.isDev ?? console.log('[ReactDL] : Renderer execution started');
 
 // Application to Render
 const app = (
@@ -24,4 +24,4 @@ const app = (
 ReactDOM.render(app, document.getElementById('app'));
 
 // Hot module replacement
-if (inDev() && module.hot) module.hot.accept();
+if (window.electronAPI.isDev && module.hot) module.hot.accept();

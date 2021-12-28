@@ -12,7 +12,7 @@ export async function GetInfoPlaylist(playlistUrl: string): Promise<YtResponse> 
     });
     return info;
   } catch (e: any) {
-    console.log(e.message);
+    console.warn(e.message);
     return null;
   }
 }
@@ -47,7 +47,7 @@ export async function DownloadPlaylist(repository: PlaylistRepository, id: numbe
       postprocessorArgs: '-metadata album=' + playlist.playlistName
     });
   } catch (e: any) {
-    console.log(e.message);
+    console.warn(e.message);
   }
 }
 
@@ -56,7 +56,7 @@ export async function GetPlaylist(repository: PlaylistRepository, id: number): P
     const playlist = await repository.getById(id);
     return playlist;
   } catch (e: any) {
-    console.log(e.message);
+    console.warn(e.message);
     return null;
   }
 }
@@ -66,7 +66,7 @@ export async function GetAllPlaylists(repository: PlaylistRepository): Promise<P
     const playlists = await repository.getAll();
     return playlists;
   } catch (e: any) {
-    console.log(e.message);
+    console.warn(e.message);
     return null;
   }
 }
@@ -86,7 +86,7 @@ export async function CreatePlaylist(
     const newPlaylist = await playlistRepository.create(url, owner, playlistName, profile.id);
     return newPlaylist;
   } catch (e: any) {
-    console.log(e.message);
+    console.warn(e.message);
     return null;
   }
 }
@@ -95,8 +95,7 @@ export async function RemovePlaylist(repository: PlaylistRepository, id: number)
   try {
     await repository.delete(id);
   } catch (e: any) {
-    console.log(e.message);
-    return null;
+    console.warn(e.message);
   }
 }
 
@@ -104,7 +103,7 @@ export async function RefreshPlaylist(repository: PlaylistRepository, id: number
   try {
     await repository.refresh(id);
   } catch (e: any) {
-    console.log(e.message);
+    console.warn(e.message);
     return null;
   }
 }
@@ -130,8 +129,7 @@ export async function UpdateProfile(
 
     await profileRepository.update(playlist.profileId, outputExtension, outputPath);
   } catch (e: any) {
-    console.log(e.message);
-    return null;
+    console.warn(e.message);
   }
 }
 export async function UpdateSettings(setting: string, value: any): Promise<any> {
