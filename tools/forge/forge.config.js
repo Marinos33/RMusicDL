@@ -10,7 +10,8 @@ module.exports = {
     // Set executable name
     executableName: 'ReactDL',
     // Set application copyright
-    appCopyright: 'Copyright (c) 2021 Marinos33'
+    appCopyright: 'Copyright (c) 2021 Marinos33',
+    icon: path.join(rootDir, 'assets/images/logo.ico'),
   },
   // Forge Makers
   makers: [

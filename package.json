@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "description": "A desktop application to download music from different sources and manage playlists",
   "main": ".webpack/main",
+  "build":{"appId": "reactdl", "productName": "ReactDL", "icon": "@assets/images/logo.png"},
   "scripts": {
     "start:dev": "cross-env ELECTRON_IS_DEV=1 electron-forge start",
     "start:release": "cross-env ELECTRON_IS_DEV=0 electron-forge start",

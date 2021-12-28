@@ -6,7 +6,6 @@ import { Provider as StoreProvider } from 'react-redux';
 import { SettingsProvider } from './contexts/SettingsContext';
 
 // Say somethings
-console.log(window.electronAPI.isDev);
 window.electronAPI.isDev ?? console.log('[ReactDL] : Renderer execution started');
 
 // Application to Render
