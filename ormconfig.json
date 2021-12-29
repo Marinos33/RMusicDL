@@ -1,6 +1,6 @@
 {
     "type": "better-sqlite3",
-    "database": "reactdl.sqlite",
+    "database": "rmusicdl.sqlite",
     "entities": ["src/main/Database/Models/*.ts"],
     "synchronize": true,
     "logging": true,

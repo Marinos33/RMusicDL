@@ -93,6 +93,6 @@ out/
 *.sqlite*
 
 # installer files and folder
-ReactDL.aip
-ReactDL-cache/*
-ReactDL-SetupFiles/*
+RMusicDL.aip
+RMusicDL-cache/*
+RMusicDL-SetupFiles/*

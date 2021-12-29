@@ -8,7 +8,7 @@ module.exports = {
     // Create asar archive for main, renderer process files
     asar: false,
     // Set executable name
-    executableName: 'ReactDL',
+    executableName: 'RMusicDL',
     // Set application copyright
     appCopyright: 'Copyright (c) 2021 Marinos33',
     icon: path.join(rootDir, 'assets/images/logo.ico'),
@@ -20,7 +20,7 @@ module.exports = {
       // Windows applications and is therefore the most user friendly you can get.
       name: '@electron-forge/maker-squirrel',
       config: {
-        name: 'ReactDL'
+        name: 'RMusicDL'
       }
     },
     {

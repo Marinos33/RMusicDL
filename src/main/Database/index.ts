@@ -7,7 +7,7 @@ const getDBConnection = async (connectionName: string): Promise<Connection> => {
   return await createConnection({
     name: connectionName,
     type: 'better-sqlite3',
-    database: 'reactdl.sqlite',
+    database: 'rmusicdl.sqlite',
     entities: [Playlist, DownloadingProfile],
     synchronize: true,
     logging: false

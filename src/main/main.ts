@@ -37,7 +37,7 @@ const createWindow = (): void => {
     center: true,
     backgroundColor: '#171b21',
     show: true,
-    title: 'ReactDL',
+    title: 'RMusicDL',
     autoHideMenuBar: !isDev,
     minWidth: 800,
     minHeight: 600,
