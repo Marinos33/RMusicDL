@@ -91,3 +91,8 @@ out/
 # sqlite db
 *.sqlite
 *.sqlite*
+
+# installer files and folder
+ReactDL.aip
+ReactDL-cache/*
+ReactDL-SetupFiles/*
