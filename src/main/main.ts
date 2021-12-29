@@ -159,3 +159,7 @@ ipcMain.handle(
 ipcMain.handle('get-stored-settings', async (event, setting: string): Promise<unknown | string> => {
   return await GetStoredSettings(setting);
 });
+
+ipcMain.handle('is-dev', (): boolean => {
+  return isDev;
+});

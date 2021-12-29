@@ -4,6 +4,7 @@ import { Playlist } from './Database/Models/Playlist';
 import { ProfileRepository } from './Database/Repository/DownloadingProfileRepository';
 import { PlaylistRepository } from './Database/Repository/PlaylistRepository';
 import Store from 'electron-store';
+import log from 'electron-log';
 
 export async function GetInfoPlaylist(playlistUrl: string): Promise<YtResponse> {
   try {
@@ -13,6 +14,7 @@ export async function GetInfoPlaylist(playlistUrl: string): Promise<YtResponse> 
     return info;
   } catch (e: any) {
     console.warn(e.message);
+    log.warn('yt-dlp error', e.message);
     return null;
   }
 }
@@ -34,7 +36,7 @@ export async function DownloadPlaylist(repository: PlaylistRepository, id: numbe
       playlist.downloadingProfile.outputExtension == 'mov';
 
     await youtubedl(playlist.url, {
-      verbose: true,
+      verbose: false,
       yesPlaylist: true,
       output: playlist.downloadingProfile.outputPath + '/' + '%(playlist)s/%(title)s - %(uploader)s.%(ext)s',
       format: 'bestaudio[ext=mp3]/bestaudio',
@@ -48,6 +50,7 @@ export async function DownloadPlaylist(repository: PlaylistRepository, id: numbe
     });
   } catch (e: any) {
     console.warn(e.message);
+    log.warn('yt-dlp error', e.message);
   }
 }
 

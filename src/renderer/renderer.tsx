@@ -6,7 +6,7 @@ import { Provider as StoreProvider } from 'react-redux';
 import { SettingsProvider } from './contexts/SettingsContext';
 
 // Say somethings
-window.electronAPI.isDev ?? console.log('[ReactDL] : Renderer execution started');
+window.electronAPI.isDev() ?? console.log('[ReactDL] : Renderer execution started');
 
 // Application to Render
 const app = (
@@ -23,4 +23,4 @@ const app = (
 ReactDOM.render(app, document.getElementById('app'));
 
 // Hot module replacement
-if (window.electronAPI.isDev && module.hot) module.hot.accept();
+if (window.electronAPI.isDev() && module.hot) module.hot.accept();

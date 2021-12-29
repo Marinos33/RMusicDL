@@ -6,7 +6,7 @@ module.exports = {
   // Packager Config
   packagerConfig: {
     // Create asar archive for main, renderer process files
-    asar: true,
+    asar: false,
     // Set executable name
     executableName: 'ReactDL',
     // Set application copyright

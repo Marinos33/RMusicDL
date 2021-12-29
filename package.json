@@ -1,8 +1,8 @@
 {
   "name": "reactdl",
   "productName": "ReactDL",
-  "version": "0.1.0",
-  "description": "A desktop application to download music from different sources and manage playlists",
+  "version": "1.0.0",
+  "description": "A desktop application to download your favorite playlists from different sources and keep them up to date",
   "main": ".webpack/main",
   "build": {
     "appId": "reactdl",
