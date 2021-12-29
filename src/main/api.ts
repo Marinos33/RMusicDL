@@ -36,7 +36,6 @@ export async function DownloadPlaylist(repository: PlaylistRepository, id: numbe
       playlist.downloadingProfile.outputExtension == 'mov';
 
     await youtubedl(playlist.url, {
-      verbose: false,
       yesPlaylist: true,
       output: playlist.downloadingProfile.outputPath + '/' + '%(playlist)s/%(title)s - %(uploader)s.%(ext)s',
       format: 'bestaudio[ext=mp3]/bestaudio',

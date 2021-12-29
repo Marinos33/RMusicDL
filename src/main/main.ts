@@ -20,7 +20,6 @@ import { ProfileRepository } from './Database/Repository/DownloadingProfileRepos
 import isDev from 'electron-is-dev';
 import log from 'electron-log';
 import path from 'path';
-const rootDir = process.cwd();
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
@@ -36,7 +35,6 @@ process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
 const createWindow = (): void => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    icon: path.join(rootDir, 'assets/images/logo.ico'),
     center: true,
     backgroundColor: '#171b21',
     show: true,
