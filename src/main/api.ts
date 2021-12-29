@@ -36,16 +36,17 @@ export async function DownloadPlaylist(repository: PlaylistRepository, id: numbe
       playlist.downloadingProfile.outputExtension == 'mov';
 
     await youtubedl(playlist.url, {
+      ignoreErrors: true,
       yesPlaylist: true,
       output: playlist.downloadingProfile.outputPath + '/' + '%(playlist)s/%(title)s - %(uploader)s.%(ext)s',
-      format: 'bestaudio[ext=mp3]/bestaudio',
-      downloadArchive: playlist.playlistName + '/history.txt',
+      format: 'bestaudio',
+      downloadArchive: playlist.downloadingProfile.outputPath + '/' + playlist.playlistName + '/history.txt',
       ffmpegLocation: ffmpeg.path,
       extractAudio: true,
       audioFormat: playlist.downloadingProfile.outputExtension,
       embedThumbnail: isThumbnailEmbedded,
       addMetadata: true,
-      postprocessorArgs: '-metadata album=' + playlist.playlistName
+      postprocessorArgs: '-metadata album=' + playlist.playlistName.replace(' ', '_')
     });
   } catch (e: any) {
     console.warn(e.message);

@@ -67,8 +67,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   },
   getStoredSettings: async (setting: string): Promise<unknown | string> => {
     return await ipcRenderer.invoke('get-stored-settings', setting);
-  },
-  isDev: (): boolean => {
-    return ipcRenderer.sendSync('is-dev');
   }
+  /*isDev: (): boolean => {
+    return ipcRenderer.sendSync('is-dev');
+  }*/
 });
