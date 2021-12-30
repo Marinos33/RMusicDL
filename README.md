@@ -8,7 +8,7 @@ This is the main screen where you can view and manage your saved playlists.
 By clicking on the plus icon at the top left, you can add a playlist.
 ![ALT](doc/images/Tuto/img2.png)
 
-After clicking on the plus icon, a dialogue window will open. Here you can copy and paste the URL of the playlist and the software will try to collect the information about it.
+After clicking on the plus icon, a dialog window will open. Here you can copy and paste the URL of the playlist and the software will try to collect the information about it.
 ![ALT](doc/images/Tuto/img6.png)
 
 Once the playlist information has been obtained, you will see this information and be able to choose where to download the content and in what format. Click submit to confirm and add the playlist to the main screen.
