@@ -1,4 +1,7 @@
 # RMusicDL
+
+[![Download RMusicDL](https://a.fsdn.com/con/app/sf-download-button)](https://sourceforge.net/projects/rmusicdl/files/latest/download)
+
 A desktop application that allows you to save your favorite playlists online and download all the content they contain. You can even choose in which audio format you want your music and where to download it. In addition, the content of the playlists will be updated and existing content will not be re-downloaded.
 
 ## How it works
