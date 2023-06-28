@@ -1,41 +1,22 @@
 {
-  "env": {
-    "browser": true,
-    "es6": true,
-    "node": true
-  },
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
-    "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:import/errors",
-    "plugin:import/warnings",
-    "plugin:import/typescript",
-    "plugin:prettier/recommended"
+    "plugin:react-hooks/recommended"
   ],
-  "parser": "@typescript-eslint/parser",
-  "settings": {
-    "import/resolver": {
-      "node": {
-        "extensions": [".js", ".jsx", ".ts", ".tsx"]
-      },
-      "alias": {
-        "map": [
-          ["@src", "./src"],
-          ["@assets", "./assets"]
-        ],
-        "extensions": [".js", ".jsx", ".ts", ".tsx"]
-      }
-    },
-    "react": {
-      "version": "detect"
+  "plugins": ["react", "react-hooks"],
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
     }
   },
-  "plugins": ["react", "prettier", "@typescript-eslint"],
+  "env": {
+    "browser": true,
+    "es2020": true
+  },
   "rules": {
-    "prettier/prettier": "error",
-    "react/prop-types": "off",
-    "no-unused-vars": 1
+    "react/react-in-jsx-scope": "off"
   }
 }

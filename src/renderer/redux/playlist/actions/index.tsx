@@ -1,8 +1,0 @@
-const actions = {
-  SET_PLAYLISTS: 'playlists/SET_PLAYLISTS',
-  SET_DOWNLOADING_PLAYLIST: 'playlists/SET_DOWNLOADING_PLAYLIST',
-  SET_SELECTED_PLAYLISTS: 'playlists/SET_SELECTED_PLAYLISTS',
-  SET_SELECTED_PLAYLIST: 'playlists/SET_SELECTED_PLAYLIST'
-};
-
-export default actions;
