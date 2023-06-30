@@ -169,6 +169,7 @@ const Playlists = () => {
     <Layout
       style={{
         backgroundColor: 'white',
+        width: '100%',
       }}
     >
       <Table
@@ -184,21 +185,8 @@ const Playlists = () => {
         title={() => <Header />}
         //disable pagination
         pagination={false}
-        scroll={{ y: (height / 100) * 80 - 100 }}
+        scroll={{ y: (height / 100) * 96 - 100 }}
       />
-      {/** fix footer */}
-      <Footer
-        style={{
-          position: 'fixed',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          bottom: 0,
-          width: tableRef.current?.offsetWidth,
-          maxWidth: '100%',
-        }}
-      >
-        Your Footer Content
-      </Footer>
     </Layout>
   );
 };

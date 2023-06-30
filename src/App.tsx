@@ -1,9 +1,28 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import reactLogo from './assets/react.svg';
 import { invoke } from '@tauri-apps/api/tauri';
+import SideBar from './components/common/SideBar';
+import { Layout } from 'antd';
+import { Outlet, useNavigate } from 'react-router-dom';
 
 function App() {
-  const [greetMsg, setGreetMsg] = useState('');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    navigate('playlists');
+  }, []);
+
+  return (
+    <Layout>
+      <SideBar />
+      <div id="content">
+        <Outlet />
+      </div>
+    </Layout>
+  );
+
+  {
+    /*const [greetMsg, setGreetMsg] = useState('');
   const [name, setName] = useState('');
 
   async function greet() {
@@ -45,8 +64,9 @@ function App() {
       </form>
 
       <p>{greetMsg}</p>
-    </div>
-  );
+      </div>
+      );*/
+  }
 }
 
 export default App;
