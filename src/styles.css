@@ -107,3 +107,12 @@ button {
     background-color: #0f0f0f69;
   }
 }
+
+.ant-table-title {
+  padding: 7px 16px !important;
+  margin-left: 16px !important;
+}
+
+.ant-spin-container {
+  height: 5000px !important;
+}

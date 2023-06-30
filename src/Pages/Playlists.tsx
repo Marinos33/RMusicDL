@@ -1,190 +1,206 @@
 import React from 'react';
-import { Divider, Table } from 'antd';
+import { Button, Table } from 'antd';
 import type { ColumnsType, TableProps } from 'antd/es/table';
 import useWindowSize from '../hooks/UseWindowSize';
-import { Typography } from 'antd';
+import Header from '../components/Playlist/Header';
+import { DownloadOutlined } from '@ant-design/icons';
+import { Layout } from 'antd';
 
-const { Title } = Typography;
+const { Footer } = Layout;
 
 interface DataType {
-    key: React.Key;
-    name: string;
-    age: number;
-    address: string;
+  key: React.Key;
+  playlistName: string;
+  owner: string;
+  lastUpdated: string;
 }
 
 const columns: ColumnsType<DataType> = [
-	{
-		title: 'Name',
-		dataIndex: 'name',
-		defaultSortOrder: 'ascend',
-		//alphabetical sort
-		sorter: (a, b) => a.name.localeCompare(b.name),
-	},
-	{
-		title: 'Age',
-		dataIndex: 'age',
-		sorter: (a, b) => a.age - b.age,
-	},
-	{
-		title: 'Address',
-		dataIndex: 'address',
-		defaultSortOrder: 'ascend',
-		sorter: (a, b) => a.address.localeCompare(b.address),
-	},
+  {
+    title: 'Playlist Name',
+    dataIndex: 'playlistName',
+    defaultSortOrder: 'ascend',
+    width: '35%',
+    align: 'center',
+    //alphabetical sort
+    sorter: (a, b) => a.playlistName.localeCompare(b.playlistName),
+  },
+  {
+    title: 'Owner',
+    dataIndex: 'owner',
+    align: 'center',
+    width: '35%',
+    sorter: (a, b) => a.owner.localeCompare(b.owner),
+  },
+  {
+    title: 'Last Updated',
+    dataIndex: 'lastUpdated',
+    defaultSortOrder: 'ascend',
+    align: 'center',
+    //sort by date
+    sorter: (a, b) =>
+      new Date(a.lastUpdated).getTime() - new Date(b.lastUpdated).getTime(),
+  },
+  {
+    title: 'Action',
+    dataIndex: '',
+    key: 'x',
+    align: 'center',
+    render: () => <Button icon={<DownloadOutlined />} />,
+  },
 ];
-  
-const data = [
-	{
-		key: '1',
-		name: 'John Brown',
-		age: 32,
-		address: 'New York No. 1 Lake Park',
-	},
-	{
-		key: '2',
-		name: 'Jim Green',
-		age: 42,
-		address: 'London No. 1 Lake Park',
-	},
-	{
-		key: '3',
-		name: 'Joe Black',
-		age: 32,
-		address: 'Sydney No. 1 Lake Park',
-	},
-	{
-		key: '4',
-		name: 'Jim Red',
-		age: 32,
-		address: 'London No. 2 Lake Park',
-	},
-	{
-		key: '5',
-		name: 'Jim Red',
-		age: 32,
-		address: 'London No. 2 Lake Park',
-	},
-	{
-		key: '6',
-		name: 'Jim Red',
-		age: 32,
-		address: 'London No. 2 Lake Park',
-	},
-	{
-		key: '7',
-		name: 'Jim Red',
-		age: 32,
-		address: 'London No. 2 Lake Park',
-	},
-	{
-		key: '8',
-		name: 'Jim Red',
-		age: 32,
-		address: 'London No. 2 Lake Park',
-	},
-	{
-		key: '9',
-		name: 'Jim Red',
-		age: 32,
-		address: 'London No. 2 Lake Park',
-	},
-	{
-		key: '10',
-		name: 'Jim Red',
-		age: 32,
-		address: 'London No. 2 Lake Park',
-	},
-	{
-		key: '11',
-		name: 'Jim Red',
-		age: 32,
-		address: 'London No. 2 Lake Park',
-	},
-	{
-		key: '12',
-		name: 'Jim Red',
-		age: 32,
-		address: 'London No. 2 Lake Park',
-	},
-	{
-		key: '13',
-		name: 'Jim Red',
-		age: 32,
-		address: 'London No. 2 Lake Park',
-	},
-	{
-		key: '14',
-		name: 'Jim Red',
-		age: 32,
-		address: 'London No. 2 Lake Park',
-	},
-	{
-		key: '15',
-		name: 'Jim Red',
-		age: 32,
-		address: 'London No. 2 Lake Park',
-	},
-	{
-		key: '16',
-		name: 'Jim Red',
-		age: 32,
-		address: 'London No. 2 Lake Park',
-	},
-	{
-		key: '17',
-		name: 'Jim Red',
-		age: 32,
-		address: 'London No. 2 Lake Park',
-	},
-	{
-		key: '18',
-		name: 'Jim End',
-		age: 32,
-		address: 'London No. 2 Lake Park',
-	},
+
+const data: DataType[] = [
+  {
+    key: 1,
+    playlistName: 'Playlist 1',
+    owner: 'Owner 1',
+    // create date to format date to string dd/mm/yyyy - hh:mm:ss
+    lastUpdated: new Date('2021-01-01').toLocaleString('en-GB'),
+  },
+  {
+    key: 2,
+    playlistName: 'Playlist 2',
+    owner: 'Owner 2',
+    lastUpdated: new Date('2021-01-02').toLocaleString('en-GB'),
+  },
+  {
+    key: 3,
+    playlistName: 'Playlist 3',
+    owner: 'Owner 3',
+    lastUpdated: new Date('2021-01-03').toLocaleString('en-GB'),
+  },
+  {
+    key: 4,
+    playlistName: 'Playlist 4',
+    owner: 'Owner 4',
+    lastUpdated: new Date('2021-01-04').toLocaleString('en-GB'),
+  },
+  {
+    key: 5,
+    playlistName: 'Playlist 5',
+    owner: 'Owner 5',
+    lastUpdated: new Date('2021-01-05').toLocaleString('en-GB'),
+  },
+  {
+    key: 6,
+    playlistName: 'Playlist 6',
+    owner: 'Owner 6',
+    lastUpdated: new Date('2021-01-06').toLocaleString('en-GB'),
+  },
+  {
+    key: 7,
+    playlistName: 'Playlist 7',
+    owner: 'Owner 7',
+    lastUpdated: new Date('2021-01-07').toLocaleString('en-GB'),
+  },
+  {
+    key: 8,
+    playlistName: 'Playlist 8',
+    owner: 'Owner 8',
+    lastUpdated: new Date('2021-01-08').toLocaleString('en-GB'),
+  },
+  {
+    key: 9,
+    playlistName: 'Playlist 9',
+    owner: 'Owner 9',
+    lastUpdated: new Date('2021-01-09').toLocaleString('en-GB'),
+  },
+  {
+    key: 10,
+    playlistName: 'Playlist 10',
+    owner: 'Owner 10',
+    lastUpdated: new Date('2021-01-10').toLocaleString('en-GB'),
+  },
+  {
+    key: 11,
+    playlistName: 'Playlist 11',
+    owner: 'Owner 11',
+    lastUpdated: new Date('2021-01-11').toLocaleString('en-GB'),
+  },
+  {
+    key: 12,
+    playlistName: 'Playlist 12',
+    owner: 'Owner 12',
+    lastUpdated: new Date('2021-01-12').toLocaleString('en-GB'),
+  },
+  {
+    key: 13,
+    playlistName: 'Playlist 13',
+    owner: 'Owner 13',
+    lastUpdated: new Date('2021-01-13').toLocaleString('en-GB'),
+  },
+  {
+    key: 14,
+    playlistName: 'Playlist 14',
+    owner: 'Owner 14',
+    lastUpdated: new Date('2021-01-14').toLocaleString('en-GB'),
+  },
 ];
 
 const rowSelection = {
-	onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
-		console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-	},
-	getCheckboxProps: (record: DataType) => ({
-		disabled: record.name === 'Disabled User', // Column configuration not to be checked
-		name: record.name,
-	}),
+  onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
+    console.log(
+      `selectedRowKeys: ${selectedRowKeys}`,
+      'selectedRows: ',
+      selectedRows,
+    );
+  },
+  getCheckboxProps: (record: DataType) => ({
+    disabled: record.playlistName === 'Disabled User', // Column configuration not to be checked
+    name: record.playlistName,
+  }),
 };
 
-const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {
-	console.log('params', pagination, filters, sorter, extra);
+const onChange: TableProps<DataType>['onChange'] = (
+  pagination,
+  filters,
+  sorter,
+  extra,
+) => {
+  console.log('params', pagination, filters, sorter, extra);
 };
 
 const Playlists = () => {
-	const { height } = useWindowSize();
-    
-	return(
-		<div style={{ backgroundColor: 'white' }}>
-			{/* fixed header element */}
-    
-			<Divider />
-			<Table
-				style={{ height: height}}
-				rowSelection={{
-					type: 'checkbox',
-					...rowSelection,
-				}}
-				columns={columns}
-				dataSource={data}
-				onChange={onChange}
-				//disable pagination
-				//this is not deprecated, it is just wrong a warning
-				title={() => <Title level={3}>Playlists</Title>}
-				footer={() => <Title level={3}>Footer</Title>}
-				pagination={false}
-				scroll={{ y: (height/100 * 80) - 100 }}
-			/>
-		</div>
-	);
+  const { height } = useWindowSize();
+  const tableRef = React.useRef<HTMLDivElement>(null);
+  console.log(tableRef.current?.offsetWidth);
+  return (
+    <Layout
+      style={{
+        backgroundColor: 'white',
+      }}
+    >
+      <Table
+        ref={tableRef}
+        rowSelection={{
+          type: 'checkbox',
+          ...rowSelection,
+        }}
+        columns={columns}
+        dataSource={data}
+        onChange={onChange}
+        //this is not deprecated, it is just wrong a warning
+        title={() => <Header />}
+        //disable pagination
+        pagination={false}
+        scroll={{ y: (height / 100) * 80 - 100 }}
+      />
+      {/** fix footer */}
+      <Footer
+        style={{
+          position: 'fixed',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          bottom: 0,
+          width: tableRef.current?.offsetWidth,
+          maxWidth: '100%',
+        }}
+      >
+        Your Footer Content
+      </Footer>
+    </Layout>
+  );
 };
 
 export default Playlists;
