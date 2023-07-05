@@ -13,7 +13,13 @@ function App() {
   }, []);
 
   return (
-    <Layout>
+    <Layout
+      style={{
+        height: '100vh',
+        width: '100vw',
+        backgroundColor: 'white',
+      }}
+    >
       <SideBar />
       <div id="content">
         <Outlet />

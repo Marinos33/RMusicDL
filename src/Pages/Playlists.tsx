@@ -6,8 +6,6 @@ import Header from '../components/Playlist/Header';
 import { DownloadOutlined } from '@ant-design/icons';
 import { Layout } from 'antd';
 
-const { Footer } = Layout;
-
 interface DataType {
   key: React.Key;
   playlistName: string;
@@ -164,7 +162,7 @@ const onChange: TableProps<DataType>['onChange'] = (
 const Playlists = () => {
   const { height } = useWindowSize();
   const tableRef = React.useRef<HTMLDivElement>(null);
-  console.log(tableRef.current?.offsetWidth);
+
   return (
     <Layout
       style={{
@@ -181,11 +179,11 @@ const Playlists = () => {
         columns={columns}
         dataSource={data}
         onChange={onChange}
-        //this is not deprecated, it is just wrong a warning
+        //this is not deprecated, it is just a wrong warning
         title={() => <Header />}
         //disable pagination
         pagination={false}
-        scroll={{ y: (height / 100) * 96 - 100 }}
+        scroll={{ y: (height / 100) * 97 - 100 }}
       />
     </Layout>
   );
