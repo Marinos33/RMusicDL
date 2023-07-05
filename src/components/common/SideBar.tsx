@@ -1,7 +1,10 @@
 import { SettingOutlined, CustomerServiceOutlined } from '@ant-design/icons';
 import { Divider, Layout, Menu } from 'antd';
-import { useState } from 'react';
+import { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { collapseSidebar } from '../../redux/UI/slice';
+import { RootState } from '../../redux/store';
 
 const { Header, Sider } = Layout;
 
@@ -31,14 +34,22 @@ const navItems = [
 ];
 
 const SideBar = () => {
-  const [collapsed, setCollapsed] = useState(true);
+  //const [collapsed, setCollapsed] = useState(true);
+  const collapsed = useSelector(
+    (state: RootState) => state.ui.sideBarCollapsed,
+  );
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const handleCollapse = useCallback(() => {
+    dispatch(collapseSidebar());
+  }, [dispatch]);
 
   return (
     <Sider
       collapsible
       collapsed={collapsed}
-      onCollapse={(value) => setCollapsed(value)}
+      onCollapse={() => handleCollapse()}
     >
       {/* TODO replace with logo */}
       <Header style={{ backgroundColor: 'green', width: '100%' }}>
