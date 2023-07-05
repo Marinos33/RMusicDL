@@ -1,10 +1,8 @@
 import React from 'react';
-import { Button, Table } from 'antd';
-import type { ColumnsType, TableProps } from 'antd/es/table';
-import useWindowSize from '../hooks/UseWindowSize';
 import Header from '../components/Playlist/Header';
-import { DownloadOutlined } from '@ant-design/icons';
 import { Layout } from 'antd';
+import PlaylistsTable from '../components/Playlist/PlaylistsTable';
+import AddPlaylistForm from '../components/Playlist/AddPlaylistForm';
 
 interface DataType {
   key: React.Key;
@@ -12,41 +10,6 @@ interface DataType {
   owner: string;
   lastUpdated: string;
 }
-
-const columns: ColumnsType<DataType> = [
-  {
-    title: 'Playlist Name',
-    dataIndex: 'playlistName',
-    defaultSortOrder: 'ascend',
-    width: '35%',
-    align: 'center',
-    //alphabetical sort
-    sorter: (a, b) => a.playlistName.localeCompare(b.playlistName),
-  },
-  {
-    title: 'Owner',
-    dataIndex: 'owner',
-    align: 'center',
-    width: '35%',
-    sorter: (a, b) => a.owner.localeCompare(b.owner),
-  },
-  {
-    title: 'Last Updated',
-    dataIndex: 'lastUpdated',
-    defaultSortOrder: 'ascend',
-    align: 'center',
-    //sort by date
-    sorter: (a, b) =>
-      new Date(a.lastUpdated).getTime() - new Date(b.lastUpdated).getTime(),
-  },
-  {
-    title: 'Action',
-    dataIndex: '',
-    key: 'x',
-    align: 'center',
-    render: () => <Button icon={<DownloadOutlined />} />,
-  },
-];
 
 const data: DataType[] = [
   {
@@ -150,35 +113,38 @@ const rowSelection = {
   }),
 };
 
-const onChange: TableProps<DataType>['onChange'] = (
-  pagination,
-  filters,
-  sorter,
-  extra,
-) => {
-  console.log('params', pagination, filters, sorter, extra);
-};
-
 const Playlists = () => {
-  const { height } = useWindowSize();
-  const tableRef = React.useRef<HTMLDivElement>(null);
+  const [openAddPlaylistModal, setOpenAddPlaylistModal] = React.useState(false);
+
+  const openModal = () => {
+    setOpenAddPlaylistModal(true);
+  };
+
+  const deletePlaylist = () => {
+    console.log('delete');
+  };
+
+  const onAddPlaylist = () => {
+    console.log('add');
+  };
+
+  const onCancelAddPlaylist = () => {
+    setOpenAddPlaylistModal(false);
+  };
 
   return (
     <Layout>
-      <Table
-        ref={tableRef}
-        rowSelection={{
-          type: 'checkbox',
-          ...rowSelection,
-        }}
-        columns={columns}
-        dataSource={data}
-        onChange={onChange}
-        //this is not deprecated, it is just a wrong warning
-        title={() => <Header />}
-        //disable pagination
-        pagination={false}
-        scroll={{ y: (height / 100) * 97 - 100 }}
+      <PlaylistsTable
+        data={data}
+        rowSelection={rowSelection}
+        headerComponent={
+          <Header onPlusClick={openModal} onDeleteClick={deletePlaylist} />
+        }
+      />
+      <AddPlaylistForm
+        open={openAddPlaylistModal}
+        handleOk={onAddPlaylist}
+        handleCancel={onCancelAddPlaylist}
       />
     </Layout>
   );
