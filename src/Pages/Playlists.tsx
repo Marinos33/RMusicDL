@@ -5,8 +5,6 @@ import useWindowSize from '../hooks/UseWindowSize';
 import Header from '../components/Playlist/Header';
 import { DownloadOutlined } from '@ant-design/icons';
 import { Layout } from 'antd';
-import { useSelector } from 'react-redux';
-import { RootState } from '../redux/store';
 
 interface DataType {
   key: React.Key;
@@ -162,18 +160,11 @@ const onChange: TableProps<DataType>['onChange'] = (
 };
 
 const Playlists = () => {
-  const collapsed = useSelector(
-    (state: RootState) => state.ui.sideBarCollapsed,
-  );
   const { height } = useWindowSize();
   const tableRef = React.useRef<HTMLDivElement>(null);
 
   return (
-    <Layout
-      style={{
-        backgroundColor: 'white',
-      }}
-    >
+    <Layout>
       <Table
         ref={tableRef}
         rowSelection={{

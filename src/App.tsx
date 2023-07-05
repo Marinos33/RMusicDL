@@ -4,6 +4,7 @@ import { invoke } from '@tauri-apps/api/tauri';
 import SideBar from './components/common/SideBar';
 import { Layout } from 'antd';
 import { Outlet, useNavigate } from 'react-router-dom';
+import { Content } from 'antd/es/layout/layout';
 
 function App() {
   const navigate = useNavigate();
@@ -20,9 +21,9 @@ function App() {
       }}
     >
       <SideBar />
-      <div id="content">
+      <Content>
         <Outlet />
-      </div>
+      </Content>
     </Layout>
   );
 

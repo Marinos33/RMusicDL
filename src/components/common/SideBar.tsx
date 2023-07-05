@@ -34,7 +34,6 @@ const navItems = [
 ];
 
 const SideBar = () => {
-  //const [collapsed, setCollapsed] = useState(true);
   const collapsed = useSelector(
     (state: RootState) => state.ui.sideBarCollapsed,
   );
@@ -50,6 +49,14 @@ const SideBar = () => {
       collapsible
       collapsed={collapsed}
       onCollapse={() => handleCollapse()}
+      width={175}
+      style={{
+        overflow: 'auto',
+        height: '100vh',
+        position: 'sticky',
+        top: 0,
+        left: 0,
+      }}
     >
       {/* TODO replace with logo */}
       <Header style={{ backgroundColor: 'green', width: '100%' }}>
