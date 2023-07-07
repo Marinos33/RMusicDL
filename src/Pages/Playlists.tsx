@@ -1,8 +1,11 @@
 import React from 'react';
-import Header from '../components/Playlist/Header';
+import Header from '../components/Playlists/Header';
 import { Layout } from 'antd';
-import PlaylistsTable from '../components/Playlist/PlaylistsTable';
-import AddPlaylistForm from '../components/Playlist/AddPlaylistForm';
+import PlaylistsTable from '../components/Playlists/PlaylistsTable';
+import AddPlaylistForm from '../components/Playlists/AddPlaylistForm';
+import { useDispatch } from 'react-redux';
+import { editRow } from '../redux/UI/slice';
+import EditForm from '../components/Playlists/EditForm';
 
 interface DataType {
   key: React.Key;
@@ -115,6 +118,7 @@ const rowSelection = {
 
 const Playlists = () => {
   const [openAddPlaylistModal, setOpenAddPlaylistModal] = React.useState(false);
+  const dispatch = useDispatch();
 
   const openModal = () => {
     setOpenAddPlaylistModal(true);
@@ -132,6 +136,16 @@ const Playlists = () => {
     setOpenAddPlaylistModal(false);
   };
 
+  const onEdit = (record: DataType): void => {
+    //convert record.key to number
+    const key = Number(record.key);
+    dispatch(editRow(key));
+  };
+
+  const closeEdit = () => {
+    dispatch(editRow(null));
+  };
+
   return (
     <Layout>
       <PlaylistsTable
@@ -140,7 +154,9 @@ const Playlists = () => {
         headerComponent={
           <Header onPlusClick={openModal} onDeleteClick={deletePlaylist} />
         }
+        onEdit={onEdit}
       />
+      <EditForm onSave={() => console.log('hey')} onClose={closeEdit} />
       <AddPlaylistForm
         open={openAddPlaylistModal}
         handleOk={onAddPlaylist}

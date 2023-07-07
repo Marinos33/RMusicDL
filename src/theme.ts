@@ -6,6 +6,7 @@ export type ExtentedThemeConfig = ThemeConfig & {
     sideBarTriggerColor?: string;
     headerColor?: string;
     colorSecondary?: string;
+    drawerColor?: string;
   };
 };
 
@@ -23,6 +24,7 @@ export const theme: ExtentedThemeConfig = {
     // my custom properties
     sideBarColor: '#263566',
     headerColor: '#263566',
+    drawerColor: '#263566',
     colorSecondary: '#688eff',
   },
 };
