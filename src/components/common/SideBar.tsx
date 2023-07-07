@@ -80,7 +80,7 @@ const SideBar = () => {
         direction="horizontal"
         style={{ width: '100%', justifyContent: 'center' }}
       >
-        <Image src={'src/assets/logo.svg'} width={70} preview={false} />
+        <Image src={'logo.svg'} width={70} preview={false} />
       </Space>
       <Menu
         theme="dark"
