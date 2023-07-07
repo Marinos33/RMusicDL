@@ -92,6 +92,22 @@ const EditForm = ({ onSave, onClose }: PropsType) => {
             <Select.Option value="wav">wav</Select.Option>
           </Select>
         </Form.Item>
+        <Form.Item>
+          <Space>
+            <Button htmlType="button" onClick={onClose}>
+              Cancel
+            </Button>
+            <Button
+              type="primary"
+              htmlType="submit"
+              style={{
+                boxShadow: 'none',
+              }}
+            >
+              Save
+            </Button>
+          </Space>
+        </Form.Item>
       </Form>
     </Drawer>
   );

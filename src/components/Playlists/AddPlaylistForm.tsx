@@ -26,6 +26,7 @@ const StyledModal = styled(Modal)<{ backgroundColor: string }>`
 
 const AddPlaylistForm = ({ open, handleOk, handleCancel }: PropsType) => {
   const { token }: ExtentedThemeConfig = useToken();
+
   const onFinish = (values: any) => {
     console.log('Success:', values);
   };
