@@ -1,5 +1,5 @@
 import { SettingOutlined, CustomerServiceOutlined } from '@ant-design/icons';
-import { Layout, Menu, theme } from 'antd';
+import { Layout, Menu, Space, theme } from 'antd';
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -7,10 +7,11 @@ import { collapseSidebar } from '../../redux/UI/slice';
 import { RootState } from '../../redux/store';
 import { ExtentedThemeConfig } from '../../theme';
 import styled from 'styled-components';
+import { Image } from 'antd';
 
 const { useToken } = theme;
 
-const { Header, Sider } = Layout;
+const { Sider } = Layout;
 
 const navItems = [
   {
@@ -68,15 +69,19 @@ const SideBar = () => {
         top: 0,
         left: 0,
         backgroundColor: token.sideBarColor,
+        borderRight: '1px solid gray',
       }}
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
       triggerColor={token.colorPrimary}
     >
       {/* TODO replace with logo */}
-      <Header style={{ backgroundColor: 'green', width: '100%' }}>
-        <div />
-      </Header>
+      <Space
+        direction="horizontal"
+        style={{ width: '100%', justifyContent: 'center' }}
+      >
+        <Image src={'src/assets/logo.svg'} width={70} preview={false} />
+      </Space>
       <Menu
         theme="dark"
         defaultSelectedKeys={['playlists']}
