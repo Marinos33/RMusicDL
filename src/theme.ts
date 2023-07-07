@@ -19,6 +19,5 @@ export const theme: ExtentedThemeConfig = {
     colorBorder: '#ffffff',
     // my custom properties
     sideBarColor: '#263566',
-    sideBarTriggerColor: '#145bbf',
   },
 };

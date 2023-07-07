@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { collapseSidebar } from '../../redux/UI/slice';
 import { RootState } from '../../redux/store';
 import { ExtentedThemeConfig } from '../../theme';
+import styled from 'styled-components';
 
 const { useToken } = theme;
 
@@ -36,6 +37,12 @@ const navItems = [
   },
 ];
 
+const StyledSider = styled(Sider)<{ triggerColor: string }>`
+  .ant-layout-sider-trigger {
+    background-color: ${(props) => props.triggerColor};
+  }
+`;
+
 const SideBar = () => {
   const collapsed = useSelector(
     (state: RootState) => state.ui.sideBarCollapsed,
@@ -49,7 +56,7 @@ const SideBar = () => {
   }, [dispatch]);
 
   return (
-    <Sider
+    <StyledSider
       collapsible
       collapsed={collapsed}
       onCollapse={() => handleCollapse()}
@@ -62,6 +69,9 @@ const SideBar = () => {
         left: 0,
         backgroundColor: token.sideBarColor,
       }}
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
+      triggerColor={token.colorPrimary}
     >
       {/* TODO replace with logo */}
       <Header style={{ backgroundColor: 'green', width: '100%' }}>
@@ -75,7 +85,7 @@ const SideBar = () => {
         mode="inline"
         style={{ backgroundColor: token.sideBarColor }}
       />
-    </Sider>
+    </StyledSider>
   );
 };
 
