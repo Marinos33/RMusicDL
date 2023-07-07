@@ -2,12 +2,16 @@ import { useEffect, useState } from 'react';
 import reactLogo from './assets/react.svg';
 import { invoke } from '@tauri-apps/api/tauri';
 import SideBar from './components/common/SideBar';
-import { Layout } from 'antd';
+import { Layout, theme } from 'antd';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { Content } from 'antd/es/layout/layout';
+import { ExtentedThemeConfig } from './theme';
+
+const { useToken } = theme;
 
 function App() {
   const navigate = useNavigate();
+  const { token }: ExtentedThemeConfig = useToken();
 
   useEffect(() => {
     navigate('playlists');
@@ -18,6 +22,7 @@ function App() {
       style={{
         height: '100vh',
         width: '100vw',
+        backgroundColor: token.colorBgContainer,
       }}
     >
       <SideBar />

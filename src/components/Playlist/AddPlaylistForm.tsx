@@ -1,6 +1,10 @@
-import { FolderOpenOutlined } from '@ant-design/icons';
-import { Form, Input, Button, Modal, Select, Space, Card } from 'antd';
+import { FolderOpenFilled } from '@ant-design/icons';
+import { Form, Input, Button, Modal, Select, Space, Card, theme } from 'antd';
 import Meta from 'antd/es/card/Meta';
+import { ExtentedThemeConfig } from '../../theme';
+import styled from 'styled-components';
+
+const { useToken } = theme;
 
 type PropsType = {
   open: boolean;
@@ -8,7 +12,20 @@ type PropsType = {
   handleCancel: () => void;
 };
 
+const StyledModal = styled(Modal)<{ backgroundColor: string }>`
+  .ant-modal-content {
+    background-color: ${(props) => props.backgroundColor};
+  }
+  .ant-modal-header {
+    background-color: ${(props) => props.backgroundColor};
+  }
+  .ant-modal-title {
+    font-size: 22px;
+  }
+`;
+
 const AddPlaylistForm = ({ open, handleOk, handleCancel }: PropsType) => {
+  const { token }: ExtentedThemeConfig = useToken();
   const onFinish = (values: any) => {
     console.log('Success:', values);
   };
@@ -26,7 +43,7 @@ const AddPlaylistForm = ({ open, handleOk, handleCancel }: PropsType) => {
   };
 
   return (
-    <Modal
+    <StyledModal
       title="Add a playlist"
       centered
       //disable on click outside
@@ -43,9 +60,15 @@ const AddPlaylistForm = ({ open, handleOk, handleCancel }: PropsType) => {
           Submit
         </Button>,
       ]}
+      bodyStyle={{
+        backgroundColor: token.colorBgContainer,
+      }}
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
+      backgroundColor={token.colorBgContainer}
     >
       <Form
-        name="Add a playlist"
+        name="addPlaylist"
         initialValues={{ remember: true, path: './', format: 'mp3' }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
@@ -63,6 +86,7 @@ const AddPlaylistForm = ({ open, handleOk, handleCancel }: PropsType) => {
           <Card
             hoverable
             style={{ width: '100%' }}
+            title="PLAYLIST NAME"
             cover={
               <img
                 alt="example"
@@ -79,11 +103,28 @@ const AddPlaylistForm = ({ open, handleOk, handleCancel }: PropsType) => {
         <Form.Item name="path">
           <Space>
             <Input style={{ width: 300 }} defaultValue={'./'} />
-            <Button icon={<FolderOpenOutlined />} />
+            <Button
+              icon={
+                <FolderOpenFilled
+                  style={{
+                    fontSize: '30px',
+                    color: token.colorSecondary,
+                  }}
+                />
+              }
+              style={{
+                border: 0,
+              }}
+            />
           </Space>
         </Form.Item>
         <Form.Item name="format">
-          <Select style={{ width: 80 }}>
+          <Select
+            style={{ width: 80 }}
+            dropdownStyle={{
+              backgroundColor: token.colorBgContainer,
+            }}
+          >
             <Select.Option value="aac">aac</Select.Option>
             <Select.Option value="flac">flac</Select.Option>
             <Select.Option value="m4a">m4a</Select.Option>
@@ -94,7 +135,7 @@ const AddPlaylistForm = ({ open, handleOk, handleCancel }: PropsType) => {
           </Select>
         </Form.Item>
       </Form>
-    </Modal>
+    </StyledModal>
   );
 };
 

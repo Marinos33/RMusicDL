@@ -1,8 +1,13 @@
 import React from 'react';
-import { Button, Table } from 'antd';
+import { Button, Table, theme } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { DownloadOutlined } from '@ant-design/icons';
 import useWindowSize from '../../hooks/UseWindowSize';
+import styled from 'styled-components';
+import { RefTable } from 'antd/es/table/interface';
+import { ExtentedThemeConfig } from '../../theme';
+
+const { useToken } = theme;
 
 interface DataType {
   key: React.Key;
@@ -58,13 +63,18 @@ type PropsType = {
   headerComponent?: React.ReactNode;
 };
 
+const StyledTable: RefTable = styled(Table)<{ titleBackgroundColor: string }>`
+  .ant-table-title {
+    background-color: ${(props) => props.titleBackgroundColor};
+  }
+`;
+
 const PlaylistsTable = ({ data, rowSelection, headerComponent }: PropsType) => {
   const { height } = useWindowSize();
-  const tableRef = React.useRef<HTMLDivElement>(null);
+  const { token }: ExtentedThemeConfig = useToken();
 
   return (
-    <Table
-      ref={tableRef}
+    <StyledTable
       rowSelection={{
         type: 'checkbox',
         ...rowSelection,
@@ -76,6 +86,9 @@ const PlaylistsTable = ({ data, rowSelection, headerComponent }: PropsType) => {
       //disable pagination
       pagination={false}
       scroll={{ y: (height / 100) * 97 - 100 }}
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
+      titleBackgroundColor={token.headerColor}
     />
   );
 };
