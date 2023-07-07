@@ -19,7 +19,7 @@ export const theme: ExtentedThemeConfig = {
     colorError: '#cd1014',
     colorInfo: '#10c2e2',
     colorBorder: '#ffffff',
-    colorPrimaryBgHover: 'red',
+    colorPrimaryBgHover: '#145bbf',
     // my custom properties
     sideBarColor: '#263566',
     headerColor: '#263566',

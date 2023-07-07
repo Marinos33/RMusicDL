@@ -47,7 +47,21 @@ const columns: ColumnsType<DataType> = [
     dataIndex: '',
     key: 'x',
     align: 'center',
-    render: () => <Button icon={<DownloadOutlined />} />,
+    render: () => (
+      <Button
+        icon={
+          <DownloadOutlined
+            style={{
+              fontSize: '25px',
+            }}
+          />
+        }
+        style={{
+          border: 'none',
+          backgroundColor: 'transparent',
+        }}
+      />
+    ),
   },
 ];
 
@@ -63,9 +77,17 @@ type PropsType = {
   headerComponent?: React.ReactNode;
 };
 
-const StyledTable: RefTable = styled(Table)<{ titleBackgroundColor: string }>`
+const StyledTable: RefTable = styled(Table)<{
+  titleBackgroundColor: string;
+  selectedRowColor: string;
+}>`
   .ant-table-title {
     background-color: ${(props) => props.titleBackgroundColor};
+  }
+  .ant-table-tbody
+    .ant-table-row.ant-table-row-selected:not(.ant-table-row-disabled)
+    > td {
+    background-color: ${(props) => props.selectedRowColor};
   }
 `;
 
@@ -89,6 +111,7 @@ const PlaylistsTable = ({ data, rowSelection, headerComponent }: PropsType) => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
       titleBackgroundColor={token.headerColor}
+      selectedRowColor={token.colorPrimary}
     />
   );
 };
