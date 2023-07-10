@@ -7,12 +7,15 @@ import { Provider } from 'react-redux';
 import store from './redux/store';
 import { ConfigProvider } from 'antd';
 import { theme as myTheme } from './theme';
+import { BridgeContextProvider } from './context/bridgeContext';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <Provider store={store}>
       <ConfigProvider theme={myTheme}>
-        <RouterProvider router={router} />
+        <BridgeContextProvider>
+          <RouterProvider router={router} />
+        </BridgeContextProvider>
       </ConfigProvider>
     </Provider>
   </React.StrictMode>,

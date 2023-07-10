@@ -3,7 +3,7 @@ import { Form, Input, Button, Modal, Select, Space, Card, theme } from 'antd';
 import Meta from 'antd/es/card/Meta';
 import { ExtentedThemeConfig } from '../../theme';
 import styled from 'styled-components';
-import { getPlaylistInfo } from '../../bridge';
+import useBridge from '../../hooks/useBrige';
 
 const { useToken } = theme;
 
@@ -27,6 +27,7 @@ const StyledModal = styled(Modal)<{ backgroundColor: string }>`
 
 const AddPlaylistForm = ({ open, handleOk, handleCancel }: PropsType) => {
   const { token }: ExtentedThemeConfig = useToken();
+  const { getPlaylistInfo } = useBridge();
 
   const onFinish = (values: any) => {
     console.log('Success:', values);
