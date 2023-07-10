@@ -3,6 +3,7 @@ import { Form, Input, Button, Modal, Select, Space, Card, theme } from 'antd';
 import Meta from 'antd/es/card/Meta';
 import { ExtentedThemeConfig } from '../../theme';
 import styled from 'styled-components';
+import { getPlaylistInfo } from '../../bridge';
 
 const { useToken } = theme;
 
@@ -33,6 +34,17 @@ const AddPlaylistForm = ({ open, handleOk, handleCancel }: PropsType) => {
 
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
+  };
+
+  const onUrlChange = async (e: any) => {
+    const input: string = e.target.value;
+    //check that input is a valid url format
+    if (input.match(/^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/)) {
+      //get the id of the video
+      console.log(input);
+      const res = await getPlaylistInfo(input);
+      console.log(res);
+    }
   };
 
   return (
@@ -81,7 +93,7 @@ const AddPlaylistForm = ({ open, handleOk, handleCancel }: PropsType) => {
           name="url"
           rules={[{ required: true, message: 'Please input an url!' }]}
         >
-          <Input />
+          <Input onChange={onUrlChange} />
         </Form.Item>
         <Form.Item name="info">
           <Card
