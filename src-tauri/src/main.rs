@@ -16,11 +16,14 @@ fn greet(name: &str) -> String {
 }
 
 #[tauri::command]
-fn get_playlist_info(url: &str) -> String {
-    let output: Result<youtube_dl::YoutubeDlOutput, youtube_dl::Error> = YoutubeDl::new(url)
-    .youtube_dl_path(YTDLPPATH.lock().unwrap().clone().unwrap())
+async fn get_playlist_info(url: String) -> String {
+    let path = YTDLPPATH.lock().unwrap().clone().unwrap();
+
+    let output = YoutubeDl::new(url)
+    .youtube_dl_path(path)
     .socket_timeout("15")
-    .run();
+    .run_async()
+    .await;
 
     println!("{:?}", output);
 
