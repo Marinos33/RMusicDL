@@ -5,6 +5,9 @@ use youtube_dl::{download_yt_dlp, YoutubeDl};//yt-dlp downloader
 use std::sync::{Arc, Mutex};
 use std::path::Path;
 
+mod types;
+use types::Playlist;
+
 // Define a global variable to hold the result
 static YTDLPPATH: once_cell::sync::Lazy<Arc<Mutex<Option<String>>>> =
     once_cell::sync::Lazy::new(|| Arc::new(Mutex::new(None)));
@@ -17,22 +20,36 @@ fn greet(name: &str) -> String {
 
 #[tauri::command]
 async fn get_playlist_info(url: String) -> String {
+
     let path = YTDLPPATH.lock().unwrap().clone().unwrap();
 
     let output = YoutubeDl::new(url)
     .youtube_dl_path(path)
     .socket_timeout("15")
+    .extra_arg("--dump-single-json")
     .run_async()
     .await;
 
-    println!("{:?}", output);
-
-    let title: String = match output {
-        Ok(output) => output.into_single_video().unwrap().title,
-        Err(_) => "Error".to_string(),
+    let info = match output {
+        Ok(output) => output.into_playlist().unwrap(),
+        Err(_) => panic!("Error"),
     };
 
-    return title;
+   /*println!("title {:?} ", info.title.unwrap());
+    println!("author {:?} ", info.uploader.unwrap());
+    println!("uploader url{:?} ", info.uploader_url.unwrap());
+    println!("thumbnail {:?}", info.thumbnails.unwrap()[0].url.clone().unwrap());*/
+
+    let playlist: Playlist = Playlist {
+        title : info.title.unwrap(),
+        author: info.uploader.unwrap(),
+        uploader_url: info.uploader_url.unwrap(),
+        thumbnail: info.thumbnails.unwrap()[0].url.clone().unwrap(),
+    };
+
+    let json: String = serde_json::to_string(&playlist).unwrap();
+
+    return json;
 }
 
 async fn init() {

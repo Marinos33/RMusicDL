@@ -1,9 +1,21 @@
 import { FolderOpenFilled } from '@ant-design/icons';
-import { Form, Input, Button, Modal, Select, Space, Card, theme } from 'antd';
+import {
+  Form,
+  Input,
+  Button,
+  Modal,
+  Select,
+  Space,
+  Card,
+  theme,
+  Spin,
+} from 'antd';
 import Meta from 'antd/es/card/Meta';
 import { ExtentedThemeConfig } from '../../theme';
 import styled from 'styled-components';
 import useBridge from '../../hooks/useBrige';
+import React, { useEffect } from 'react';
+import { PlaylistInfo } from '../../Types';
 
 const { useToken } = theme;
 
@@ -28,6 +40,10 @@ const StyledModal = styled(Modal)<{ backgroundColor: string }>`
 const AddPlaylistForm = ({ open, handleOk, handleCancel }: PropsType) => {
   const { token }: ExtentedThemeConfig = useToken();
   const { getPlaylistInfo } = useBridge();
+  const [infoPlaylist, setInfoPlaylist] = React.useState<PlaylistInfo | null>(
+    null,
+  );
+  const [infoLoading, setInfoLoading] = React.useState<boolean>(false);
 
   const onFinish = (values: any) => {
     console.log('Success:', values);
@@ -41,12 +57,19 @@ const AddPlaylistForm = ({ open, handleOk, handleCancel }: PropsType) => {
     const input: string = e.target.value;
     //check that input is a valid url format
     if (input.match(/^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/)) {
-      //get the id of the video
-      console.log(input);
+      setInfoLoading(true);
       const res = await getPlaylistInfo(input);
-      console.log(res);
+      setInfoPlaylist(res);
+      setInfoLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (open === false) {
+      setInfoPlaylist(null);
+      setInfoLoading(false);
+    }
+  }, [open]);
 
   return (
     <StyledModal
@@ -64,7 +87,7 @@ const AddPlaylistForm = ({ open, handleOk, handleCancel }: PropsType) => {
         </Button>,
         <Button
           key="submit"
-          disabled={true}
+          disabled={infoPlaylist === null}
           style={{
             boxShadow: 'none',
           }}
@@ -96,58 +119,76 @@ const AddPlaylistForm = ({ open, handleOk, handleCancel }: PropsType) => {
         >
           <Input onChange={onUrlChange} />
         </Form.Item>
-        <Form.Item name="info">
-          <Card
-            hoverable
-            style={{ width: '100%' }}
-            title="PLAYLIST NAME"
-            cover={
-              <img
-                alt="example"
-                src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-              />
-            }
-          >
-            <Meta
-              title={'Uploader : ' + 'UPLOADER NAME'}
-              description={'Uploader URL : ' + 'UPLOADER URL'}
-            />
-          </Card>
-        </Form.Item>
-        <Form.Item name="path">
-          <Space>
-            <Input style={{ width: 300 }} defaultValue={'./'} />
-            <Button
-              icon={
-                <FolderOpenFilled
+        {infoPlaylist !== null ? (
+          <>
+            <Form.Item name="info">
+              <Card
+                hoverable
+                style={{ width: '100%' }}
+                title={infoPlaylist.title}
+                cover={<img alt="example" src={infoPlaylist.thumbnail} />}
+              >
+                <Meta
+                  title={'Uploader : ' + infoPlaylist.author}
+                  description={'Uploader URL : ' + infoPlaylist.uploader_url}
+                />
+              </Card>
+            </Form.Item>
+            <Form.Item name="path">
+              <Space>
+                <Input style={{ width: 300 }} defaultValue={'./'} />
+                <Button
+                  icon={
+                    <FolderOpenFilled
+                      style={{
+                        fontSize: '2.8em',
+                        color: token.colorSecondary,
+                      }}
+                    />
+                  }
                   style={{
-                    fontSize: '2.8em',
-                    color: token.colorSecondary,
+                    border: 0,
                   }}
                 />
-              }
+              </Space>
+            </Form.Item>
+            <Form.Item name="format">
+              <Select
+                style={{ width: 80 }}
+                dropdownStyle={{
+                  backgroundColor: token.colorBgContainer,
+                }}
+              >
+                <Select.Option value="aac">aac</Select.Option>
+                <Select.Option value="flac">flac</Select.Option>
+                <Select.Option value="m4a">m4a</Select.Option>
+                <Select.Option value="mp3">mp3</Select.Option>
+                <Select.Option value="opus">opus</Select.Option>
+                <Select.Option value="ogg">ogg</Select.Option>
+                <Select.Option value="wav">wav</Select.Option>
+              </Select>
+            </Form.Item>
+          </>
+        ) : (
+          infoLoading && (
+            <div
               style={{
-                border: 0,
+                margin: '20px 0',
+                marginBottom: '20px',
+                padding: '30px 50px',
+                textAlign: 'center',
+                borderRadius: '4px',
               }}
-            />
-          </Space>
-        </Form.Item>
-        <Form.Item name="format">
-          <Select
-            style={{ width: 80 }}
-            dropdownStyle={{
-              backgroundColor: token.colorBgContainer,
-            }}
-          >
-            <Select.Option value="aac">aac</Select.Option>
-            <Select.Option value="flac">flac</Select.Option>
-            <Select.Option value="m4a">m4a</Select.Option>
-            <Select.Option value="mp3">mp3</Select.Option>
-            <Select.Option value="opus">opus</Select.Option>
-            <Select.Option value="ogg">ogg</Select.Option>
-            <Select.Option value="wav">wav</Select.Option>
-          </Select>
-        </Form.Item>
+            >
+              <Spin
+                size="large"
+                style={{
+                  color: 'red',
+                }}
+              />
+            </div>
+          )
+        )}
       </Form>
     </StyledModal>
   );
