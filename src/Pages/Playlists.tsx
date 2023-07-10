@@ -1,18 +1,13 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import Header from '../components/Playlists/Header';
 import { Layout } from 'antd';
-import PlaylistsTable from '../components/Playlists/PlaylistsTable';
+import PlaylistsTable, {
+  DataType,
+} from '../components/Playlists/PlaylistsTable';
 import AddPlaylistForm from '../components/Playlists/AddPlaylistForm';
 import { useDispatch } from 'react-redux';
 import { editRow } from '../redux/UI/slice';
 import EditForm from '../components/Playlists/EditForm';
-
-interface DataType {
-  key: React.Key;
-  playlistName: string;
-  owner: string;
-  lastUpdated: string;
-}
 
 const data: DataType[] = [
   {
@@ -120,31 +115,35 @@ const Playlists = () => {
   const [openAddPlaylistModal, setOpenAddPlaylistModal] = React.useState(false);
   const dispatch = useDispatch();
 
-  const openModal = () => {
+  const openModal = useCallback(() => {
     setOpenAddPlaylistModal(true);
-  };
+  }, []);
+
+  const onCancelAddPlaylist = useCallback(() => {
+    setOpenAddPlaylistModal(false);
+  }, []);
 
   const deletePlaylist = () => {
     console.log('delete');
   };
 
   const onAddPlaylist = () => {
+    setOpenAddPlaylistModal(false);
     console.log('add');
   };
 
-  const onCancelAddPlaylist = () => {
-    setOpenAddPlaylistModal(false);
-  };
+  const onEdit = useCallback(
+    (record: DataType): void => {
+      //convert record.key to number
+      const key = Number(record.key);
+      dispatch(editRow(key));
+    },
+    [dispatch],
+  );
 
-  const onEdit = (record: DataType): void => {
-    //convert record.key to number
-    const key = Number(record.key);
-    dispatch(editRow(key));
-  };
-
-  const closeEdit = () => {
+  const closeEdit = useCallback(() => {
     dispatch(editRow(null));
-  };
+  }, [dispatch]);
 
   return (
     <Layout>

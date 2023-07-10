@@ -9,7 +9,7 @@ import { ExtentedThemeConfig } from '../../theme';
 
 const { useToken } = theme;
 
-interface DataType {
+export interface DataType {
   key: React.Key;
   playlistName: string;
   owner: string;
@@ -117,7 +117,7 @@ const PlaylistsTable = ({
         ),
       },
     ],
-    [],
+    [onEdit],
   );
 
   return (

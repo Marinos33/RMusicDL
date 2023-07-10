@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import reactLogo from './assets/react.svg';
+import { useEffect } from 'react';
 import { invoke } from '@tauri-apps/api/tauri';
 import SideBar from './components/common/SideBar';
 import { Layout, theme } from 'antd';
@@ -15,6 +14,7 @@ function App() {
 
   useEffect(() => {
     navigate('playlists');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

@@ -35,14 +35,6 @@ const AddPlaylistForm = ({ open, handleOk, handleCancel }: PropsType) => {
     console.log('Failed:', errorInfo);
   };
 
-  const onOk = () => {
-    handleOk();
-  };
-
-  const onCancel = () => {
-    handleCancel();
-  };
-
   return (
     <StyledModal
       title="Add a playlist"
@@ -51,13 +43,21 @@ const AddPlaylistForm = ({ open, handleOk, handleCancel }: PropsType) => {
       maskClosable={false}
       destroyOnClose={true}
       open={open}
-      onOk={onOk}
-      onCancel={onCancel}
+      onOk={handleOk}
+      onCancel={handleCancel}
       footer={[
-        <Button key="back" onClick={onCancel}>
+        <Button key="back" onClick={handleCancel}>
           Cancel
         </Button>,
-        <Button key="submit" disabled={true} type="primary" onClick={onOk}>
+        <Button
+          key="submit"
+          disabled={true}
+          style={{
+            boxShadow: 'none',
+          }}
+          type="primary"
+          onClick={handleOk}
+        >
           Submit
         </Button>,
       ]}

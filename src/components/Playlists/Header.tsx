@@ -1,4 +1,4 @@
-import { Button, Divider, Space, theme } from 'antd';
+import { Button, Space, theme } from 'antd';
 import { PlusCircleFilled, DeleteFilled } from '@ant-design/icons';
 import { ExtentedThemeConfig } from '../../theme';
 
