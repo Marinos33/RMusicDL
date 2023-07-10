@@ -12,7 +12,7 @@ export type ExtentedThemeConfig = ThemeConfig & {
 
 export const theme: ExtentedThemeConfig = {
   token: {
-    colorBgContainer: '#1d252f',
+    colorBgContainer: '#02183a',
     colorTextBase: '#ffffff',
     colorPrimary: '#145bbf',
     colorSuccess: '#269a0f',

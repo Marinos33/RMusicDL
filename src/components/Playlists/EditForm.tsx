@@ -35,7 +35,7 @@ const EditForm = ({ onSave, onClose }: PropsType) => {
           icon={
             <CloseCircleFilled
               style={{
-                fontSize: '25px',
+                fontSize: '2.1em',
                 backgroundColor: 'transparent',
                 color: token.colorSecondary,
               }}
@@ -64,7 +64,7 @@ const EditForm = ({ onSave, onClose }: PropsType) => {
               icon={
                 <FolderOpenFilled
                   style={{
-                    fontSize: '30px',
+                    fontSize: '2.8em',
                     color: token.colorSecondary,
                   }}
                 />

@@ -1,8 +1,5 @@
 :root {
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 400;
 
   color: #0f0f0f;
   background-color: #1d252f;
@@ -69,18 +66,10 @@ button {
   outline: none;
 }
 
-#greet-input {
-  margin-right: 5px;
-}
-
 .ant-table-title {
-  padding: 7px 16px !important;
-  margin-left: 16px !important;
-}
-
-.ant-table-title {
-  margin: 0px !important;
   border-radius: 0% !important;
+  padding: 0.5% 1.5% !important;
+  border-bottom: 2px solid #0f0f0f !important;
 }
 
 .ant-select-dropdown

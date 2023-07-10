@@ -90,7 +90,7 @@ const PlaylistsTable = ({
               icon={
                 <DownloadOutlined
                   style={{
-                    fontSize: '25px',
+                    fontSize: '1.8em',
                   }}
                 />
               }
@@ -104,7 +104,7 @@ const PlaylistsTable = ({
               icon={
                 <EditFilled
                   style={{
-                    fontSize: '22px',
+                    fontSize: '1.8em',
                   }}
                 />
               }

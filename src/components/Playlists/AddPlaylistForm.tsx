@@ -20,7 +20,7 @@ const StyledModal = styled(Modal)<{ backgroundColor: string }>`
     background-color: ${(props) => props.backgroundColor};
   }
   .ant-modal-title {
-    font-size: 22px;
+    font-size: 1.8em;
   }
 `;
 
@@ -108,7 +108,7 @@ const AddPlaylistForm = ({ open, handleOk, handleCancel }: PropsType) => {
               icon={
                 <FolderOpenFilled
                   style={{
-                    fontSize: '30px',
+                    fontSize: '2.8em',
                     color: token.colorSecondary,
                   }}
                 />

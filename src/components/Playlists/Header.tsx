@@ -18,7 +18,7 @@ const Header = ({ onDeleteClick, onPlusClick }: PropsType) => {
         icon={
           <PlusCircleFilled
             style={{
-              fontSize: '30px',
+              fontSize: '2em',
               color: token.colorSecondary,
             }}
           />
@@ -33,7 +33,7 @@ const Header = ({ onDeleteClick, onPlusClick }: PropsType) => {
         icon={
           <DeleteFilled
             style={{
-              fontSize: '30px',
+              fontSize: '2em',
               color: token.colorSecondary,
             }}
           />
@@ -44,7 +44,6 @@ const Header = ({ onDeleteClick, onPlusClick }: PropsType) => {
           backgroundColor: 'transparent',
         }}
       />
-      <Divider />
     </Space>
   );
 };
