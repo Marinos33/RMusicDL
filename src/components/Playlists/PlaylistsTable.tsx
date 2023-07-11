@@ -5,7 +5,10 @@ import { DownloadOutlined, EditFilled } from '@ant-design/icons';
 import styled from 'styled-components';
 import { RefTable } from 'antd/es/table/interface';
 import { ExtentedThemeConfig } from '../../theme';
-import useWindowSize from '../../hooks/UseWindowSize';
+import useWindowSize from '../../hooks/useWindowSize';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
+import { LoadingOutlined } from '@ant-design/icons';
 
 const { useToken } = theme;
 
@@ -53,6 +56,9 @@ const PlaylistsTable = ({
 }: PropsType) => {
   const { height } = useWindowSize();
   const { token }: ExtentedThemeConfig = useToken();
+  const playlistsDownloading = useSelector(
+    (state: RootState) => state.ui.playlistsDownloading,
+  );
 
   const columns: ColumnsType<DataType> = useMemo(
     () => [
@@ -90,16 +96,31 @@ const PlaylistsTable = ({
           <Space>
             <Button
               onClick={() => onDownload(record)}
+              disabled={
+                playlistsDownloading.find((item) => record.key in item) !==
+                undefined
+              }
               icon={
-                <DownloadOutlined
-                  style={{
-                    fontSize: '1.8em',
-                  }}
-                />
+                playlistsDownloading.find((item) => record.key in item) ? (
+                  <LoadingOutlined
+                    style={{
+                      fontSize: '1.8em',
+                      color: 'white',
+                    }}
+                    spin
+                  />
+                ) : (
+                  <DownloadOutlined
+                    style={{
+                      fontSize: '1.8em',
+                    }}
+                  />
+                )
               }
               style={{
                 border: 'none',
                 backgroundColor: 'transparent',
+                boxShadow: 'none',
               }}
             />
             <Button
@@ -120,7 +141,7 @@ const PlaylistsTable = ({
         ),
       },
     ],
-    [onDownload, onEdit],
+    [onDownload, onEdit, playlistsDownloading],
   );
 
   return (

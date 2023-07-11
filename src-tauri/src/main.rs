@@ -6,15 +6,8 @@ use std::sync::{Arc, Mutex};
 use std::path::{Path, PathBuf};
 use std::fs::File;
 use std::io::copy;
-use ffmpeg_sidecar::{
-    command::ffmpeg_is_installed,
-    download::{check_latest_version, download_ffmpeg_package, ffmpeg_download_url, unpack_ffmpeg},
-    error::Result as ffmpeg_result,
-    paths::sidecar_dir,
-    version::ffmpeg_version,
-  };
+use ffmpeg_sidecar::download::{ffmpeg_download_url, unpack_ffmpeg};
 use reqwest::Client;
-use url::Url;
 
 mod types;
 use types::Playlist;
@@ -66,22 +59,28 @@ async fn get_playlist_info(url: String) -> String {
 }
 
 #[tauri::command]
-async fn download_playlist(url: String, format: String) -> bool {
+async fn download_playlist(url: String, format: String, path: String, name: String) -> bool {
+
+    //create folder at path + name if not exists    
+    let folder_path: String = format!("{}/{}", path, name);
+    std::fs::create_dir_all(&folder_path).unwrap();
 
     let ytdlp_path: String = YTDLPPATH.lock().unwrap().clone().unwrap();
     let ffmpeg_path: String = FFMPEGPATH.lock().unwrap().clone().unwrap();
     let format_arg: String = format!("--audio-format={}", format);
     let ffmpeg_arg: String = format!("--ffmpeg-location={}", ffmpeg_path);
-    let output: String = format!("%(playlist)s/%(title)s - %(uploader)s.%(ext)s");
-    let download_archive: String = format!("--download-archive={}", "archive.txt");
-    let postprocessor_args = format!("-metadata album={}", "test".replace(" ", "_"));
+    let output: String = format!("{}/%(title)s - %(uploader)s.%(ext)s", folder_path);
+    let download_archive: String = format!("--download-archive={}/history.txt", folder_path);
+    let postprocessor_args = format!("-metadata album={}", name.replace(" ", "_"));
+
+    println!("Downloading playlist...");
 
     if let Err(error) = YoutubeDl::new(url)
     .youtube_dl_path(ytdlp_path)
     .download(true)
     .extra_arg("--ignore-errors")
     .extra_arg("--yes-playlist")
-    .output_template(output)
+    .output_template(&output)
     .format("bestaudio")
     .extra_arg(&download_archive)
     .extra_arg(&ffmpeg_arg)
@@ -97,6 +96,8 @@ async fn download_playlist(url: String, format: String) -> bool {
         eprintln!("Error: {}", error);
         return false;
     }
+
+    //println!("output: {}", output);
 
     println!("Downloaded playlist");
 

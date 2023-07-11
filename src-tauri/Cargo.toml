@@ -22,8 +22,6 @@ tokio = { version = "1", features = ["full"] }
 ffmpeg-sidecar = "0.4.1"
 reqwest = "0.11.18"
 tar = "0.4.38"
-url = "2.4.0"
-urlencoding = "2.1.2"
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem

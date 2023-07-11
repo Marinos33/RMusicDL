@@ -8,7 +8,12 @@ interface BridgeContextProps {
 
 interface BridgeContextValue {
   getPlaylistInfo: (url: string) => Promise<PlaylistInfo>;
-  downloadPlaylist: (url: string, format: string) => Promise<boolean>;
+  downloadPlaylist: (
+    url: string,
+    format: string,
+    outputPath: string,
+    playlistName: string,
+  ) => Promise<boolean>;
 }
 
 const BridgeContext = createContext<BridgeContextValue>({
@@ -33,11 +38,15 @@ function BridgeContextProvider({ children }: BridgeContextProps) {
   const downloadPlaylist = async (
     url: string,
     format: string,
+    outputPath: string,
+    playlistName: string,
   ): Promise<boolean> => {
     try {
       const res = await invoke<boolean>('download_playlist', {
         url: url,
         format: format,
+        path: outputPath,
+        name: playlistName,
       });
 
       return res;

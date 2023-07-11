@@ -6,7 +6,11 @@ import PlaylistsTable, {
 } from '../components/Playlists/PlaylistsTable';
 import AddPlaylistForm from '../components/Playlists/AddPlaylistForm';
 import { useDispatch } from 'react-redux';
-import { editRow } from '../redux/UI/slice';
+import {
+  addPlaylistDownloading,
+  editRow,
+  removePlaylistDownloading,
+} from '../redux/UI/slice';
 import EditForm from '../components/Playlists/EditForm';
 import useBridge from '../hooks/useBrige';
 
@@ -145,14 +149,16 @@ const Playlists = () => {
 
   const onDownload = useCallback(
     async (record: DataType): Promise<void> => {
-      console.log('record', record);
+      dispatch(addPlaylistDownloading(record.key.toString()));
       const res = await downloadPlaylist(
         'https://www.youtube.com/playlist?list=PLFsfqcOmAwBlENETwocuxImAaEXj3ArCN',
         'mp3',
+        'H:/Music',
+        'TEST1',
       );
-      console.log('result', res);
+      dispatch(removePlaylistDownloading(record.key.toString()));
     },
-    [downloadPlaylist],
+    [dispatch, downloadPlaylist],
   );
 
   const closeEdit = useCallback(() => {
