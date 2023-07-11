@@ -68,26 +68,37 @@ async fn get_playlist_info(url: String) -> String {
 #[tauri::command]
 async fn download_playlist(url: String, format: String) -> bool {
 
-    let path: String = YTDLPPATH.lock().unwrap().clone().unwrap();
-    let format_arg: String = format!("--audio-format {}", format);
-    let ffmpeg_path: String = "".to_string();
-    let ffmpeg_arg: String = format!("--ffmpeg-location {}", ffmpeg_path);
+    let ytdlp_path: String = YTDLPPATH.lock().unwrap().clone().unwrap();
+    let ffmpeg_path: String = FFMPEGPATH.lock().unwrap().clone().unwrap();
+    let format_arg: String = format!("--audio-format={}", format);
+    let ffmpeg_arg: String = format!("--ffmpeg-location={}", ffmpeg_path);
+    let output: String = format!("%(playlist)s/%(title)s - %(uploader)s.%(ext)s");
+    let download_archive: String = format!("--download-archive={}", "archive.txt");
+    let postprocessor_args = format!("-metadata album={}", "test".replace(" ", "_"));
 
     if let Err(error) = YoutubeDl::new(url)
-    .youtube_dl_path(path)
+    .youtube_dl_path(ytdlp_path)
     .download(true)
-    .format("bestaudio")
-    .extract_audio(true)
-    .extra_arg(ffmpeg_arg)
-    //.extra_arg(format_arg)
     .extra_arg("--ignore-errors")
     .extra_arg("--yes-playlist")
+    .output_template(output)
+    .format("bestaudio")
+    .extra_arg(&download_archive)
+    .extra_arg(&ffmpeg_arg)
+    .extract_audio(true)
+    .extra_arg(&format_arg)
+    .extra_arg("--embed-thumbnail")
+    .extra_arg("--add-metadata")
+    .extra_arg("--postprocessor-args")
+    .extra_arg(&postprocessor_args)
     .run_async()
     .await
     {
         eprintln!("Error: {}", error);
         return false;
     }
+
+    println!("Downloaded playlist");
 
     return true;
 }
