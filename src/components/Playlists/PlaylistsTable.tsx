@@ -2,10 +2,10 @@ import React, { useMemo } from 'react';
 import { Button, Space, Table, theme } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { DownloadOutlined, EditFilled } from '@ant-design/icons';
-import useWindowSize from '../../hooks/UseWindowSize';
 import styled from 'styled-components';
 import { RefTable } from 'antd/es/table/interface';
 import { ExtentedThemeConfig } from '../../theme';
+import useWindowSize from '../../hooks/UseWindowSize';
 
 const { useToken } = theme;
 
@@ -27,6 +27,7 @@ type PropsType = {
   };
   headerComponent?: React.ReactNode;
   onEdit: (record: DataType) => void;
+  onDownload: (record: DataType) => void;
 };
 
 const StyledTable: RefTable = styled(Table)<{
@@ -48,6 +49,7 @@ const PlaylistsTable = ({
   rowSelection,
   headerComponent,
   onEdit,
+  onDownload,
 }: PropsType) => {
   const { height } = useWindowSize();
   const { token }: ExtentedThemeConfig = useToken();
@@ -87,6 +89,7 @@ const PlaylistsTable = ({
         render: (_, record) => (
           <Space>
             <Button
+              onClick={() => onDownload(record)}
               icon={
                 <DownloadOutlined
                   style={{
@@ -117,7 +120,7 @@ const PlaylistsTable = ({
         ),
       },
     ],
-    [onEdit],
+    [onDownload, onEdit],
   );
 
   return (

@@ -52,6 +52,33 @@ async fn get_playlist_info(url: String) -> String {
     return json;
 }
 
+#[tauri::command]
+async fn download_playlist(url: String, format: String) -> bool {
+
+    let path: String = YTDLPPATH.lock().unwrap().clone().unwrap();
+    let format_arg: String = format!("--audio-format {}", format);
+    let ffmpeg_path: String = ;
+    let ffmpeg_arg: String = format!("--ffmpeg-location {}", ffmpeg_path);
+
+    if let Err(error) = YoutubeDl::new(url)
+    .youtube_dl_path(path)
+    .download(true)
+    .format("bestaudio")
+    .extract_audio(true)
+    .extra_arg(ffmpeg_arg)
+    //.extra_arg(format_arg)
+    .extra_arg("--ignore-errors")
+    .extra_arg("--yes-playlist")
+    .run_async()
+    .await
+    {
+        eprintln!("Error: {}", error);
+        return false;
+    }
+
+    return true;
+}
+
 async fn init() {
 
     let yt_dlp_path = Path::new("./yt-dlp.exe");
@@ -85,6 +112,7 @@ async fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![greet])    
         .invoke_handler(tauri::generate_handler![get_playlist_info])
+        .invoke_handler(tauri::generate_handler![download_playlist])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

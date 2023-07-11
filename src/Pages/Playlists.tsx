@@ -8,6 +8,7 @@ import AddPlaylistForm from '../components/Playlists/AddPlaylistForm';
 import { useDispatch } from 'react-redux';
 import { editRow } from '../redux/UI/slice';
 import EditForm from '../components/Playlists/EditForm';
+import useBridge from '../hooks/useBrige';
 
 const data: DataType[] = [
   {
@@ -114,6 +115,7 @@ const rowSelection = {
 const Playlists = () => {
   const [openAddPlaylistModal, setOpenAddPlaylistModal] = React.useState(false);
   const dispatch = useDispatch();
+  const { downloadPlaylist } = useBridge();
 
   const openModal = useCallback(() => {
     setOpenAddPlaylistModal(true);
@@ -141,6 +143,18 @@ const Playlists = () => {
     [dispatch],
   );
 
+  const onDownload = useCallback(
+    async (record: DataType): Promise<void> => {
+      console.log('record', record);
+      const res = await downloadPlaylist(
+        'https://www.youtube.com/playlist?list=PLFsfqcOmAwBlENETwocuxImAaEXj3ArCN',
+        'mp3',
+      );
+      console.log('result', res);
+    },
+    [downloadPlaylist],
+  );
+
   const closeEdit = useCallback(() => {
     dispatch(editRow(null));
   }, [dispatch]);
@@ -154,6 +168,7 @@ const Playlists = () => {
           <Header onPlusClick={openModal} onDeleteClick={deletePlaylist} />
         }
         onEdit={onEdit}
+        onDownload={onDownload}
       />
       <EditForm onSave={() => console.log('hey')} onClose={closeEdit} />
       <AddPlaylistForm
