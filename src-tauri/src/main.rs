@@ -10,13 +10,15 @@ use ffmpeg_sidecar::download::{ffmpeg_download_url, unpack_ffmpeg};
 use reqwest::Client;
 
 mod types;
-use types::Playlist;
+use types::PlaylistInfo;
 
 // Define a global variable to hold the result
 static YTDLPPATH: once_cell::sync::Lazy<Arc<Mutex<Option<String>>>> =
     once_cell::sync::Lazy::new(|| Arc::new(Mutex::new(None)));
 static FFMPEGPATH: once_cell::sync::Lazy<Arc<Mutex<Option<String>>>> =
     once_cell::sync::Lazy::new(|| Arc::new(Mutex::new(None)));
+static ISINITIALIZED: once_cell::sync::Lazy<Arc<Mutex<bool>>> =
+    once_cell::sync::Lazy::new(|| Arc::new(Mutex::new(false)));
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
@@ -46,7 +48,7 @@ async fn get_playlist_info(url: String) -> String {
     println!("uploader url{:?} ", info.uploader_url.unwrap());
     println!("thumbnail {:?}", info.thumbnails.unwrap()[0].url.clone().unwrap());*/
 
-    let playlist: Playlist = Playlist {
+    let playlist: PlaylistInfo = PlaylistInfo {
         title : info.title.unwrap(),
         author: info.uploader.unwrap(),
         uploader_url: info.uploader_url.unwrap(),
@@ -97,15 +99,17 @@ async fn download_playlist(url: String, format: String, path: String, name: Stri
         return false;
     }
 
-    //println!("output: {}", output);
-
     println!("Downloaded playlist");
 
     return true;
 }
 
-async fn init_ytdlp() {
+#[tauri::command]
+async fn is_initialized() -> bool {
+    return *ISINITIALIZED.lock().unwrap();
+}
 
+async fn init_ytdlp() {
     let yt_dlp_path: &Path = Path::new("./yt-dlp.exe");
 
     if yt_dlp_path.exists() {
@@ -135,53 +139,62 @@ async fn init_ffmpeg() -> Result<(), Box<dyn std::error::Error>> {
     let download_url: &str = ffmpeg_download_url()?;
     println!("Download URL: {}", download_url);
 
-        // Extract the filename from the download URL
-        let zip_name = "ffmpeg-release-essentials.zip";
-        let filename = "ffmpeg.exe";
-        let destination: &Path = Path::new(".");
-        let exe_path: PathBuf = destination.join(filename);
+    // Extract the filename from the download URL
+    let zip_name = "ffmpeg-release-essentials.zip";
+    let filename = "ffmpeg.exe";
+    let destination: &Path = Path::new(".");
+    let exe_path: PathBuf = destination.join(filename);
 
-        // Check if ffmpeg is already installed
-        if exe_path.exists() {
-            println!("ffmpeg is already installed");
-            *FFMPEGPATH.lock().unwrap() = Some(exe_path.to_str().unwrap().to_string());
-            return Ok(());
-        }
+    // Check if ffmpeg is already installed
+    if exe_path.exists() {
+        println!("ffmpeg is already installed");
+        *FFMPEGPATH.lock().unwrap() = Some(exe_path.to_str().unwrap().to_string());
+        return Ok(());
+    }
 
-        // Download the file
-        let client: Client = Client::new();
-        let response: reqwest::Response = client.get(download_url).send().await?;
-        // Check if the download was successful
-        if response.status().is_success() {
-            // Save the file to disk
-            let mut file: File = File::create(zip_name)?;
-            copy(&mut response.bytes().await?.as_ref(), &mut file)?;
+    // Download the file
+    let client: Client = Client::new();
+    let response: reqwest::Response = client.get(download_url).send().await?;
+    // Check if the download was successful
+    if response.status().is_success() {
+        // Save the file to disk
+        let mut file: File = File::create(zip_name)?;
+        copy(&mut response.bytes().await?.as_ref(), &mut file)?;
 
-            let archive_path: PathBuf = destination.join(&zip_name).canonicalize()?;
+        let archive_path: PathBuf = destination.join(&zip_name).canonicalize()?;
 
-            println!("Destination: {:?}", destination);
+        println!("Destination: {:?}", destination);
             // Unpack the file
-            println!("Extracting...");
-            unpack_ffmpeg(&archive_path, &destination)?;
+        println!("Extracting...");
+        unpack_ffmpeg(&archive_path, &destination)?;
 
-            *FFMPEGPATH.lock().unwrap() = Some(exe_path.to_str().unwrap().to_string());
-            println!("Done! 🏁");
-        } else {
-            println!("Failed to download file: {:?}", response.status());
-        }
+        *FFMPEGPATH.lock().unwrap() = Some(exe_path.to_str().unwrap().to_string());
+        println!("Done! 🏁");
+    } else {
+        println!("Failed to download file: {:?}", response.status());
+    }
 
     Ok(())
   }
 
-#[tokio::main]
-async fn main() {
+async fn init() {
     init_ytdlp().await;
     _ = init_ffmpeg().await;
+
+    *ISINITIALIZED.lock().unwrap() = true;
+
+    println!("initialization done")
+}
+
+#[tokio::main]
+async fn main() {
+    tokio::spawn(init());
     
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![greet])    
         .invoke_handler(tauri::generate_handler![get_playlist_info])
         .invoke_handler(tauri::generate_handler![download_playlist])
+        .invoke_handler(tauri::generate_handler![is_initialized])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

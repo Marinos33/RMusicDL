@@ -150,12 +150,13 @@ const Playlists = () => {
   const onDownload = useCallback(
     async (record: DataType): Promise<void> => {
       dispatch(addPlaylistDownloading(record.key.toString()));
-      const res = await downloadPlaylist(
+      await downloadPlaylist(
         'https://www.youtube.com/playlist?list=PLFsfqcOmAwBlENETwocuxImAaEXj3ArCN',
         'mp3',
-        'H:/Music',
+        './',
         'TEST1',
       );
+      console.log('downloaded');
       dispatch(removePlaylistDownloading(record.key.toString()));
     },
     [dispatch, downloadPlaylist],

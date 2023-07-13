@@ -1,7 +1,7 @@
 use serde::Serialize;
 
 #[derive(Serialize)]
-pub struct Playlist {
+pub struct PlaylistInfo {
     pub title: String,
     pub author: String,
     pub uploader_url: String,

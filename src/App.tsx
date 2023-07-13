@@ -4,7 +4,6 @@ import { Layout, theme } from 'antd';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { Content } from 'antd/es/layout/layout';
 import { ExtentedThemeConfig } from './theme';
-
 const { useToken } = theme;
 
 function App() {
