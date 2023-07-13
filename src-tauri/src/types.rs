@@ -2,14 +2,6 @@ use serde::Serialize;
 use sqlx::FromRow;
 
 #[derive(Serialize)]
-pub struct PlaylistInfo {
-    pub title: String,
-    pub author: String,
-    pub uploader_url: String,
-    pub thumbnail: String,
-}
-
-#[derive(Serialize)]
 pub struct DbResult<T> {
     pub success: bool,
     pub data: Option<T>,

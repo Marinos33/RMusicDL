@@ -1,6 +1,7 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+use serde::Serialize;
 use youtube_dl::{download_yt_dlp, YoutubeDl};//yt-dlp downloader
 use std::sync::{Arc, Mutex};
 use std::path::{Path, PathBuf};
@@ -8,17 +9,13 @@ use std::fs::File;
 use std::io::copy;
 use ffmpeg_sidecar::download::{ffmpeg_download_url, unpack_ffmpeg};
 use reqwest::Client;
-use sqlx::sqlite::{SqliteConnectOptions, SqliteRow};
-use sqlx::{SqlitePool, Error, Row};
-use sqlx::sqlite::SqliteJournalMode;
-use chrono::{Utc, NaiveDateTime, format::strftime};
-use serde::Serialize;
+use sqlx::sqlite::{SqliteConnectOptions, SqliteJournalMode};
+use sqlx::{SqlitePool, Error};
+use chrono::Utc;
 
 mod types;
 mod entities;
-use types::PlaylistInfo;
 use types::DbResult;
-use entities::Playlist;
 
 use crate::types::PlaylistResult;
 
@@ -43,6 +40,13 @@ fn greet(name: &str) -> String {
 
 #[tauri::command]
 async fn get_playlist_info(url: String) -> String {
+    #[derive(Serialize)]
+    struct PlaylistInfo {
+        pub title: String,
+        pub author: String,
+        pub uploader_url: String,
+        pub thumbnail: String,
+    }
 
     let path: String = YTDLP_PATH.lock().unwrap().clone().unwrap();
 
@@ -267,7 +271,7 @@ async fn init_ffmpeg() -> Result<(), Box<dyn std::error::Error>> {
   }
 
 async fn init_db() -> sqlx::Result<sqlx::SqlitePool> {
-    let database_url: &str = "./mydatabase.db";
+    let database_url: &str = "./rmusicdl.db";
 
     let options: SqliteConnectOptions = SqliteConnectOptions::new()
         .filename(database_url)

@@ -41,7 +41,7 @@ function BridgeContextProvider({ children }: BridgeContextProps) {
     api.info({
       message: `Initialization in progress ...`,
       description:
-        'The necessary resources are being downloaded. Please be patient, it sould not take long.',
+        'The necessary resources are being downloaded. Please be patient, it should not take long.',
       placement: 'top',
       duration: 5,
       style: {
