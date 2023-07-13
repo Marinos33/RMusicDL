@@ -156,7 +156,6 @@ const Playlists = () => {
         './',
         'TEST1',
       );
-      console.log('downloaded');
       dispatch(removePlaylistDownloading(record.key.toString()));
     },
     [dispatch, downloadPlaylist],
