@@ -119,7 +119,7 @@ const rowSelection = {
 const Playlists = () => {
   const [openAddPlaylistModal, setOpenAddPlaylistModal] = React.useState(false);
   const dispatch = useDispatch();
-  const { downloadPlaylist } = useBridge();
+  const { downloadPlaylist, addPlaylist } = useBridge();
 
   const openModal = useCallback(() => {
     setOpenAddPlaylistModal(true);
@@ -133,8 +133,15 @@ const Playlists = () => {
     console.log('delete');
   };
 
-  const onAddPlaylist = () => {
+  const onAddPlaylist = async (
+    name: string,
+    url: string,
+    owner: string,
+    extension: string,
+    path: string,
+  ) => {
     setOpenAddPlaylistModal(false);
+    await addPlaylist(name, url, owner, extension, path);
     console.log('add');
   };
 
@@ -179,7 +186,7 @@ const Playlists = () => {
       <EditForm onSave={() => console.log('hey')} onClose={closeEdit} />
       <AddPlaylistForm
         open={openAddPlaylistModal}
-        handleOk={onAddPlaylist}
+        handleSubmit={onAddPlaylist}
         handleCancel={onCancelAddPlaylist}
       />
     </Layout>

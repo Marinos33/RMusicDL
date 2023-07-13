@@ -1,6 +1,6 @@
 import React, { createContext, useCallback } from 'react';
 import { invoke } from '@tauri-apps/api/tauri';
-import { PlaylistInfo } from '../Types';
+import { Playlist, PlaylistInfo } from '../Types';
 import { notification, theme } from 'antd';
 import { ExtentedThemeConfig } from '../theme';
 
@@ -16,11 +16,19 @@ interface BridgeContextValue {
     outputPath: string,
     playlistName: string,
   ) => Promise<void>;
+  addPlaylist: (
+    name: string,
+    url: string,
+    owner: string,
+    extension: string,
+    path: string,
+  ) => Promise<void>;
 }
 
 const BridgeContext = createContext<BridgeContextValue>({
   getPlaylistInfo: () => Promise.resolve({} as PlaylistInfo),
   downloadPlaylist: () => Promise.resolve(),
+  addPlaylist: () => Promise.resolve(),
 });
 
 const { useToken } = theme;
@@ -120,11 +128,42 @@ function BridgeContextProvider({ children }: BridgeContextProps) {
     [openNotificationInitializeInPorgress, openNotificationUnhandleError],
   );
 
+  const addPlaylist = async (
+    name: string,
+    url: string,
+    owner: string,
+    extension: string,
+    path: string,
+  ): Promise<void> => {
+    try {
+      const isInitialized = await getInitializeState(true);
+
+      if (!isInitialized) return;
+
+      const playlist = await invoke<Playlist>('add_playlist', {
+        name: name,
+        url: url,
+        owner: owner,
+        extension: extension,
+        path: path,
+      });
+
+      console.log(playlist);
+
+      return;
+    } catch (err) {
+      console.error(err);
+      openNotificationUnhandleError(err as string);
+      return;
+    }
+  };
+
   return (
     <BridgeContext.Provider
       value={{
         getPlaylistInfo,
         downloadPlaylist,
+        addPlaylist,
       }}
     >
       {contextHolder}

@@ -22,6 +22,8 @@ tokio = { version = "1", features = ["full"] }
 ffmpeg-sidecar = "0.4.1"
 reqwest = "0.11.18"
 tar = "0.4.38"
+sqlx = { version = "0.7.0", features = ["runtime-tokio", "macros", "sqlite"] }
+chrono = "0.4.26"
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem

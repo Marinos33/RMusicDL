@@ -63,3 +63,4 @@ src-tauri/yt-dlp.exe
 src-tauri/ffprobe.exe
 src-tauri/ffmpeg.exe
 src-tauri/ffplay.exe
+src-tauri/mydatabase.db

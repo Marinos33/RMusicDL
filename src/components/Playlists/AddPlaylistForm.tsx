@@ -21,7 +21,13 @@ const { useToken } = theme;
 
 type PropsType = {
   open: boolean;
-  handleOk: () => void;
+  handleSubmit: (
+    name: string,
+    url: string,
+    owner: string,
+    extension: string,
+    path: string,
+  ) => void;
   handleCancel: () => void;
 };
 
@@ -37,9 +43,10 @@ const StyledModal = styled(Modal)<{ backgroundColor: string }>`
   }
 `;
 
-const AddPlaylistForm = ({ open, handleOk, handleCancel }: PropsType) => {
+const AddPlaylistForm = ({ open, handleSubmit, handleCancel }: PropsType) => {
   const { token }: ExtentedThemeConfig = useToken();
   const { getPlaylistInfo } = useBridge();
+  const [form] = Form.useForm();
   const [infoPlaylist, setInfoPlaylist] = React.useState<PlaylistInfo | null>(
     null,
   );
@@ -64,6 +71,21 @@ const AddPlaylistForm = ({ open, handleOk, handleCancel }: PropsType) => {
     }
   };
 
+  const handleOk = () => {
+    form.validateFields().then((values) => {
+      form.resetFields();
+      if (infoPlaylist !== null) {
+        handleSubmit(
+          infoPlaylist.title,
+          values.url,
+          infoPlaylist.author,
+          values.format,
+          values.path,
+        );
+      }
+    });
+  };
+
   useEffect(() => {
     if (open === false) {
       setInfoPlaylist(null);
@@ -79,7 +101,6 @@ const AddPlaylistForm = ({ open, handleOk, handleCancel }: PropsType) => {
       maskClosable={false}
       destroyOnClose={true}
       open={open}
-      onOk={handleOk}
       onCancel={handleCancel}
       footer={[
         <Button key="back" onClick={handleCancel}>
@@ -105,6 +126,7 @@ const AddPlaylistForm = ({ open, handleOk, handleCancel }: PropsType) => {
       backgroundColor={token.colorBgContainer}
     >
       <Form
+        form={form}
         name="addPlaylist"
         initialValues={{ remember: true, path: './', format: 'mp3' }}
         onFinish={onFinish}
