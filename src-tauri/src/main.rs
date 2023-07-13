@@ -191,10 +191,12 @@ async fn main() {
     tokio::spawn(init());
     
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![greet])    
-        .invoke_handler(tauri::generate_handler![get_playlist_info])
-        .invoke_handler(tauri::generate_handler![download_playlist])
-        .invoke_handler(tauri::generate_handler![is_initialized])
+        .invoke_handler(tauri::generate_handler![
+            greet, 
+            get_playlist_info, 
+            download_playlist, 
+            is_initialized
+        ])    
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

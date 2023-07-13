@@ -104,7 +104,7 @@ function BridgeContextProvider({ children }: BridgeContextProps) {
   const getInitializeState = useCallback(
     async (useNotif = false): Promise<boolean> => {
       try {
-        const res: boolean = await invoke('is_initialized');
+        const res = await invoke<boolean>('is_initialized');
 
         if (useNotif && !res) {
           openNotificationInitializeInPorgress();
