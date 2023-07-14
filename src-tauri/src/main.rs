@@ -14,7 +14,6 @@ use sqlx::sqlite::{SqliteConnectOptions, SqliteJournalMode};
 use sqlx::SqlitePool;
 
 mod types;
-mod entities;
 mod repositories {
     pub mod downloading_profile_repository;
     pub mod playlist_repository;
@@ -258,9 +257,6 @@ async fn init_ytdlp() {
 
 async fn init_ffmpeg() -> Result<(), Box<dyn std::error::Error>> {
 
-    let download_url: &str = ffmpeg_download_url()?;
-    println!("Download URL: {}", download_url);
-
     // Extract the filename from the download URL
     let zip_name: &str = "ffmpeg-release-essentials.zip";
     let filename: &str = "ffmpeg.exe";
@@ -275,6 +271,9 @@ async fn init_ffmpeg() -> Result<(), Box<dyn std::error::Error>> {
     }
 
     // Download the file
+    let download_url: &str = ffmpeg_download_url()?;
+    println!("Download URL: {}", download_url);
+
     let client: Client = Client::new();
     let response: reqwest::Response = client.get(download_url).send().await?;
     // Check if the download was successful

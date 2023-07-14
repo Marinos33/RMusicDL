@@ -19,11 +19,14 @@ const EditForm = ({ onSave, onClose }: PropsType) => {
   const { token }: ExtentedThemeConfig = useToken();
   const { getPlaylist, getDownloadingProfile } = useBridge();
   const [playlistInfo, setPlaylistInfo] = useState<
-    (Playlist & DownloadingProfile) | null
-  >(null);
+    Playlist & DownloadingProfile
+  >({} as Playlist & DownloadingProfile);
+  const [loading, setLoading] = useState(true); // Add loading state
 
-  const getPlaylistInfo = useCallback(async () => {
+  const getPlaylistInfo = async () => {
     if (rowInEdition !== null) {
+      setLoading(true); // Set loading state to true
+
       const playlist = await getPlaylist(rowInEdition);
       const downloadingProfile = await getDownloadingProfile(
         playlist.profileId,
@@ -33,18 +36,24 @@ const EditForm = ({ onSave, onClose }: PropsType) => {
         ...playlist,
         ...downloadingProfile,
       });
+
+      setLoading(false); // Set loading state to false
+
+      console.log('downloadingProfile', downloadingProfile);
     }
-  }, [getDownloadingProfile, getPlaylist, rowInEdition]);
+  };
 
   useEffect(() => {
     getPlaylistInfo();
-  }, [getPlaylistInfo]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rowInEdition]);
 
   return (
     <Drawer
       title="Edit playlist"
       placement="right"
       onClose={onClose}
+      destroyOnClose
       open={rowInEdition !== null}
       style={{
         backgroundColor: token.colorBgContainer,
@@ -69,11 +78,13 @@ const EditForm = ({ onSave, onClose }: PropsType) => {
         />
       }
     >
-      {playlistInfo !== null ? (
+      {loading ? (
+        <Spin />
+      ) : (
         <Form
           name="editPlaylist"
           initialValues={{
-            remember: true,
+            remember: false,
             url: playlistInfo.url,
             path: playlistInfo.outputPath,
             format: playlistInfo.outputExtension,
@@ -143,8 +154,6 @@ const EditForm = ({ onSave, onClose }: PropsType) => {
             </Space>
           </Form.Item>
         </Form>
-      ) : (
-        <Spin />
       )}
     </Drawer>
   );
