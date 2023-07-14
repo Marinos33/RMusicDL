@@ -52,14 +52,6 @@ const AddPlaylistForm = ({ open, handleSubmit, handleCancel }: PropsType) => {
   );
   const [infoLoading, setInfoLoading] = React.useState<boolean>(false);
 
-  const onFinish = (values: any) => {
-    console.log('Success:', values);
-  };
-
-  const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
-  };
-
   const onUrlChange = async (e: any) => {
     const input: string = e.target.value;
     //check that input is a valid url format
@@ -129,8 +121,6 @@ const AddPlaylistForm = ({ open, handleSubmit, handleCancel }: PropsType) => {
         form={form}
         name="addPlaylist"
         initialValues={{ remember: true, path: './', format: 'mp3' }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
         autoComplete="off"
         layout="vertical"
       >

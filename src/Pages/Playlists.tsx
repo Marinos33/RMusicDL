@@ -58,12 +58,7 @@ const Playlists = () => {
   };
 
   const rowSelection = {
-    onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
-      console.log(
-        `selectedRowKeys: ${selectedRowKeys}`,
-        'selectedRows: ',
-        selectedRows,
-      );
+    onChange: (_selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
       setSelectedRows(selectedRows);
     },
     getCheckboxProps: (record: DataType) => ({
@@ -102,10 +97,6 @@ const Playlists = () => {
         const id = rowInEdition;
         const path = record.path;
         const format = record.format;
-
-        console.log('id', id);
-        console.log('path', path);
-        console.log('format', format);
 
         await updateProfile(id, format, path);
         dispatch(editRow(null));

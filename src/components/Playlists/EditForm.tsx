@@ -10,7 +10,7 @@ import { Playlist, DownloadingProfile } from '../../Types';
 const { useToken } = theme;
 
 type PropsType = {
-  onSave: (record: any) => void;
+  onSave: (record: { url: string; path: string; format: string }) => void;
   onClose: () => void;
 };
 
