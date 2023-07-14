@@ -13,3 +13,9 @@ export type Playlist = {
   last_update: string;
   profile_id: number;
 };
+
+export type DownloadingProfile = {
+  id: number;
+  outputExtension: string;
+  outputPath: string;
+};

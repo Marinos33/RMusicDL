@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import uiReducer from './UI/slice';
+import playlistsSliceReducer from './Playlists/slice';
 
 const store = configureStore({
   reducer: {
     ui: uiReducer,
+    playlistsSlice: playlistsSliceReducer,
   },
 });
 

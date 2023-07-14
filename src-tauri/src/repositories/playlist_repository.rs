@@ -156,7 +156,7 @@ impl PlaylistRepository {
         let now: chrono::NaiveDateTime = Utc::now().naive_utc();
         let now_str: String = now.format("%d-%m-%Y %H:%M").to_string();
 
-        let row_updated = sqlx::query_as::<_, PlaylistResult>(
+        let row_updated: Result<PlaylistResult, Error> = sqlx::query_as::<_, PlaylistResult>(
             "UPDATE playlists 
             SET last_update = ? 
             WHERE id = ? 
@@ -167,7 +167,7 @@ impl PlaylistRepository {
         .fetch_one(&self.pool)
         .await;
 
-        let success = match row_updated {
+        let success: bool = match row_updated {
             Ok(_) => true,
             Err(e) => {
                 eprintln!("Failed to update playlist: {:?}", e);
@@ -181,7 +181,7 @@ impl PlaylistRepository {
 
         let result: DbResult<PlaylistResult> = DbResult {
             success,
-            data: None,
+            data : Some(row_updated.unwrap())
         };
 
         return result;

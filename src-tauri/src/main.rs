@@ -198,6 +198,17 @@ async fn get_downloading_profile(id: i32) -> String {
     return serde_json::to_string(&downloading_profile).unwrap();
 }
 
+#[tauri::command]
+async fn delete_playlist(id: i32) -> String {
+    let pool: sqlx::Pool<sqlx::Sqlite> = DATABASE_POOL.lock().unwrap().clone().unwrap();
+
+    let playlist_repository: PlaylistRepository = playlist_repository::PlaylistRepository::new(pool).await;
+
+    let playlist = playlist_repository.delete(id).await;
+
+    return serde_json::to_string(&playlist).unwrap();
+}
+
 #[tokio::main]
 async fn main() {
     tokio::spawn(init());
@@ -213,7 +224,8 @@ async fn main() {
             get_playlist,
             refresh_playlist,
             update_downloading_profile,
-            get_downloading_profile
+            get_downloading_profile,
+            delete_playlist
         ])    
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

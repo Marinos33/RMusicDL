@@ -1,6 +1,6 @@
 import React, { createContext, useCallback } from 'react';
 import { invoke } from '@tauri-apps/api/tauri';
-import { Playlist, PlaylistInfo } from '../Types';
+import { DownloadingProfile, Playlist, PlaylistInfo } from '../Types';
 import { notification, theme } from 'antd';
 import { ExtentedThemeConfig } from '../theme';
 
@@ -23,12 +23,25 @@ interface BridgeContextValue {
     extension: string,
     path: string,
   ) => Promise<void>;
+  getPlaylists: () => Promise<Playlist[]>;
+  getPlaylist: (id: number) => Promise<Playlist>;
+  refreshPlaylist: (id: number) => Promise<Playlist>;
+  updateProfile: (
+    format: string,
+    outputPath: string,
+  ) => Promise<DownloadingProfile>;
+  getDownloadingProfile: (id: number) => Promise<DownloadingProfile>;
 }
 
 const BridgeContext = createContext<BridgeContextValue>({
   getPlaylistInfo: () => Promise.resolve({} as PlaylistInfo),
   downloadPlaylist: () => Promise.resolve(),
   addPlaylist: () => Promise.resolve(),
+  getPlaylists: () => Promise.resolve([] as Playlist[]),
+  getPlaylist: () => Promise.resolve({} as Playlist),
+  refreshPlaylist: () => Promise.resolve({} as Playlist),
+  updateProfile: () => Promise.resolve({} as DownloadingProfile),
+  getDownloadingProfile: () => Promise.resolve({} as DownloadingProfile),
 });
 
 const { useToken } = theme;
@@ -158,12 +171,111 @@ function BridgeContextProvider({ children }: BridgeContextProps) {
     }
   };
 
+  const getPlaylists = async (): Promise<Playlist[]> => {
+    try {
+      const isInitialized = await getInitializeState(true);
+
+      if (!isInitialized) return Promise.reject('Not initialized');
+
+      const playlists = await invoke<string>('get_playlists');
+
+      return JSON.parse(playlists);
+    } catch (err) {
+      console.error(err);
+      openNotificationUnhandleError(err as string);
+      return Promise.reject(err);
+    }
+  };
+
+  const getPlaylist = async (id: number): Promise<Playlist> => {
+    try {
+      const isInitialized = await getInitializeState(true);
+
+      if (!isInitialized) return Promise.reject('Not initialized');
+
+      const playlist = await invoke<string>('get_playlist', {
+        id: id,
+      });
+
+      return JSON.parse(playlist);
+    } catch (err) {
+      console.error(err);
+      openNotificationUnhandleError(err as string);
+      return Promise.reject(err);
+    }
+  };
+
+  const refreshPlaylist = async (id: number): Promise<Playlist> => {
+    try {
+      const isInitialized = await getInitializeState(true);
+
+      if (!isInitialized) return Promise.reject('Not initialized');
+
+      const playlist = await invoke<string>('refresh_playlist', {
+        id: id,
+      });
+
+      return JSON.parse(playlist);
+    } catch (err) {
+      console.error(err);
+      openNotificationUnhandleError(err as string);
+      return Promise.reject(err);
+    }
+  };
+
+  const updateProfile = async (
+    format: string,
+    outputPath: string,
+  ): Promise<DownloadingProfile> => {
+    try {
+      const isInitialized = await getInitializeState(true);
+
+      if (!isInitialized) return Promise.reject('Not initialized');
+
+      const profile = await invoke<string>('update_profile', {
+        extension: format,
+        path: outputPath,
+      });
+
+      return JSON.parse(profile);
+    } catch (err) {
+      console.error(err);
+      openNotificationUnhandleError(err as string);
+      return Promise.reject(err);
+    }
+  };
+
+  const getDownloadingProfile = async (
+    id: number,
+  ): Promise<DownloadingProfile> => {
+    try {
+      const isInitialized = await getInitializeState(true);
+
+      if (!isInitialized) return Promise.reject('Not initialized');
+
+      const profile = await invoke<string>('get_downloading_profile', {
+        id: id,
+      });
+
+      return JSON.parse(profile);
+    } catch (err) {
+      console.error(err);
+      openNotificationUnhandleError(err as string);
+      return Promise.reject(err);
+    }
+  };
+
   return (
     <BridgeContext.Provider
       value={{
         getPlaylistInfo,
         downloadPlaylist,
         addPlaylist,
+        getPlaylists,
+        getPlaylist,
+        refreshPlaylist,
+        updateProfile,
+        getDownloadingProfile,
       }}
     >
       {contextHolder}
