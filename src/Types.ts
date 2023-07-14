@@ -9,13 +9,18 @@ export type Playlist = {
   id: number;
   url: string;
   owner: string;
-  playlist_name: string;
-  last_update: string;
-  profile_id: number;
+  playlistName: string;
+  lastUpdate: string;
+  profileId: number;
 };
 
 export type DownloadingProfile = {
   id: number;
   outputExtension: string;
   outputPath: string;
+};
+
+export type DbResult = {
+  success: boolean;
+  data?: any;
 };

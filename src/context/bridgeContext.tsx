@@ -1,8 +1,10 @@
 import React, { createContext, useCallback } from 'react';
 import { invoke } from '@tauri-apps/api/tauri';
-import { DownloadingProfile, Playlist, PlaylistInfo } from '../Types';
+import { DbResult, DownloadingProfile, Playlist, PlaylistInfo } from '../Types';
 import { notification, theme } from 'antd';
 import { ExtentedThemeConfig } from '../theme';
+import { mapEachPlaylist, mapPlaylist } from '../Mapper/PlaylistMapper';
+import { mapProfile } from '../Mapper/DownloadingProfileMapper';
 
 interface BridgeContextProps {
   children: React.ReactNode;
@@ -22,7 +24,7 @@ interface BridgeContextValue {
     owner: string,
     extension: string,
     path: string,
-  ) => Promise<void>;
+  ) => Promise<Playlist>;
   getPlaylists: () => Promise<Playlist[]>;
   getPlaylist: (id: number) => Promise<Playlist>;
   refreshPlaylist: (id: number) => Promise<Playlist>;
@@ -36,7 +38,7 @@ interface BridgeContextValue {
 const BridgeContext = createContext<BridgeContextValue>({
   getPlaylistInfo: () => Promise.resolve({} as PlaylistInfo),
   downloadPlaylist: () => Promise.resolve(),
-  addPlaylist: () => Promise.resolve(),
+  addPlaylist: () => Promise.resolve({} as Playlist),
   getPlaylists: () => Promise.resolve([] as Playlist[]),
   getPlaylist: () => Promise.resolve({} as Playlist),
   refreshPlaylist: () => Promise.resolve({} as Playlist),
@@ -147,13 +149,13 @@ function BridgeContextProvider({ children }: BridgeContextProps) {
     owner: string,
     extension: string,
     path: string,
-  ): Promise<void> => {
+  ): Promise<Playlist> => {
     try {
       const isInitialized = await getInitializeState(true);
 
-      if (!isInitialized) return;
+      if (!isInitialized) return Promise.reject('Not initialized');
 
-      const playlist = await invoke<Playlist>('add_playlist', {
+      const playlist = await invoke<string>('add_playlist', {
         name: name,
         url: url,
         owner: owner,
@@ -161,13 +163,13 @@ function BridgeContextProvider({ children }: BridgeContextProps) {
         path: path,
       });
 
-      console.log(playlist);
+      const result: DbResult = JSON.parse(playlist);
 
-      return;
+      return mapPlaylist(result.data);
     } catch (err) {
       console.error(err);
       openNotificationUnhandleError(err as string);
-      return;
+      return Promise.reject('Not initialized');
     }
   };
 
@@ -179,7 +181,9 @@ function BridgeContextProvider({ children }: BridgeContextProps) {
 
       const playlists = await invoke<string>('get_playlists');
 
-      return JSON.parse(playlists);
+      const result: DbResult = JSON.parse(playlists);
+
+      return mapEachPlaylist(result.data);
     } catch (err) {
       console.error(err);
       openNotificationUnhandleError(err as string);
@@ -197,7 +201,9 @@ function BridgeContextProvider({ children }: BridgeContextProps) {
         id: id,
       });
 
-      return JSON.parse(playlist);
+      const result = JSON.parse(playlist);
+
+      return mapPlaylist(result.data);
     } catch (err) {
       console.error(err);
       openNotificationUnhandleError(err as string);
@@ -215,7 +221,9 @@ function BridgeContextProvider({ children }: BridgeContextProps) {
         id: id,
       });
 
-      return JSON.parse(playlist);
+      const result = JSON.parse(playlist);
+
+      return mapPlaylist(result.data);
     } catch (err) {
       console.error(err);
       openNotificationUnhandleError(err as string);
@@ -237,7 +245,9 @@ function BridgeContextProvider({ children }: BridgeContextProps) {
         path: outputPath,
       });
 
-      return JSON.parse(profile);
+      const result = JSON.parse(profile);
+
+      return mapProfile(result.data);
     } catch (err) {
       console.error(err);
       openNotificationUnhandleError(err as string);
@@ -257,7 +267,9 @@ function BridgeContextProvider({ children }: BridgeContextProps) {
         id: id,
       });
 
-      return JSON.parse(profile);
+      const result = JSON.parse(profile);
+
+      return mapProfile(result.data);
     } catch (err) {
       console.error(err);
       openNotificationUnhandleError(err as string);

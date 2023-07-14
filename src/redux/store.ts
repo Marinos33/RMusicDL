@@ -5,7 +5,7 @@ import playlistsSliceReducer from './Playlists/slice';
 const store = configureStore({
   reducer: {
     ui: uiReducer,
-    playlistsSlice: playlistsSliceReducer,
+    playlists: playlistsSliceReducer,
   },
 });
 

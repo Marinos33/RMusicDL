@@ -84,7 +84,7 @@ impl PlaylistRepository {
 
     pub async fn create(&self, url: String, owner: String, name: String, downloading_profile_id: i32) -> DbResult<PlaylistResult> {
         let now: chrono::NaiveDateTime = Utc::now().naive_utc();
-        let now_str: String = now.format("%d-%m-%Y %H:%M").to_string();
+        let now_str: String = now.format("%Y-%m-%dT%H:%M:%S%.fZ").to_string();
 
         let playlist: Result<PlaylistResult, Error> = sqlx::query_as::<_, PlaylistResult>(
             "INSERT INTO playlists (url, owner, playlist_name, last_update, profile_id) 
@@ -154,13 +154,13 @@ impl PlaylistRepository {
 
     pub async fn refresh_date(&self, id: i32) -> DbResult<PlaylistResult>{
         let now: chrono::NaiveDateTime = Utc::now().naive_utc();
-        let now_str: String = now.format("%d-%m-%Y %H:%M").to_string();
+        let now_str: String = now.format("%Y-%m-%dT%H:%M:%S%.fZ").to_string();
 
         let row_updated: Result<PlaylistResult, Error> = sqlx::query_as::<_, PlaylistResult>(
             "UPDATE playlists 
             SET last_update = ? 
             WHERE id = ? 
-            RETERNING *"
+            RETURNING *"
         )
         .bind(now_str)
         .bind(id)
