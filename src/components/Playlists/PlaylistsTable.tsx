@@ -29,7 +29,7 @@ type PropsType = {
     };
   };
   headerComponent?: React.ReactNode;
-  onEdit: (record: DataType) => void;
+  onEditClick: (record: DataType) => void;
   onDownload: (record: DataType) => void;
 };
 
@@ -51,7 +51,7 @@ const PlaylistsTable = ({
   data,
   rowSelection,
   headerComponent,
-  onEdit,
+  onEditClick,
   onDownload,
 }: PropsType) => {
   const { height } = useWindowSize();
@@ -124,7 +124,7 @@ const PlaylistsTable = ({
               }}
             />
             <Button
-              onClick={() => onEdit(record)}
+              onClick={() => onEditClick(record)}
               icon={
                 <EditFilled
                   style={{
@@ -141,7 +141,7 @@ const PlaylistsTable = ({
         ),
       },
     ],
-    [onDownload, onEdit, playlistsDownloading],
+    [onDownload, onEditClick, playlistsDownloading],
   );
 
   return (

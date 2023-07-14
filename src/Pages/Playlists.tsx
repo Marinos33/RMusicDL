@@ -40,6 +40,7 @@ const Playlists = () => {
   const playlists = useSelector(
     (state: RootState) => state.playlists.playlists,
   );
+  const rowInEdition = useSelector((state: RootState) => state.ui.rowInEdition);
   const {
     downloadPlaylist,
     addPlaylist,
@@ -47,6 +48,7 @@ const Playlists = () => {
     refreshPlaylist,
     getPlaylist,
     getDownloadingProfile,
+    updateProfile,
   } = useBridge();
 
   const openModal = useCallback(() => {
@@ -76,13 +78,31 @@ const Playlists = () => {
     [addPlaylist, dispatch],
   );
 
-  const onEdit = useCallback(
+  const onEditClick = useCallback(
     (record: DataType): void => {
       //convert record.key to number
       const key = Number(record.key);
       dispatch(editRow(key));
     },
     [dispatch],
+  );
+
+  const onSaveEdit = useCallback(
+    async (record: any) => {
+      if (rowInEdition !== null) {
+        const id = rowInEdition;
+        const path = record.path;
+        const format = record.format;
+
+        console.log('id', id);
+        console.log('path', path);
+        console.log('format', format);
+
+        await updateProfile(id, format, path);
+        dispatch(editRow(null));
+      }
+    },
+    [dispatch, rowInEdition, updateProfile],
   );
 
   const onDownload = useCallback(
@@ -145,10 +165,10 @@ const Playlists = () => {
         headerComponent={
           <Header onPlusClick={openModal} onDeleteClick={deletePlaylist} />
         }
-        onEdit={onEdit}
+        onEditClick={onEditClick}
         onDownload={onDownload}
       />
-      <EditForm onSave={() => console.log('hey')} onClose={closeEdit} />
+      <EditForm onSave={onSaveEdit} onClose={closeEdit} />
       <AddPlaylistForm
         open={openAddPlaylistModal}
         handleSubmit={onAddPlaylist}

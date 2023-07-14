@@ -86,7 +86,8 @@ impl DownloadingProfileRepository {
         let profile: Result<DownloadingProfileResult, Error> = sqlx::query_as::<_, DownloadingProfileResult>(
             "UPDATE downloading_profiles 
              SET output_extension = ?, output_path = ?
-             WHERE id = ?"
+             WHERE id = ?
+             RETURNING *"
         )
         .bind(extension)
         .bind(path)

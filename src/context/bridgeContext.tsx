@@ -29,10 +29,12 @@ interface BridgeContextValue {
   getPlaylist: (id: number) => Promise<Playlist>;
   refreshPlaylist: (id: number) => Promise<Playlist>;
   updateProfile: (
+    id: number,
     format: string,
     outputPath: string,
   ) => Promise<DownloadingProfile>;
   getDownloadingProfile: (id: number) => Promise<DownloadingProfile>;
+  deletePlaylist: (id: number) => Promise<void>;
 }
 
 const BridgeContext = createContext<BridgeContextValue>({
@@ -44,6 +46,7 @@ const BridgeContext = createContext<BridgeContextValue>({
   refreshPlaylist: () => Promise.resolve({} as Playlist),
   updateProfile: () => Promise.resolve({} as DownloadingProfile),
   getDownloadingProfile: () => Promise.resolve({} as DownloadingProfile),
+  deletePlaylist: () => Promise.resolve(),
 });
 
 const { useToken } = theme;
@@ -232,6 +235,7 @@ function BridgeContextProvider({ children }: BridgeContextProps) {
   };
 
   const updateProfile = async (
+    id: number,
     format: string,
     outputPath: string,
   ): Promise<DownloadingProfile> => {
@@ -240,7 +244,8 @@ function BridgeContextProvider({ children }: BridgeContextProps) {
 
       if (!isInitialized) return Promise.reject('Not initialized');
 
-      const profile = await invoke<string>('update_profile', {
+      const profile = await invoke<string>('update_downloading_profile', {
+        id: id,
         extension: format,
         path: outputPath,
       });
@@ -277,6 +282,24 @@ function BridgeContextProvider({ children }: BridgeContextProps) {
     }
   };
 
+  const deletePlaylist = async (id: number): Promise<void> => {
+    try {
+      const isInitialized = await getInitializeState(true);
+
+      if (!isInitialized) return;
+
+      await invoke<boolean>('delete_playlist', {
+        id: id,
+      });
+
+      return;
+    } catch (err) {
+      console.error(err);
+      openNotificationUnhandleError(err as string);
+      return;
+    }
+  };
+
   return (
     <BridgeContext.Provider
       value={{
@@ -288,6 +311,7 @@ function BridgeContextProvider({ children }: BridgeContextProps) {
         refreshPlaylist,
         updateProfile,
         getDownloadingProfile,
+        deletePlaylist,
       }}
     >
       {contextHolder}
