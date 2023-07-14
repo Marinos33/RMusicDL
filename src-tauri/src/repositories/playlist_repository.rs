@@ -1,5 +1,5 @@
 use serde::Serialize;
-use sqlx::{Connection, Executor, Sqlite, SqliteConnection, SqlitePool, FromRow, Error};
+use sqlx::{ Sqlite, FromRow, Error };
 use chrono::Utc;
 
 use crate::types::DbResult;
@@ -12,6 +12,7 @@ pub struct PlaylistResult {
     pub owner: String,
     pub playlist_name: String,
     pub last_update: String,
+    pub profile_id: i32
 }
 
 pub struct PlaylistRepository {
@@ -26,11 +27,59 @@ impl PlaylistRepository {
         }
     }
 
-    pub async fn get_all(&self) {
+    pub async fn get_all(&self) -> DbResult<Vec<PlaylistResult>>  {
+        let playlists: Result<Vec<PlaylistResult>, Error> = sqlx::query_as::<_, PlaylistResult>(
+            "SELECT * FROM playlists"
+        )
+        .fetch_all(&self.pool)
+        .await;
 
+        let success: bool = match playlists {
+            Ok(_) => true,
+            Err(e) => {
+                eprintln!("Failed to insert playlist: {:?}", e);
+                let result: DbResult<Vec<PlaylistResult>> = DbResult {
+                    success: false,
+                    data: None,
+                };
+                return result;
+            },
+        };
+
+        let result: DbResult<Vec<PlaylistResult>> = DbResult {
+            success,
+            data: Some(playlists.unwrap())
+        };
+
+        return result;
     }
 
-    pub async fn get_by_id(&self, id: i32) {
+    pub async fn get_by_id(&self, id: i32) -> DbResult<PlaylistResult>  {
+        let playlist: Result<PlaylistResult, Error> = sqlx::query_as::<_, PlaylistResult>(
+            "SELECT * FROM playlists WHERE id = ?"
+        )
+        .bind(id)
+        .fetch_one(&self.pool)
+        .await;
+
+        let success: bool = match playlist {
+            Ok(_) => true,
+            Err(e) => {
+                eprintln!("Failed to insert playlist: {:?}", e);
+                let result: DbResult<PlaylistResult> = DbResult {
+                    success: false,
+                    data: None,
+                };
+                return result;
+            },
+        };
+
+        let result: DbResult<PlaylistResult> = DbResult {
+            success,
+            data: Some(playlist.unwrap())
+        };
+
+        return result;
     }
 
     pub async fn create(&self, url: String, owner: String, name: String, downloading_profile_id: i32) -> DbResult<PlaylistResult> {
@@ -70,16 +119,72 @@ impl PlaylistRepository {
         return result;
     }
 
-    pub async fn update(&self) {
+    /*pub async fn update(&self) {
 
+    }*/
+
+    pub async fn delete(&self, id: i32) -> DbResult<PlaylistResult> {
+       let row_deleted = sqlx::query_as::<_, PlaylistResult>(
+            "DELETE FROM playlists WHERE id = ?"
+        )
+        .bind(id)
+        .fetch_one(&self.pool)
+        .await;
+
+        let success = match row_deleted {
+            Ok(_) => true,
+            Err(e) => {
+                eprintln!("Failed to delete playlist: {:?}", e);
+                let result: DbResult<PlaylistResult> = DbResult {
+                    success: false,
+                    data: None,
+                };
+                return result;
+            },
+        };
+
+        let result: DbResult<PlaylistResult> = DbResult {
+            success,
+            data: None,
+        };
+
+        return result;
+        
     }
 
-    pub async fn delete(&self) {
+    pub async fn refresh_date(&self, id: i32) -> DbResult<PlaylistResult>{
+        let now: chrono::NaiveDateTime = Utc::now().naive_utc();
+        let now_str: String = now.format("%d-%m-%Y %H:%M").to_string();
 
-    }
+        let row_updated = sqlx::query_as::<_, PlaylistResult>(
+            "UPDATE playlists 
+            SET last_update = ? 
+            WHERE id = ? 
+            RETERNING *"
+        )
+        .bind(now_str)
+        .bind(id)
+        .fetch_one(&self.pool)
+        .await;
 
-    pub async fn refresh_date(&self){
+        let success = match row_updated {
+            Ok(_) => true,
+            Err(e) => {
+                eprintln!("Failed to update playlist: {:?}", e);
+                let result: DbResult<PlaylistResult> = DbResult {
+                    success: false,
+                    data: None,
+                };
+                return result;
+            },
+        };
 
+        let result: DbResult<PlaylistResult> = DbResult {
+            success,
+            data: None,
+        };
+
+        return result;
     }
 }
 

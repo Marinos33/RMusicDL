@@ -1,5 +1,5 @@
 use serde::Serialize;
-use sqlx::{Connection, Executor, Sqlite, SqliteConnection, SqlitePool, FromRow, Error};
+use sqlx::{Sqlite, FromRow, Error};
 
 use crate::types::DbResult;
 
@@ -22,11 +22,32 @@ impl DownloadingProfileRepository {
         }
     }
 
-    pub async fn get_all(&self) {
+    pub async fn get_by_id(&self, id: i32) -> DbResult<DownloadingProfileResult> {
+        let profile: Result<DownloadingProfileResult, Error> = sqlx::query_as::<_, DownloadingProfileResult>(
+            "SELECT * FROM downloading_profiles WHERE id = ?"
+        )
+        .bind(id)
+        .fetch_one(&self.pool)
+        .await;
 
-    }
+        let success: bool = match profile {
+            Ok(_) => true,
+            Err(e) => {
+                eprintln!("Failed to insert playlist: {:?}", e);
+                let result: DbResult<DownloadingProfileResult> = DbResult {
+                    success: false,
+                    data: None,
+                };
+                return result;
+            },
+        };
 
-    pub async fn get_by_id(&self, id: i32) {
+        let result: DbResult<DownloadingProfileResult> = DbResult {
+            success,
+            data: Some(profile.unwrap())
+        };
+
+        return result;
     }
 
     pub async fn create(&self, extension: String, path: String) -> DbResult<DownloadingProfileResult> {
@@ -61,16 +82,36 @@ impl DownloadingProfileRepository {
         return result;
     }
 
-    pub async fn update(&self) {
+    pub async fn update(&self, id: i32, extension: String, path: String) -> DbResult<DownloadingProfileResult> {
+        let profile: Result<DownloadingProfileResult, Error> = sqlx::query_as::<_, DownloadingProfileResult>(
+            "UPDATE downloading_profiles 
+             SET output_extension = ?, output_path = ?
+             WHERE id = ?"
+        )
+        .bind(extension)
+        .bind(path)
+        .bind(id)
+        .fetch_one(&self.pool)
+        .await;
 
-    }
+        let success: bool = match profile {
+            Ok(_) => true,
+            Err(e) => {
+                eprintln!("Failed to insert playlist: {:?}", e);
+                let result: DbResult<DownloadingProfileResult> = DbResult {
+                    success: false,
+                    data: None,
+                };
+                return result;
+            },
+        };
 
-    pub async fn delete(&self) {
+        let result: DbResult<DownloadingProfileResult> = DbResult {
+            success,
+            data: Some(profile.unwrap())
+        };
 
-    }
-
-    pub async fn refresh_date(&self){
-
+        return result;
     }
 }
 
