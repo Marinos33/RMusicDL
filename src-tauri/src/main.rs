@@ -143,6 +143,61 @@ async fn add_playlist(url: String, owner: String, name: String, extension: Strin
     return serde_json::to_string(&playlist).unwrap();
 }
 
+#[tauri::command]
+async fn get_playlists() -> String {
+    let pool: sqlx::Pool<sqlx::Sqlite> = DATABASE_POOL.lock().unwrap().clone().unwrap();
+
+    let playlist_repository: PlaylistRepository = playlist_repository::PlaylistRepository::new(pool).await;
+
+    let playlists = playlist_repository.get_all().await;
+
+    return serde_json::to_string(&playlists).unwrap();
+}
+
+#[tauri::command]
+async fn get_playlist(id: i32) -> String {
+    let pool: sqlx::Pool<sqlx::Sqlite> = DATABASE_POOL.lock().unwrap().clone().unwrap();
+
+    let playlist_repository: PlaylistRepository = playlist_repository::PlaylistRepository::new(pool).await;
+
+    let playlist = playlist_repository.get_by_id(id).await;
+
+    return serde_json::to_string(&playlist).unwrap();
+}
+
+#[tauri::command]
+async fn refresh_playlist(id: i32) -> String {
+    let pool: sqlx::Pool<sqlx::Sqlite> = DATABASE_POOL.lock().unwrap().clone().unwrap();
+
+    let playlist_repository: PlaylistRepository = playlist_repository::PlaylistRepository::new(pool).await;
+
+    let playlist = playlist_repository.refresh_date(id).await;
+
+    return serde_json::to_string(&playlist).unwrap();
+}
+
+#[tauri::command]
+async fn update_downloading_profile(id: i32, extension: String, path: String) -> String {
+    let pool: sqlx::Pool<sqlx::Sqlite> = DATABASE_POOL.lock().unwrap().clone().unwrap();
+
+    let downloading_profile_repository: DownloadingProfileRepository = DownloadingProfileRepository::new(pool).await;
+
+    let downloading_profile = downloading_profile_repository.update(id, extension, path).await;
+
+    return serde_json::to_string(&downloading_profile).unwrap();
+}
+
+#[tauri::command]
+async fn get_downloading_profile(id: i32) -> String {
+    let pool: sqlx::Pool<sqlx::Sqlite> = DATABASE_POOL.lock().unwrap().clone().unwrap();
+
+    let downloading_profile_repository: DownloadingProfileRepository = DownloadingProfileRepository::new(pool).await;
+
+    let downloading_profile = downloading_profile_repository.get_by_id(id).await;
+
+    return serde_json::to_string(&downloading_profile).unwrap();
+}
+
 #[tokio::main]
 async fn main() {
     tokio::spawn(init());
@@ -153,7 +208,12 @@ async fn main() {
             get_playlist_info, 
             download_playlist, 
             is_initialized,
-            add_playlist
+            add_playlist,
+            get_playlists,
+            get_playlist,
+            refresh_playlist,
+            update_downloading_profile,
+            get_downloading_profile
         ])    
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
