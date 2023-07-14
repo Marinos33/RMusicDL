@@ -16,26 +16,14 @@ import useBridge from '../hooks/useBrige';
 import { RootState } from '../redux/store';
 import {
   addToPlaylists,
+  removeFromPlaylists,
   setPlaylists,
   updateElementInPlaylists,
 } from '../redux/Playlists/slice';
 
-const rowSelection = {
-  onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
-    console.log(
-      `selectedRowKeys: ${selectedRowKeys}`,
-      'selectedRows: ',
-      selectedRows,
-    );
-  },
-  getCheckboxProps: (record: DataType) => ({
-    disabled: record.playlistName === 'Disabled User', // Column configuration not to be checked
-    name: record.playlistName,
-  }),
-};
-
 const Playlists = () => {
   const [openAddPlaylistModal, setOpenAddPlaylistModal] = React.useState(false);
+  const [selectedRows, setSelectedRows] = React.useState<DataType[]>([]);
   const dispatch = useDispatch();
   const playlists = useSelector(
     (state: RootState) => state.playlists.playlists,
@@ -49,6 +37,7 @@ const Playlists = () => {
     getPlaylist,
     getDownloadingProfile,
     updateProfile,
+    deletePlaylist,
   } = useBridge();
 
   const openModal = useCallback(() => {
@@ -59,8 +48,28 @@ const Playlists = () => {
     setOpenAddPlaylistModal(false);
   }, []);
 
-  const deletePlaylist = () => {
-    console.log('delete');
+  const deleteSelectedPlaylists = () => {
+    //for each selected playlist, delete it
+    selectedRows.forEach(async (selectedRow) => {
+      const id = Number(selectedRow.key);
+      await deletePlaylist(id);
+      dispatch(removeFromPlaylists(id));
+    });
+  };
+
+  const rowSelection = {
+    onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
+      console.log(
+        `selectedRowKeys: ${selectedRowKeys}`,
+        'selectedRows: ',
+        selectedRows,
+      );
+      setSelectedRows(selectedRows);
+    },
+    getCheckboxProps: (record: DataType) => ({
+      disabled: record.playlistName === 'Disabled User', // Column configuration not to be checked
+      name: record.playlistName,
+    }),
   };
 
   const onAddPlaylist = useCallback(
@@ -163,7 +172,10 @@ const Playlists = () => {
         data={formatData}
         rowSelection={rowSelection}
         headerComponent={
-          <Header onPlusClick={openModal} onDeleteClick={deletePlaylist} />
+          <Header
+            onPlusClick={openModal}
+            onDeleteClick={deleteSelectedPlaylists}
+          />
         }
         onEditClick={onEditClick}
         onDownload={onDownload}

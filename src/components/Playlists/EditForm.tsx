@@ -71,7 +71,7 @@ const EditForm = ({ onSave, onClose }: PropsType) => {
     >
       {playlistInfo !== null ? (
         <Form
-          name="addPlaylist"
+          name="editPlaylist"
           initialValues={{
             remember: true,
             url: playlistInfo.url,
