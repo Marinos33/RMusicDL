@@ -4,7 +4,7 @@ import { RootState } from '../../redux/store';
 import { CloseCircleFilled, FolderOpenFilled } from '@ant-design/icons';
 import { ExtentedThemeConfig } from '../../theme';
 import useBridge from '../../hooks/useBrige';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Playlist, DownloadingProfile } from '../../Types';
 
 const { useToken } = theme;
