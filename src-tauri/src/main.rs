@@ -1,6 +1,7 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+use repositories::playlist_repository;
 use serde::Serialize;
 use youtube_dl::{download_yt_dlp, YoutubeDl};//yt-dlp downloader
 use std::sync::{Arc, Mutex};
@@ -10,14 +11,16 @@ use std::io::copy;
 use ffmpeg_sidecar::download::{ffmpeg_download_url, unpack_ffmpeg};
 use reqwest::Client;
 use sqlx::sqlite::{SqliteConnectOptions, SqliteJournalMode};
-use sqlx::{SqlitePool, Error};
-use chrono::Utc;
+use sqlx::SqlitePool;
 
 mod types;
 mod entities;
-use types::DbResult;
-
-use crate::types::PlaylistResult;
+mod repositories {
+    pub mod downloading_profile_repository;
+    pub mod playlist_repository;
+}
+use repositories::downloading_profile_repository::DownloadingProfileRepository;
+use repositories::playlist_repository::PlaylistRepository;
 
 // Define a global variable to hold the result
 static YTDLP_PATH: once_cell::sync::Lazy<Arc<Mutex<Option<String>>>> =
@@ -127,64 +130,18 @@ async fn is_initialized() -> bool {
 async fn add_playlist(url: String, owner: String, name: String, extension: String, path: String) -> String {
     let pool: sqlx::Pool<sqlx::Sqlite> = DATABASE_POOL.lock().unwrap().clone().unwrap();
 
-    let downloading_profile_id: Result<sqlx::sqlite::SqliteQueryResult, Error> = sqlx::query(
-        "INSERT INTO downloading_profiles (output_extension, output_path) 
-         VALUES (?, ?)
-         RETURNING id",
-    )
-    .bind(extension)
-    .bind(path)
-    .execute(&pool)
-    .await;
+    let downloading_profile_repository: DownloadingProfileRepository = DownloadingProfileRepository::new(pool.clone()).await;
+    
+    let downloading_profile = downloading_profile_repository.create(extension, path).await;
 
-    let downloading_profile_id: i32 = match downloading_profile_id {
-        Ok(row) => row.last_insert_rowid() as i32,
-        Err(e) => {
-            eprintln!("Failed to insert downloading profile: {:?}", e);
-            let result: DbResult<PlaylistResult> = DbResult {
-                success: false,
-                data: None,
-            };
-            return serde_json::to_string(&result).unwrap();
-        },
-    };
+    let downloading_profile_id: i32 = downloading_profile.data.unwrap().id;
 
-    let last_update = Utc::now().naive_utc();
-    let last_update_str = last_update.format("%d-%m-%Y %H:%M").to_string();
+    let playlist_repository: PlaylistRepository = playlist_repository::PlaylistRepository::new(pool).await;
 
-    let playlist: Result<PlaylistResult, Error> = sqlx::query_as::<_, PlaylistResult>(
-        "INSERT INTO playlists (url, owner, playlist_name, last_update, profile_id) 
-         VALUES (?, ?, ?, ?, ?)
-         RETURNING *",
-    )
-    .bind(url)
-    .bind(owner)
-    .bind(name)
-    .bind(last_update_str)
-    .bind(downloading_profile_id)
-    .fetch_one(&pool)
-    .await;
+    let playlist = playlist_repository.create(url, owner, name, downloading_profile_id).await;
 
-    let success: bool  = match playlist {
-        Ok(_) => true,
-        Err(e) => {
-            eprintln!("Failed to insert playlist: {:?}", e);
-            let result: DbResult<PlaylistResult> = DbResult {
-                success: false,
-                data: None,
-            };
-            return serde_json::to_string(&result).unwrap();
-        },
-    };
-
-    let result: DbResult<PlaylistResult> = DbResult {
-        success,
-        data: Some(playlist.unwrap())
-    };
-
-    return serde_json::to_string(&result).unwrap();
+    return serde_json::to_string(&playlist).unwrap();
 }
-
 
 #[tokio::main]
 async fn main() {
@@ -302,7 +259,7 @@ async fn init_db() -> sqlx::Result<sqlx::SqlitePool> {
                   playlist_name   TEXT NOT NULL,
                   last_update     TEXT NOT NULL,
                   profile_id      INTEGER NOT NULL,
-                  FOREIGN KEY (profile_id) REFERENCES downloading_profiles (id) ON DELETE NO ACTION ON UPDATE NO ACTION
+                  FOREIGN KEY (profile_id) REFERENCES downloading_profiles (id) ON DELETE CASCADE ON UPDATE CASCADE
                   )",
     )
     .execute(&pool)
