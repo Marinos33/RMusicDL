@@ -124,27 +124,59 @@ impl PlaylistRepository {
     }*/
 
     pub async fn delete(&self, id: i32) -> DbResult<PlaylistResult> {
-       let row_deleted = sqlx::query_as::<_, PlaylistResult>(
-            "DELETE FROM playlists WHERE id = ?"
+        //foreign key seems to not work so i did this, should be fixed
+        let playlist: Result<PlaylistResult, Error> = sqlx::query_as::<_, PlaylistResult>(
+            "SELECT * FROM playlists WHERE id = ?"
         )
         .bind(id)
         .fetch_one(&self.pool)
         .await;
 
-        let success = match row_deleted {
-            Ok(_) => true,
-            Err(e) => {
-                eprintln!("Failed to delete playlist: {:?}", e);
-                let result: DbResult<PlaylistResult> = DbResult {
-                    success: false,
-                    data: None,
-                };
-                return result;
-            },
-        };
+        if let Err(e) = playlist {
+            eprintln!("Failed to delete playlist: {:?}", e);
+            let result: DbResult<PlaylistResult> = DbResult {
+                success: false,
+                data: None,
+            };
+            return result;
+        }
+
+        let downloading_profile_id: i32 = playlist.unwrap().profile_id;
+
+        let downloading_profile_row_deleted: Result<_, _> = sqlx::query(
+            "DELETE FROM downloading_profiles WHERE id = ?"
+        )
+        .bind(downloading_profile_id)
+        .execute(&self.pool)
+        .await;
+
+        if let Err(e) = downloading_profile_row_deleted {
+            eprintln!("Failed to delete downloading profile: {:?}", e);
+            let result: DbResult<PlaylistResult> = DbResult {
+                success: false,
+                data: None,
+            };
+            return result;
+        }
+
+       let playlist_row_deleted: Result<_, _> = sqlx::query(
+            "DELETE FROM playlists WHERE id = ?"
+        )
+        .bind(id)
+        .execute(&self.pool)
+        .await;
+
+        if let Err(e) = playlist_row_deleted {
+            eprintln!("Failed to delete playlist: {:?}", e);
+            let result: DbResult<PlaylistResult> = DbResult {
+                success: false,
+                data: None,
+            };
+            return result;
+        }
 
         let result: DbResult<PlaylistResult> = DbResult {
-            success,
+            success: true,
             data: None,
         };
 

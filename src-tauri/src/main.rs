@@ -304,6 +304,7 @@ async fn init_db() -> sqlx::Result<sqlx::SqlitePool> {
     let options: SqliteConnectOptions = SqliteConnectOptions::new()
         .filename(database_url)
         .journal_mode(SqliteJournalMode::Wal)
+        .pragma("foreign_keys", "ON")
         .create_if_missing(true);
 
     let pool: sqlx::Pool<sqlx::Sqlite> = sqlx::sqlite::SqlitePool::connect_with(options)
