@@ -54,14 +54,15 @@ async fn get_playlist_info(url: String) -> String {
 
     let output: Result<youtube_dl::YoutubeDlOutput, youtube_dl::Error> = YoutubeDl::new(url)
     .youtube_dl_path(path)
-    .socket_timeout("15")
     .extra_arg("--dump-single-json")
+    .extra_arg("--ignore-errors")
+    .extra_arg("--flat-playlist")
     .run_async()
     .await;
 
     let info: youtube_dl::Playlist = match output {
         Ok(output) => output.into_playlist().unwrap(),
-        Err(_) => panic!("Error"),
+        Err(e) => panic!("Error {}", e),
     };
 
     let playlist: PlaylistInfo = PlaylistInfo {
