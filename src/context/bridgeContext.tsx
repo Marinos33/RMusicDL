@@ -6,6 +6,8 @@ import { notification, theme } from 'antd';
 import { ExtentedThemeConfig } from '../theme';
 import { mapEachPlaylist, mapPlaylist } from '../Mapper/PlaylistMapper';
 import { mapProfile } from '../Mapper/DownloadingProfileMapper';
+import { setPlaylists } from '../redux/Playlists/slice';
+import { useDispatch } from 'react-redux';
 
 interface BridgeContextProps {
   children: React.ReactNode;
@@ -57,6 +59,7 @@ const { useToken } = theme;
 function BridgeContextProvider({ children }: BridgeContextProps) {
   const [api, contextHolder] = notification.useNotification();
   const { token }: ExtentedThemeConfig = useToken();
+  const dispatch = useDispatch();
 
   const openNotificationInitializeInPorgress = useCallback(() => {
     api.info({
@@ -115,7 +118,7 @@ function BridgeContextProvider({ children }: BridgeContextProps) {
     try {
       const isInitialized = await getInitializeState(true);
 
-      if (!isInitialized) return;
+      if (!isInitialized) return Promise.reject('Not initialized');
 
       await invoke<boolean>('download_playlist', {
         url: url,
@@ -317,6 +320,24 @@ function BridgeContextProvider({ children }: BridgeContextProps) {
       return Promise.reject(err);
     }
   };
+
+  const init = async () => {
+    let initialized = false;
+
+    while (!initialized) {
+      initialized = await getInitializeState();
+      //wait 1s
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+    }
+
+    const playlists = await getPlaylists();
+    dispatch(setPlaylists(playlists));
+  };
+
+  React.useEffect(() => {
+    init();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <BridgeContext.Provider
