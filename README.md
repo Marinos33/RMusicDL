@@ -5,6 +5,7 @@
 A desktop application that allows you to save your favorite playlists online and download all the content they contain. You can even choose in which audio format you want your music and where to download it. In addition, the content of the playlists will be updated and existing content will not be re-downloaded.
 
 ## How it works
+
 This is the main screen where you can view and manage your saved playlists.
 ![ALT](doc/images/Tuto/img1.png)
 
@@ -23,14 +24,22 @@ By clicking on a playlist in the grid, you will see a sidebar on the right which
 If you check the box on the left of the screen for at least one playlist, then click the trash icon at the top of the screen. You will delete the playlists for which the box has been checked.
 ![ALT](doc/images/Tuto/img4.png)
 
-En cliquant sur l'icône à droite de la liste de lecture, vous commencerez à la télécharger. Pendant le téléchargement, l'icône changera et lorsqu'il sera terminé, il reprendra sa forme initiale.
+Click on the icon to the right of the playlist to start downloading. During the download, the icon will change to indicating the loading, and when the downloading is finish, it will return to its original form.
 ![ALT](doc/images/Tuto/img3.png)
 
 ## Purpose
-This app was designed to download playlists from Youtube. Nontheless, it can technically download a music only or content of channel on youtube and even from other web site as it uses yt-dlp to download the contents which support a lot of websites (list of all supported websites [here](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md)), but I don't know what will be the behavior with those.
+
+This app was designed to download playlists from Youtube. Nontheless, it can technically download music from other web site as it uses yt-dlp to download the contents which support a lot of websites (list of all supported websites [here](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md)), but I don't know what will be the behavior with those.
 
 ## Issues
+
 If you find any bugs or have any request about an enhancement for the software don't hesitate to add in the Issues tab and I will be glad to try to answer your request.
 
+Those are the things that could be improved:
+
+- the first time you launch the app, it may take some minutes (5 - 10), this is because the app has to download FFMPEG and extract it.
+- Sometimes, the app has some difficulty to download large playlist. It will works in the end but you may have to retry the download multiple times.
+
 ## Contribution
+
 Any help is appreciated.
