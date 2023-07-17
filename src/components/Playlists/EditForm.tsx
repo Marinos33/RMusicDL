@@ -39,8 +39,6 @@ const EditForm = ({ onSave, onClose }: PropsType) => {
       });
 
       setLoading(false); // Set loading state to false
-
-      console.log('downloadingProfile', downloadingProfile);
     }
   };
 
@@ -53,7 +51,6 @@ const EditForm = ({ onSave, onClose }: PropsType) => {
     getPlaylistInfo();
 
     if (rowInEdition === null) {
-      console.log('reset form');
       form.resetFields();
       setPlaylistInfo({} as Playlist & DownloadingProfile);
     }
@@ -91,7 +88,14 @@ const EditForm = ({ onSave, onClose }: PropsType) => {
       }
     >
       {loading ? (
-        <Spin />
+        <div
+          style={{
+            textAlign: 'center',
+            margin: '20px 0',
+          }}
+        >
+          <Spin size="large" />
+        </div>
       ) : (
         <Form
           form={form}
@@ -105,6 +109,7 @@ const EditForm = ({ onSave, onClose }: PropsType) => {
           onFinish={onSave}
           autoComplete="off"
           layout="vertical"
+          preserve={false}
           style={{
             backgroundColor: token.colorBgContainer,
           }}
@@ -113,7 +118,7 @@ const EditForm = ({ onSave, onClose }: PropsType) => {
             <Input disabled />
           </Form.Item>
           <Space>
-            <Form.Item name="path" dependencies={['path']}>
+            <Form.Item name="path">
               <Input
                 style={{ width: 300 }}
                 //defaultValue={playlistInfo.outputPath}

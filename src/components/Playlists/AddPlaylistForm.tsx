@@ -192,12 +192,7 @@ const AddPlaylistForm = ({ open, handleSubmit, handleCancel }: PropsType) => {
                 borderRadius: '4px',
               }}
             >
-              <Spin
-                size="large"
-                style={{
-                  color: 'red',
-                }}
-              />
+              <Spin size="large" />
             </div>
           )
         )}
