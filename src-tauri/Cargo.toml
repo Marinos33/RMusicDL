@@ -1,6 +1,6 @@
 [package]
 name = "rmusicdl"
-version = "1.0.0"
+version = "2.0.0"
 description = "A desktop application that allows you to save your favorite playlists online and download all the content they contain."
 authors = ["Marinos33"]
 license = "MIT"
