@@ -1,5 +1,6 @@
 import React, { createContext, useCallback } from 'react';
 import { invoke } from '@tauri-apps/api/tauri';
+import { open } from '@tauri-apps/api/dialog';
 import { DbResult, DownloadingProfile, Playlist, PlaylistInfo } from '../Types';
 import { notification, theme } from 'antd';
 import { ExtentedThemeConfig } from '../theme';
@@ -35,6 +36,7 @@ interface BridgeContextValue {
   ) => Promise<DownloadingProfile>;
   getDownloadingProfile: (id: number) => Promise<DownloadingProfile>;
   deletePlaylist: (id: number) => Promise<void>;
+  openFileExplorer: () => Promise<string>;
 }
 
 const BridgeContext = createContext<BridgeContextValue>({
@@ -47,6 +49,7 @@ const BridgeContext = createContext<BridgeContextValue>({
   updateProfile: () => Promise.resolve({} as DownloadingProfile),
   getDownloadingProfile: () => Promise.resolve({} as DownloadingProfile),
   deletePlaylist: () => Promise.resolve(),
+  openFileExplorer: () => Promise.resolve(''),
 });
 
 const { useToken } = theme;
@@ -300,6 +303,21 @@ function BridgeContextProvider({ children }: BridgeContextProps) {
     }
   };
 
+  const openFileExplorer = async (): Promise<string> => {
+    try {
+      const selected = await open({
+        multiple: false,
+        directory: true,
+      });
+
+      return selected as string;
+    } catch (err) {
+      console.error(err);
+      openNotificationUnhandleError(err as string);
+      return Promise.reject(err);
+    }
+  };
+
   return (
     <BridgeContext.Provider
       value={{
@@ -312,6 +330,7 @@ function BridgeContextProvider({ children }: BridgeContextProps) {
         updateProfile,
         getDownloadingProfile,
         deletePlaylist,
+        openFileExplorer,
       }}
     >
       {contextHolder}

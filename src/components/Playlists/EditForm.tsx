@@ -17,11 +17,12 @@ type PropsType = {
 const EditForm = ({ onSave, onClose }: PropsType) => {
   const rowInEdition = useSelector((state: RootState) => state.ui.rowInEdition);
   const { token }: ExtentedThemeConfig = useToken();
-  const { getPlaylist, getDownloadingProfile } = useBridge();
+  const { getPlaylist, getDownloadingProfile, openFileExplorer } = useBridge();
   const [playlistInfo, setPlaylistInfo] = useState<
     Playlist & DownloadingProfile
   >({} as Playlist & DownloadingProfile);
   const [loading, setLoading] = useState(true); // Add loading state
+  const [form] = Form.useForm();
 
   const getPlaylistInfo = async () => {
     if (rowInEdition !== null) {
@@ -43,8 +44,19 @@ const EditForm = ({ onSave, onClose }: PropsType) => {
     }
   };
 
+  const openExplorer = async () => {
+    const selectedPath = await openFileExplorer();
+    form.setFieldsValue({ path: selectedPath });
+  };
+
   useEffect(() => {
     getPlaylistInfo();
+
+    if (rowInEdition === null) {
+      console.log('reset form');
+      form.resetFields();
+      setPlaylistInfo({} as Playlist & DownloadingProfile);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rowInEdition]);
 
@@ -82,6 +94,7 @@ const EditForm = ({ onSave, onClose }: PropsType) => {
         <Spin />
       ) : (
         <Form
+          form={form}
           name="editPlaylist"
           initialValues={{
             remember: false,
@@ -99,28 +112,29 @@ const EditForm = ({ onSave, onClose }: PropsType) => {
           <Form.Item label="Playlist's URL" name="url">
             <Input disabled />
           </Form.Item>
-          <Form.Item name="path">
-            <Space>
+          <Space>
+            <Form.Item name="path" dependencies={['path']}>
               <Input
                 style={{ width: 300 }}
-                defaultValue={playlistInfo.outputPath}
+                //defaultValue={playlistInfo.outputPath}
               />
-              <Button
-                icon={
-                  <FolderOpenFilled
-                    style={{
-                      fontSize: '2.8em',
-                      color: token.colorSecondary,
-                    }}
-                  />
-                }
-                style={{
-                  border: 0,
-                  backgroundColor: 'transparent',
-                }}
-              />
-            </Space>
-          </Form.Item>
+            </Form.Item>
+            <Button
+              onClick={openExplorer}
+              icon={
+                <FolderOpenFilled
+                  style={{
+                    fontSize: '2.8em',
+                    color: token.colorSecondary,
+                  }}
+                />
+              }
+              style={{
+                border: 0,
+                backgroundColor: 'transparent',
+              }}
+            />
+          </Space>
           <Form.Item name="format">
             <Select
               style={{ width: 80 }}
