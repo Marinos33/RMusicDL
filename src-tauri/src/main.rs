@@ -231,13 +231,14 @@ async fn main() {
 }
 
 async fn init_ytdlp() {
+    /* this may make the version of yt-dlp not up to date and so not working
     let yt_dlp_path: &Path = Path::new("./yt-dlp.exe");
 
     if yt_dlp_path.exists() {
         println!("yt-dlp already downloaded");
         *YTDLP_PATH.lock().unwrap() = Some(yt_dlp_path.to_str().unwrap().to_string());
         return;
-    }
+    }*/
 
     let yt_dlp_download_result: Result<std::path::PathBuf, youtube_dl::Error> = download_yt_dlp(".").await;
 

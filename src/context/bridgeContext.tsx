@@ -295,8 +295,6 @@ function BridgeContextProvider({ children }: BridgeContextProps) {
         id: id,
       });
 
-      console.log('delete selected playlists', id);
-
       return;
     } catch (err) {
       console.error(err);
