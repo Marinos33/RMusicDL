@@ -45,7 +45,7 @@ const StyledModal = styled(Modal)<{ backgroundColor: string }>`
 
 const AddPlaylistForm = ({ open, handleSubmit, handleCancel }: PropsType) => {
   const { token }: ExtentedThemeConfig = useToken();
-  const { getPlaylistInfo } = useBridge();
+  const { getPlaylistInfo, openFileExplorer } = useBridge();
   const [form] = Form.useForm();
   const [infoPlaylist, setInfoPlaylist] = React.useState<PlaylistInfo | null>(
     null,
@@ -76,6 +76,11 @@ const AddPlaylistForm = ({ open, handleSubmit, handleCancel }: PropsType) => {
         );
       }
     });
+  };
+
+  const openExplorer = async () => {
+    const selectedPath = await openFileExplorer();
+    form.setFieldsValue({ path: selectedPath });
   };
 
   useEffect(() => {
@@ -146,24 +151,29 @@ const AddPlaylistForm = ({ open, handleSubmit, handleCancel }: PropsType) => {
                 />
               </Card>
             </Form.Item>
-            <Form.Item name="path">
-              <Space>
-                <Input style={{ width: 300 }} defaultValue={'./'} />
-                <Button
-                  icon={
-                    <FolderOpenFilled
-                      style={{
-                        fontSize: '2.8em',
-                        color: token.colorSecondary,
-                      }}
-                    />
-                  }
-                  style={{
-                    border: 0,
-                  }}
-                />
-              </Space>
-            </Form.Item>
+            <Space
+              style={{
+                marginBottom: 20,
+              }}
+            >
+              <Form.Item name="path" noStyle>
+                <Input style={{ width: 300 }} />
+              </Form.Item>
+              <Button
+                onClick={openExplorer}
+                icon={
+                  <FolderOpenFilled
+                    style={{
+                      fontSize: '2.8em',
+                      color: token.colorSecondary,
+                    }}
+                  />
+                }
+                style={{
+                  border: 0,
+                }}
+              />
+            </Space>
             <Form.Item name="format">
               <Select
                 style={{ width: 80 }}

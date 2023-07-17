@@ -117,8 +117,12 @@ const EditForm = ({ onSave, onClose }: PropsType) => {
           <Form.Item label="Playlist's URL" name="url">
             <Input disabled />
           </Form.Item>
-          <Space>
-            <Form.Item name="path">
+          <Space
+            style={{
+              marginBottom: 20,
+            }}
+          >
+            <Form.Item name="path" noStyle>
               <Input
                 style={{ width: 300 }}
                 //defaultValue={playlistInfo.outputPath}
