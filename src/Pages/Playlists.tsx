@@ -166,6 +166,7 @@ const Playlists = () => {
           <Header
             onPlusClick={openModal}
             onDeleteClick={deleteSelectedPlaylists}
+            onSyncClick={fetchPlaylists}
           />
         }
         onEditClick={onEditClick}

@@ -1,4 +1,4 @@
-import { SettingOutlined, CustomerServiceOutlined } from '@ant-design/icons';
+import { CustomerServiceOutlined } from '@ant-design/icons';
 import { Layout, Menu, Space, theme } from 'antd';
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -25,7 +25,7 @@ const navItems = [
     ),
     label: 'Playlists',
   },
-  {
+  /*{
     key: 'settings',
     icon: (
       <SettingOutlined
@@ -35,7 +35,7 @@ const navItems = [
       />
     ),
     label: 'Settings',
-  },
+  },*/
 ];
 
 const StyledSider = styled(Sider)<{ triggerColor: string }>`
@@ -75,7 +75,6 @@ const SideBar = () => {
       //@ts-ignore
       triggerColor={token.colorPrimary}
     >
-      {/* TODO replace with logo */}
       <Space
         direction="horizontal"
         style={{ width: '100%', justifyContent: 'center' }}

@@ -1,5 +1,9 @@
 import { Button, Space, theme } from 'antd';
-import { PlusCircleFilled, DeleteFilled } from '@ant-design/icons';
+import {
+  PlusCircleFilled,
+  DeleteFilled,
+  SyncOutlined,
+} from '@ant-design/icons';
 import { ExtentedThemeConfig } from '../../theme';
 
 const { useToken } = theme;
@@ -7,9 +11,10 @@ const { useToken } = theme;
 type PropsType = {
   onPlusClick: () => void;
   onDeleteClick: () => void;
+  onSyncClick: () => void;
 };
 
-const Header = ({ onDeleteClick, onPlusClick }: PropsType) => {
+const Header = ({ onDeleteClick, onPlusClick, onSyncClick }: PropsType) => {
   const { token }: ExtentedThemeConfig = useToken();
 
   return (
@@ -39,6 +44,21 @@ const Header = ({ onDeleteClick, onPlusClick }: PropsType) => {
           />
         }
         onClick={onDeleteClick}
+        style={{
+          borderWidth: 0,
+          backgroundColor: 'transparent',
+        }}
+      />
+      <Button
+        icon={
+          <SyncOutlined
+            style={{
+              fontSize: '1.8em',
+              color: token.colorSecondary,
+            }}
+          />
+        }
+        onClick={onSyncClick}
         style={{
           borderWidth: 0,
           backgroundColor: 'transparent',

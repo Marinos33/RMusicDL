@@ -108,6 +108,7 @@ async fn download_playlist(url: String, format: String, path: String, name: Stri
     .extra_arg("--add-metadata")
     .extra_arg("--postprocessor-args")
     .extra_arg(&postprocessor_args)
+    .extra_arg("--progress")
     .run_async()
     .await
     {

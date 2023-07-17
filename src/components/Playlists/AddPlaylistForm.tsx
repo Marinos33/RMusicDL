@@ -78,6 +78,12 @@ const AddPlaylistForm = ({ open, handleSubmit, handleCancel }: PropsType) => {
     });
   };
 
+  const onCancel = () => {
+    form.resetFields();
+    setInfoPlaylist(null);
+    handleCancel();
+  };
+
   const openExplorer = async () => {
     const selectedPath = await openFileExplorer();
     form.setFieldsValue({ path: selectedPath });
@@ -100,7 +106,7 @@ const AddPlaylistForm = ({ open, handleSubmit, handleCancel }: PropsType) => {
       open={open}
       onCancel={handleCancel}
       footer={[
-        <Button key="back" onClick={handleCancel}>
+        <Button key="back" onClick={onCancel}>
           Cancel
         </Button>,
         <Button
@@ -125,6 +131,7 @@ const AddPlaylistForm = ({ open, handleSubmit, handleCancel }: PropsType) => {
       <Form
         form={form}
         name="addPlaylist"
+        preserve={false}
         initialValues={{ remember: true, path: './', format: 'mp3' }}
         autoComplete="off"
         layout="vertical"

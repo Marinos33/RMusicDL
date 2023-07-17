@@ -8,14 +8,30 @@
   },
   "package": {
     "productName": "rmusicdl",
-    "version": "0.0.0"
+    "version": "1.0.0"
   },
   "tauri": {
     "allowlist": {
       "all": false,
       "shell": {
         "all": false,
-        "open": true
+        "open": true,
+        "execute": true,
+        "sidecar": true
+      },
+      "fs": {
+        "all": true
+      },
+      "window": {
+        "all": false,
+        "setResizable": true,
+        "setMaximizable": true,
+        "setMinimizable": true,
+        "setClosable": true,
+        "maximize": true,
+        "minimize": true,
+        "show": true,
+        "hide": true
       },
       "dialog": {
         "all": false,
