@@ -62,7 +62,7 @@ const EditForm = ({ onSave, onClose }: PropsType) => {
       title="Edit playlist"
       placement="right"
       onClose={onClose}
-      destroyOnClose
+      destroyOnHidden
       open={rowInEdition !== null}
       style={{
         backgroundColor: token.colorBgContainer,

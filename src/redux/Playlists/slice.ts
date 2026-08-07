@@ -10,7 +10,7 @@ const initialState: State = {
 };
 
 const playlistsSlice = createSlice({
-  name: 'ui',
+  name: 'playlists',
   initialState,
   reducers: {
     setPlaylists: (state, action: PayloadAction<Playlist[]>) => {

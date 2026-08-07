@@ -24,7 +24,13 @@ function App() {
       }}
     >
       <SideBar />
-      <Content>
+      <Content
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          minWidth: 0,
+        }}
+      >
         <Outlet />
       </Content>
     </Layout>
