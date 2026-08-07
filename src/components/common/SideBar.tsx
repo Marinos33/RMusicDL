@@ -38,9 +38,9 @@ const navItems = [
   },*/
 ];
 
-const StyledSider = styled(Sider)<{ triggerColor: string }>`
+const StyledSider = styled(Sider)<{ $triggerColor: string }>`
   .ant-layout-sider-trigger {
-    background-color: ${(props) => props.triggerColor};
+    background-color: ${(props) => props.$triggerColor};
   }
 `;
 
@@ -71,9 +71,7 @@ const SideBar = () => {
         backgroundColor: token.sideBarColor,
         borderRight: '1px solid gray',
       }}
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //@ts-ignore
-      triggerColor={token.colorPrimary}
+      $triggerColor={token.colorPrimary}
     >
       <Space
         direction="horizontal"

@@ -14,8 +14,10 @@ import Meta from 'antd/es/card/Meta';
 import { ExtentedThemeConfig } from '../../theme';
 import styled from 'styled-components';
 import useBridge from '../../hooks/useBrige';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { PlaylistInfo } from '../../Types';
+
+const URL_INFO_DEBOUNCE_MS = 500;
 
 const { useToken } = theme;
 
@@ -31,12 +33,12 @@ type PropsType = {
   handleCancel: () => void;
 };
 
-const StyledModal = styled(Modal)<{ backgroundColor: string }>`
+const StyledModal = styled(Modal)<{ $backgroundColor: string }>`
   .ant-modal-content {
-    background-color: ${(props) => props.backgroundColor};
+    background-color: ${(props) => props.$backgroundColor};
   }
   .ant-modal-header {
-    background-color: ${(props) => props.backgroundColor};
+    background-color: ${(props) => props.$backgroundColor};
   }
   .ant-modal-title {
     font-size: 1.8em;
@@ -51,17 +53,42 @@ const AddPlaylistForm = ({ open, handleSubmit, handleCancel }: PropsType) => {
     null,
   );
   const [infoLoading, setInfoLoading] = React.useState<boolean>(false);
+  const latestUrlRef = useRef<string>('');
+  const debounceRef = useRef<ReturnType<typeof setTimeout>>();
 
-  const onUrlChange = async (e: any) => {
+  const onUrlChange = (e: any) => {
     const input: string = e.target.value;
+    latestUrlRef.current = input;
+
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+
     //check that input is a valid url format
-    if (input.match(/^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/)) {
-      setInfoLoading(true);
-      const res = await getPlaylistInfo(input);
-      setInfoPlaylist(res);
-      setInfoLoading(false);
+    if (!input.match(/^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/)) {
+      setInfoPlaylist(null);
+      return;
     }
+
+    debounceRef.current = setTimeout(async () => {
+      setInfoLoading(true);
+      try {
+        const res = await getPlaylistInfo(input);
+        //ignore stale responses if the field changed while this request was in flight
+        if (latestUrlRef.current === input) {
+          setInfoPlaylist(res);
+        }
+      } catch {
+        if (latestUrlRef.current === input) setInfoPlaylist(null);
+      } finally {
+        if (latestUrlRef.current === input) setInfoLoading(false);
+      }
+    }, URL_INFO_DEBOUNCE_MS);
   };
+
+  useEffect(() => {
+    return () => {
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+    };
+  }, []);
 
   const handleOk = () => {
     form.validateFields().then((values) => {
@@ -102,7 +129,7 @@ const AddPlaylistForm = ({ open, handleSubmit, handleCancel }: PropsType) => {
       centered
       //disable on click outside
       maskClosable={false}
-      destroyOnClose={true}
+      destroyOnHidden={true}
       open={open}
       onCancel={handleCancel}
       footer={[
@@ -121,12 +148,12 @@ const AddPlaylistForm = ({ open, handleSubmit, handleCancel }: PropsType) => {
           Submit
         </Button>,
       ]}
-      bodyStyle={{
-        backgroundColor: token.colorBgContainer,
+      styles={{
+        body: {
+          backgroundColor: token.colorBgContainer,
+        },
       }}
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //@ts-ignore
-      backgroundColor={token.colorBgContainer}
+      $backgroundColor={token.colorBgContainer}
     >
       <Form
         form={form}

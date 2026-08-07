@@ -1,11 +1,9 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Button, Space, Table, theme } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { DownloadOutlined, EditFilled } from '@ant-design/icons';
 import styled from 'styled-components';
-import { RefTable } from 'antd/es/table/interface';
 import { ExtentedThemeConfig } from '../../theme';
-import useWindowSize from '../../hooks/useWindowSize';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { LoadingOutlined } from '@ant-design/icons';
@@ -33,17 +31,17 @@ type PropsType = {
   onDownload: (record: DataType) => void;
 };
 
-const StyledTable: RefTable = styled(Table)<{
-  titleBackgroundColor: string;
-  selectedRowColor: string;
+const StyledTable = styled(Table)<{
+  $titleBackgroundColor: string;
+  $selectedRowColor: string;
 }>`
   .ant-table-title {
-    background-color: ${(props) => props.titleBackgroundColor};
+    background-color: ${(props) => props.$titleBackgroundColor};
   }
   .ant-table-tbody
     .ant-table-row.ant-table-row-selected:not(.ant-table-row-disabled)
     > td {
-    background-color: ${(props) => props.selectedRowColor};
+    background-color: ${(props) => props.$selectedRowColor};
   }
 `;
 
@@ -54,11 +52,39 @@ const PlaylistsTable = ({
   onEditClick,
   onDownload,
 }: PropsType) => {
-  const { height } = useWindowSize();
   const { token }: ExtentedThemeConfig = useToken();
   const playlistsDownloading = useSelector(
     (state: RootState) => state.ui.playlistsDownloading,
   );
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [scrollY, setScrollY] = useState<number>(0);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const updateScrollHeight = () => {
+      //measure the actual rendered chrome (title bar + column header) instead
+      //of guessing with a fixed offset, so the table fills whatever space is
+      //really available regardless of window size or sidebar state
+      const titleHeight =
+        container.querySelector<HTMLElement>('.ant-table-title')
+          ?.offsetHeight ?? 0;
+      const theadHeight =
+        container.querySelector<HTMLElement>('.ant-table-thead')
+          ?.offsetHeight ?? 0;
+      setScrollY(
+        Math.max(container.clientHeight - titleHeight - theadHeight, 0),
+      );
+    };
+
+    updateScrollHeight();
+
+    const resizeObserver = new ResizeObserver(updateScrollHeight);
+    resizeObserver.observe(container);
+
+    return () => resizeObserver.disconnect();
+  }, [data, headerComponent]);
 
   const columns: ColumnsType<DataType> = useMemo(
     () => [
@@ -92,76 +118,81 @@ const PlaylistsTable = ({
         dataIndex: '',
         key: 'x',
         align: 'center',
-        render: (_, record) => (
-          <Space>
-            <Button
-              onClick={() => onDownload(record)}
-              disabled={
-                playlistsDownloading.find((item) => record.key in item) !==
-                undefined
-              }
-              icon={
-                playlistsDownloading.find((item) => record.key in item) ? (
-                  <LoadingOutlined
+        render: (_, record) => {
+          const isDownloading = playlistsDownloading.some(
+            (item) => String(record.key) in item,
+          );
+          return (
+            <Space>
+              <Button
+                onClick={() => onDownload(record)}
+                disabled={isDownloading}
+                icon={
+                  isDownloading ? (
+                    <LoadingOutlined
+                      style={{
+                        fontSize: '1.8em',
+                        color: 'white',
+                      }}
+                      spin
+                    />
+                  ) : (
+                    <DownloadOutlined
+                      style={{
+                        fontSize: '1.8em',
+                      }}
+                    />
+                  )
+                }
+                style={{
+                  border: 'none',
+                  backgroundColor: 'transparent',
+                  boxShadow: 'none',
+                }}
+              />
+              <Button
+                onClick={() => onEditClick(record)}
+                icon={
+                  <EditFilled
                     style={{
                       fontSize: '1.8em',
-                      color: 'white',
-                    }}
-                    spin
-                  />
-                ) : (
-                  <DownloadOutlined
-                    style={{
-                      fontSize: '1.8em',
                     }}
                   />
-                )
-              }
-              style={{
-                border: 'none',
-                backgroundColor: 'transparent',
-                boxShadow: 'none',
-              }}
-            />
-            <Button
-              onClick={() => onEditClick(record)}
-              icon={
-                <EditFilled
-                  style={{
-                    fontSize: '1.8em',
-                  }}
-                />
-              }
-              style={{
-                border: 'none',
-                backgroundColor: 'transparent',
-              }}
-            />
-          </Space>
-        ),
+                }
+                style={{
+                  border: 'none',
+                  backgroundColor: 'transparent',
+                }}
+              />
+            </Space>
+          );
+        },
       },
     ],
     [onDownload, onEditClick, playlistsDownloading],
   );
 
   return (
-    <StyledTable
-      rowSelection={{
-        type: 'checkbox',
-        ...rowSelection,
-      }}
-      columns={columns}
-      dataSource={data}
-      //this is not deprecated, it is just a wrong warning
-      title={() => headerComponent}
-      //disable pagination
-      pagination={false}
-      scroll={{ y: (height / 100) * 97 - 100 }}
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //@ts-ignore
-      titleBackgroundColor={token.headerColor}
-      selectedRowColor={token.colorPrimary}
-    />
+    <div
+      ref={containerRef}
+      style={{ height: '100%', minHeight: 0, width: '100%' }}
+    >
+      <StyledTable
+        rowSelection={{
+          type: 'checkbox',
+          ...rowSelection,
+        }}
+        columns={columns}
+        dataSource={data}
+        //this is not deprecated, it is just a wrong warning
+        title={() => headerComponent}
+        //disable pagination
+        pagination={false}
+        scroll={{ y: scrollY, x: 'max-content' }}
+        $titleBackgroundColor={token.headerColor}
+        $selectedRowColor={token.colorPrimary}
+      />
+    </div>
   );
 };
 

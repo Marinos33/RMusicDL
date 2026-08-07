@@ -48,14 +48,16 @@ const Playlists = () => {
     setOpenAddPlaylistModal(false);
   }, []);
 
-  const deleteSelectedPlaylists = () => {
-    //for each selected playlist, delete it
-    selectedRows.forEach(async (selectedRow) => {
-      const id = Number(selectedRow.key);
-      await deletePlaylist(id);
-      dispatch(removeFromPlaylists(id));
-    });
-  };
+  const deleteSelectedPlaylists = useCallback(async () => {
+    await Promise.all(
+      selectedRows.map(async (selectedRow) => {
+        const id = Number(selectedRow.key);
+        await deletePlaylist(id);
+        dispatch(removeFromPlaylists(id));
+      }),
+    );
+    setSelectedRows([]);
+  }, [deletePlaylist, dispatch, selectedRows]);
 
   const rowSelection = {
     onChange: (_selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
@@ -158,7 +160,13 @@ const Playlists = () => {
   }, []);
 
   return (
-    <Layout>
+    <Layout
+      style={{
+        flex: 1,
+        minHeight: 0,
+        minWidth: 0,
+      }}
+    >
       <PlaylistsTable
         data={formatData}
         rowSelection={rowSelection}
